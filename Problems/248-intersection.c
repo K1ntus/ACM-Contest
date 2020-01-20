@@ -49,7 +49,8 @@ int isInsideRectangle(input_struct input) {
 int isIntersectRectangle(input_struct input) {
     if(input.xStart < input.xLeft && input.xEnd > input.xLeft) {
         return 0;
-    } else if (input.xStart > input.xRight && )
+    }
+    // else if (input.xStart > input.xRight && )
     return 1;
 }
 

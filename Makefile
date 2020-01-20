@@ -10,7 +10,7 @@ OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
 .PHONY: all
-all:clean_problems 190_problem 248_problem problems_runall# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:clean_problems 190_problem 248_problem 78_problem problems_runall# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 
 190_problem: Problems/190-equation.c
@@ -20,14 +20,21 @@ all:clean_problems 190_problem 248_problem problems_runall# clean_week1 w1_probl
 		$(CC) $(CFLAGS) $< -o $@
 
 
+78_problem: Problems/78-largest-subsequence.c
+		$(CC) $(CFLAGS) $< -o $@
+
+
 
 problems_runall:
 	@echo ''
 	@echo '* Problem 190 - Equations *'
-	#@./190_problem
+	# @./190_problem
 	@echo ''
 	@echo '* Problem 248 - Intersections *'
-	@./248_problem
+	# @./248_problem
+	@echo ''
+	@echo '* Problem 78 - Largest Subsequence *'
+	@./78_problem
 
 w1_problem1: Week1/countprime_3.c #$(OBJ) 
 		$(CC) $(CFLAGS) $< -o $@
@@ -77,3 +84,4 @@ clean:
 		rm -rf doc
 		rm -rf output
 		rm -f w1_*
+		rm -f *_problem
