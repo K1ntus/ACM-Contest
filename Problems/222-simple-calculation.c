@@ -20,19 +20,6 @@ int main (void){
         result += buffer[nb_elems];
     }
     fprintf(stderr, "result is: %.4f\n\n", result);
-    // fprintf(stderr, "Buffer: %s\n", buffer);
-
-    // char *token;
-   
-    // token = strtok(buffer, " ");
     
-    // float sum = 0;
-    // /* walk through other tokens */
-    // while( token != NULL ) {
-    //     printf( "Current Token: %s\n", token );
-    //     sum += atof(token);
-    //     token = strtok(NULL, " ");
-    // }
-    // fprintf(stderr, "Value is: %d\n", sum);
-    return 0;
+    return EXIT_SUCCESS;
 }
