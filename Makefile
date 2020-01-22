@@ -28,15 +28,20 @@ all:clean_problems 190_problem 248_problem 222_problem 78_problem problems_runal
 
 
 problems_runall:
-	# @echo ''
-	# @echo '* Problem 190 - Equations *'
-	# @./190_problem
-	# @echo ''
-	# @echo '* Problem 248 - Intersections *'
-	# @./248_problem
-	# @echo ''
-	# @echo '* Problem 78 - Largest Subsequence *'
-	# @./78_problem
+	@echo ''
+	@echo '* Problem 222 - Simple Calculation II *'
+	@./222_problem
+
+a:
+	@echo ''
+	@echo '* Problem 190 - Equations *'
+	@./190_problem
+	@echo ''
+	@echo '* Problem 248 - Intersections *'
+	@./248_problem
+	@echo ''
+	@echo '* Problem 78 - Largest Subsequence *'
+	@./78_problem
 	@echo ''
 	@echo '* Problem 222 - Simple Calculation II *'
 	@./222_problem

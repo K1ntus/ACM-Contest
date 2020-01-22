@@ -10,9 +10,6 @@ int main (void){
     scanf("%d",&number_of_tests);
     fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
 
-
-
-
     char * word_to_analyze = (char *) malloc(sizeof(char) * MAX_LENGTH);
     scanf("%s\0", word_to_analyze);
     fprintf(stderr, "The word: %s will be analyzed.\n", word_to_analyze);
@@ -48,8 +45,6 @@ int main (void){
             // current_length = 0;
 
         }
-
-
         i++;
     }
 

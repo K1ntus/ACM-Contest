@@ -60,7 +60,6 @@ int main (void){
     fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
 
 
-
     stack_struct stack;
     stack.top = 0;
 
@@ -78,7 +77,7 @@ int main (void){
     }
 
     printf("Input equation is: %s\n", input_equation);
-    char equation[MAX_LINES+1];
+    char equation[MAX_LINES];
     int i = 0;
     for(int nb_test = 0; nb_test < number_of_tests; nb_test++){
         fprintf(stderr, "** Test %d over %d**\n", nb_test+1, number_of_tests);
@@ -126,8 +125,9 @@ int main (void){
                 char op_res = pop(&stack);
                 // while(op_res == '+' || op_res == '-') {
                     equation[i] = op_res;
-                    i++;
                     printf("adding %c at indice %d!\nEquation is: %s\n", current_word, i, equation);
+
+                    i++;
                 //     op_res = pop(&stack);
                 // }
                 // push(&stack, op_res);
@@ -136,7 +136,6 @@ int main (void){
             //     break;
                 // fprintf(stderr, "????");
             } else {
-
             }
 
             // equation[position] = current_word;
