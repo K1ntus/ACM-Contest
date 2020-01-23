@@ -1,3 +1,4 @@
+// http://acm.cs.cityu.edu.hk/oj2/index.php/p/438/getProblemStatement?act=view
 
 // A C Program to demonstrate adjacency list  
 // representation of graphs 
@@ -5,6 +6,7 @@
 #include <stdlib.h> 
   
 #define SIZE 10000
+
 // A structure to represent an adjacency list node 
 struct AdjListNode 
 { 
@@ -53,8 +55,19 @@ int sizeNode(struct Graph * G, int node){
     return res_size;
 }
 
-int NumberOFNodes(struct Graph * G){
-
+int NumberOfNodes(struct Graph * G){
+    int counter = 0;
+    int v; 
+    for (v = 0; v < G->V; ++v) 
+    { 
+        if(sizeNode(G, v) == -1) continue;
+        struct AdjListNode* pCrawl = G->array[v].head; 
+        if(pCrawl == NULL) continue;
+        // printf("\n Adjacency list of vertex %d\n head ", v); 
+        counter+=1;
+        // printf("\n"); 
+    } 
+    return counter;
 }
   
 // A utility function that creates a graph of V vertices 
@@ -90,7 +103,7 @@ void addNode(struct Graph * G){
 // Adds an edge to an undirected graph 
 void addEdge(struct Graph* graph, int src, int dest) 
 { 
-    printf("Adding an end from node %d to %d\n", src, dest);
+    // printf("Adding an end from node %d to %d\n", src, dest);
     // Add an edge from src to dest.  A new node is  
     // added to the adjacency list of src.  The node 
     // is added at the begining 
@@ -104,7 +117,10 @@ void addEdge(struct Graph* graph, int src, int dest)
     newNode->next = graph->array[dest].head; 
     graph->array[dest].head = newNode; 
 } 
-  
+
+void removeEdge(struct Graph * graph, struct AdjListNode* node){
+
+}
 // A utility function to print the adjacency list  
 // representation of graph 
 void printGraph(struct Graph* graph) 
@@ -129,9 +145,9 @@ int main()
 { 
     // create the graph given in above fugure 
     int number_of_people = 0;
-    fprintf(stderr, "Number of tests to run: ");
+    // fprintf(stderr, "Number of tests to run: ");
     scanf("%d", &number_of_people);
-    fprintf(stderr, "There will be %d Tests Case.\n", number_of_people);
+    // fprintf(stderr, "There will be %d Tests Case.\n", number_of_people);
 
     struct Graph* graph = createGraph(SIZE); 
     
@@ -152,7 +168,7 @@ int main()
     }
 
     int min = SIZE;
-    for(int j = graph->V; j>0;j++) {
+    for(int j = graph->V; j>0 && number_of_people > 0; j--) {
         for(int i = 0; i < SIZE; i++){
             
             int node_size = sizeNode(graph, i);
@@ -169,14 +185,14 @@ int main()
             if(node_size <= min && graph->array[i].head != NULL){
                 graph->array[i].head = NULL;
                 graph->V -=1;
-                j -=1;
-                printf("Removed a node.\n");
+                // j -=1;
+                // printf("Removed a node.\n");
             }
         }
 
     }
 
-        printf("There is %d nodes.\n", graph->V--);
+        fprintf(stdin, "%d\n", NumberOfNodes(graph));
 
     // addEdge(graph, 0, 1); 
     // addEdge(graph, 0, 4); 
@@ -187,7 +203,7 @@ int main()
     // addEdge(graph, 3, 4); 
   
     // print the adjacency list representation of the above graph 
-    printGraph(graph); 
+    // printGraph(graph); 
   
     return 0; 
 } 
