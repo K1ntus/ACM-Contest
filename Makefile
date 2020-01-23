@@ -3,14 +3,14 @@
 
 FILESPARS	= $(wildcard parser/src/*.c)
 FILESSRC	= $(wildcard src/*.c)
-CC			= g++
-CFLAGS		= -lm -static
+CC			= gcc
+CFLAGS		= 
 OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
 .PHONY: all
-all:clean_problems graph_sample_problem 48_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:clean_problems graph_sample_problem 251_problem 48_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 48_problem: Problems/48-party.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -27,12 +27,13 @@ all:clean_problems graph_sample_problem 48_problem 190_problem 248_problem 222_p
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
 
-
+251_problem: Problems/251-how-many-islands.c
+		$(CC) $(CFLAGS) $< -o $@
 
 problems_current:
 	@echo ''
-	@echo '* Problem 48 - Party *'
-	@./48_problem
+	@echo '* Problem 251 - How Many Islands *'
+	@./251_problem
 
 problems_doing:
 	@echo ''
@@ -44,6 +45,9 @@ problems_doing:
 	@echo ''
 	@echo '* Problem 78 - Largest Subsequence *'
 	@./78_problem
+	@echo ''
+	@echo '* Problem 48 - Party *'
+	@./48_problem
 
 problems_done:
 	@echo ''
