@@ -10,29 +10,31 @@ OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
 .PHONY: all
-all:clean_problems 190_problem 248_problem 222_problem 78_problem problems_runall# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:clean_problems graph_sample_problem 48_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
+48_problem: Problems/48-party.c
+		$(CC) $(CFLAGS) $< -o $@
+
+78_problem: Problems/78-largest-subsequence.c
+		$(CC) $(CFLAGS) $< -o $@
 
 190_problem: Problems/190-equation.c
 		$(CC) $(CFLAGS) $< -o $@
 
 248_problem: Problems/248-intersection.c
 		$(CC) $(CFLAGS) $< -o $@
-
-78_problem: Problems/78-largest-subsequence.c
-		$(CC) $(CFLAGS) $< -o $@
-
+# DONE
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
 
-problems_runall:
+problems_current:
 	@echo ''
-	@echo '* Problem 222 - Simple Calculation II *'
-	@./222_problem
+	@echo '* Problem 48 - Party *'
+	@./48_problem
 
-a:
+problems_doing:
 	@echo ''
 	@echo '* Problem 190 - Equations *'
 	@./190_problem
@@ -42,6 +44,8 @@ a:
 	@echo ''
 	@echo '* Problem 78 - Largest Subsequence *'
 	@./78_problem
+
+problems_done:
 	@echo ''
 	@echo '* Problem 222 - Simple Calculation II *'
 	@./222_problem
@@ -56,6 +60,8 @@ sum_problem: Week1/sum.c  #$(OBJ)
 lpd_problem: Week1/LPD.c  #$(OBJ) 
 		$(CC) $(CFLAGS) $< -o $@
 
+graph_sample_problem: Problems/sample_program_graphs.c
+		$(CC) $(CFLAGS) $< -o $@
 # .PHONY: doc
 # doc:
 # 		doxygen doxygen.config

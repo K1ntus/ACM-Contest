@@ -18,28 +18,24 @@ int main (void){
         fgets(tmp_buffer, MAX_CHAR-1, stdin);
         char * buffer = (char *) malloc(MAX_CHAR * sizeof(char));
         strcpy(buffer, tmp_buffer);
-        // if(scanf("%f[^\n]%c", &buffer[nb_elems]) != 1)
-        //     break;
-        // if(buffer[nb_elems] == '\n')
-        //     break;
-        // result += buffer[nb_elems];
+        
         char * tok = strtok(buffer, " ");
-        // result += strtod(tok, 0x0);
+        
         int j = 0;
-        while (tok != NULL && j < 10) {
-            printf("%g\n", atof(tok));
+        while (tok != NULL && j < MAX_ELEMS) {
+            // printf("%g\n", atof(tok));
             if(tok != 0x0)
                 result += atof(tok);
             tok = strtok (NULL, " ");
-            // result += strtod(tok, 0x0);
+            
             j++;
         }
-        free(tok);
-        free(buffer);
         fprintf(stderr, "result is: %.4f\n\n", result);
         result = 0.0;
+
+        free(tok);
+        free(buffer);
     }
     
-        // free(tok);
     return EXIT_SUCCESS;
 }

@@ -7,6 +7,7 @@
 
 int main (void){
     int number_of_tests = 0;
+    fprintf(stderr, "Number of tests to run: ");
     scanf("%d",&number_of_tests);
     fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
 
