@@ -28,7 +28,7 @@ all:clean_problems graph_sample_problem 251_problem 48_problem 190_problem 248_p
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
 
-251_problem: Problems/251-how-many-islands.c
+251_problem: Problems/Accepted/251-how-many-islands.c
 		$(CC) $(CFLAGS) $< -o $@
 
 problems_current:

@@ -169,6 +169,7 @@ int main (void) {
         scanf("%d", &width);
         scanf("%d", &height);
         
+        if(width == 0 && width == height) break;
         grid G = InitGrid(width, height);
         // printf("\n\n\n");
 
