@@ -1,6 +1,11 @@
 #executables
 *_problem
 
+#logs
+*log*
+
+
+
 # Prerequisites
 *.d
 

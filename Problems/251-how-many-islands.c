@@ -3,14 +3,14 @@
 
 // Une position entière dans la grille.
 typedef struct {
-  int x, y;
+    int x, y;
 } position;
 
 // Une grille.
 typedef struct {
-  int X, Y;       // dimensions: X et Y
-  int **value;    // valuation des cases: value[i][j], 0<=i<X, 0<=j<Y
-  int **mark;     // marquage des cases: mark[i][j], 0<=i<X, 0<=j<Y
+    int X, Y;       // dimensions: X et Y
+    int **value;    // valuation des cases: value[i][j], 0<=i<X, 0<=j<Y
+    int **mark;     // marquage des cases: mark[i][j], 0<=i<X, 0<=j<Y
 } grid;
 
 // Valeurs possibles des cases d'une grille pour les champs .value et
@@ -18,14 +18,14 @@ typedef struct {
 // tableaux color[] (tools.c) et weight[] (a_star.c).
 enum {
 
-  // pour .value
-  V_WATER,    // Eau
-  V_ISLAND,     // Sable
-  V_WALL,
-  // pour .mark
-  M_MARKED,  // sommet non marqué
-  M_UNMARKED,  // sommet marqué dans P
-  M_NULL
+    // pour .value
+    V_WATER,    // Eau
+    V_ISLAND,     // Sable
+    V_WALL,
+    // pour .mark
+    M_MARKED,  // sommet non marqué
+    M_UNMARKED,  // sommet marqué dans P
+    M_NULL
 };
 
 
@@ -34,17 +34,18 @@ enum {
 // x,y>=3 pour avoir au moins un point qui n'est pas sur le bord.
 //
 static grid AllocGrid(int x, int y) {
-  grid G;
-//   if (x < 1)
-//     x = 1;
-//   if (y < 1)
-//     y = 1;
-  G.X = x;
-  G.Y = y;
-  G.value = (int**) malloc(x * sizeof(*(G.value)));
-  G.mark  = (int**) malloc(x * sizeof(*(G.mark)));
+    grid G;
+    //   if (x < 1)
+    //     x = 1;
+    //   if (y < 1)
+    //     y = 1;
 
-  for (int i = 0; i < x; i++) {
+    G.X = x;
+    G.Y = y;
+    G.value = (int**) malloc(x * sizeof(*(G.value)));
+    G.mark  = (int**) malloc(x * sizeof(*(G.mark)));
+
+    for (int i = 0; i < x; i++) {
     G.value[i] = (int*) malloc(y * sizeof(*(G.value[i])));
     G.mark[i] = (int*) malloc(y * sizeof(*(G.mark[i])));
 
@@ -53,16 +54,23 @@ static grid AllocGrid(int x, int y) {
         exit(EXIT_FAILURE);
     }
     for (int j = 0; j < y; j++) {
-      G.mark[i][j]  = M_NULL; // initialise
-      G.value[i][j] = V_WALL;
+        G.mark[i][j]  = M_NULL; // initialise
+        G.value[i][j] = V_WALL;
     }
-  }
+    }
 
-  return G;
+    return G;
 }
 
-void FreeGrid(grid G) {
+void FreeGrid(grid *G) {
+    for(int i = 0; i < G->X; i++){
+        free(G->mark[i]);
+        free(G->value[i]);
+    }
+    free(G->mark);
+    free(G->value);
 
+    free(G);
 }
 
 void PrintGrid(grid G) {
@@ -113,32 +121,11 @@ grid InitGrid(int width, int height) {
  *
  */
 void MarkNeighboursCells(grid * G, int x_init, int y_init) {
-    // if (G == 0x0) return;
-    // if(G->mark[x_init][y_init] == 0x0) return;
-
-    // fprintf(stderr, "-> X=%d;Y=%d\n--> (Marked, Type) (%d,%d)\n", x_init, y_init, G->mark[x_init][y_init], G->value[x_init][y_init]);
-    // if(x_init < 0 || y_init < 0) return;
-
-    // if (x_init < 1 || y_init < 1) {
-    //     // fprintf(stderr, "Stop1 because x:%d, y:%d\n", x_init, y_init);
-    //     return;
-    // }
-    
     if(G->mark[x_init][y_init] == M_MARKED) return;
 
     if(G->value[x_init][y_init] == V_WATER || G->value[x_init][y_init] == V_WALL) return;
     
     G->mark[x_init][y_init] = M_MARKED;
-
-
-    
-
-    // if(x_init >= G->X -1 || y_init >= G->Y -1){
-
-    //     // fprintf(stderr, "Stop2 because x:%d, y:%d\n", x_init, y_init);
-    //     return;
-    // }
-
 
     MarkNeighboursCells(G, x_init-1, y_init);
     MarkNeighboursCells(G, x_init+1, y_init);
@@ -150,51 +137,7 @@ void MarkNeighboursCells(grid * G, int x_init, int y_init) {
     MarkNeighboursCells(G, x_init+1, y_init+1);
 
     MarkNeighboursCells(G, x_init-1, y_init-1);
-    MarkNeighboursCells(G, x_init-1, y_init+1);
-
-    // // //LEFT
-    // // if(G->value[x_init--][y_init] == V_ISLAND && G->mark[x_init--][y_init] == M_UNMARKED){
-    // //     MarkNeighboursCells(G, x_init--, y_init);
-    // // }
-    
-    // //RIGHT
-    // if(G->value[x_init++][y_init] == V_ISLAND && G->mark[x_init++][y_init] == M_UNMARKED){
-    //     MarkNeighboursCells(G, x_init++, y_init);
-    // }
-    
-    // //BOTTOM
-    // if(G->value[x_init][y_init++] == V_ISLAND && G->mark[x_init][y_init++] == M_UNMARKED){
-    //     MarkNeighboursCells(G, x_init, y_init++);
-    // }
-    
-    // //TOP
-    // if(G->value[x_init][y_init--] == V_ISLAND && G->mark[x_init][y_init--] == M_UNMARKED){
-    //     MarkNeighboursCells(G, x_init, y_init--);
-    // }
-    
-
-
-
-    // // //TOP LEFT
-    // // if(G->value[x_init--][y_init--] == V_ISLAND && G->mark[x_init--][y_init--] == M_UNMARKED){
-    // //     MarkNeighboursCells(G, x_init--, y_init--);
-    // // }
-    
-    // // //TOP RIGHT
-    // // if(G->value[x_init++][y_init--] == V_ISLAND && G->mark[x_init++][y_init--] == M_UNMARKED){
-    // //     MarkNeighboursCells(G, x_init++, y_init--);
-    // // }
-    
-    // // //BOTTOM LEFT
-    // // if(G->value[x_init--][y_init++] == V_ISLAND && G->mark[x_init--][y_init++] == M_UNMARKED){
-    // //     MarkNeighboursCells(G, x_init--, y_init++);
-    // // }
-    
-    // // //BOTTOM RIGHT
-    // // if(G->value[x_init++][y_init++] == V_ISLAND && G->mark[x_init++][y_init++] == M_UNMARKED){
-    // //     MarkNeighboursCells(G, x_init++, y_init++);
-    // // }
-    
+    MarkNeighboursCells(G, x_init-1, y_init+1);    
 }
 
 
@@ -235,8 +178,9 @@ int main (void) {
         int res = ExploreMap(&G);
         printf("%d\n", res);
 
-        FreeGrid(G);
+        // FreeGrid(&G);
 
     }
+
     return EXIT_SUCCESS;
 }

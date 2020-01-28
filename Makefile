@@ -23,6 +23,7 @@ all:clean_problems graph_sample_problem 251_problem 48_problem 190_problem 248_p
 
 248_problem: Problems/248-intersection.c
 		$(CC) $(CFLAGS) $< -o $@
+
 # DONE
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -53,6 +54,9 @@ problems_done:
 	@echo ''
 	@echo '* Problem 222 - Simple Calculation II *'
 	@./222_problem
+	@echo ''
+	@echo '* Problem 251 - How Many Islands *'
+	@./251_problem
 
 w1_problem1: Week1/countprime_3.c #$(OBJ) 
 		$(CC) $(CFLAGS) $< -o $@
