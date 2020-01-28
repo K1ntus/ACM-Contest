@@ -146,11 +146,11 @@ void MarkNeighboursCells(grid * G, int x_init, int y_init) {
     MarkNeighboursCells(G, x_init, y_init-1);
     MarkNeighboursCells(G, x_init, y_init+1);
 
-    // MarkNeighboursCells(G, x_init+1, y_init-1);
-    // MarkNeighboursCells(G, x_init+1, y_init+1);
+    MarkNeighboursCells(G, x_init+1, y_init-1);
+    MarkNeighboursCells(G, x_init+1, y_init+1);
 
-    // MarkNeighboursCells(G, x_init-1, y_init-1);
-    // MarkNeighboursCells(G, x_init-1, y_init+1);
+    MarkNeighboursCells(G, x_init-1, y_init-1);
+    MarkNeighboursCells(G, x_init-1, y_init+1);
 
     // // //LEFT
     // // if(G->value[x_init--][y_init] == V_ISLAND && G->mark[x_init--][y_init] == M_UNMARKED){
