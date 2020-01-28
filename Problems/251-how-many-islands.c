@@ -21,8 +21,7 @@ enum {
   // pour .value
   V_WATER,    // Eau
   V_ISLAND,     // Sable
-  V_ERROR,
-
+  V_WALL,
   // pour .mark
   M_MARKED,  // sommet non marqué
   M_UNMARKED,  // sommet marqué dans P
@@ -53,8 +52,10 @@ static grid AllocGrid(int x, int y) {
         fprintf(stderr, "Unable to alloc memory.\n");
         exit(EXIT_FAILURE);
     }
-    for (int j = 0; j < y; j++)
-      G.mark[i][j] = M_NULL; // initialise
+    for (int j = 0; j < y; j++) {
+      G.mark[i][j]  = M_NULL; // initialise
+      G.value[i][j] = V_WALL;
+    }
   }
 
   return G;
@@ -75,10 +76,10 @@ void PrintGrid(grid G) {
 }
 
 grid InitGrid(int width, int height) {
-    grid G = AllocGrid(width, height);
+    grid G = AllocGrid(width+2, height+2);
 
-    for(int y = 0; y < height; y++){
-        for(int x = 0; x < width; x++){
+    for(int y = 1; y < height + 1; y++){
+        for(int x = 1; x < width + 1; x++){
             int value;
             scanf("%d", &value);
             // G.mark[x][y] = M_UNMARKED;
@@ -91,7 +92,7 @@ grid InitGrid(int width, int height) {
                     G.mark[x][y] = M_UNMARKED;
                     break;
                 default:
-                    G.value[x][y] = V_ERROR;
+                    G.value[x][y] = V_WALL;
                     break;
             }
 
@@ -112,75 +113,95 @@ grid InitGrid(int width, int height) {
  *
  */
 void MarkNeighboursCells(grid * G, int x_init, int y_init) {
-    if (G == 0x0) return;
-    if(G->mark[x_init][y_init] == 0x0) return;
+    // if (G == 0x0) return;
+    // if(G->mark[x_init][y_init] == 0x0) return;
 
+    // fprintf(stderr, "-> X=%d;Y=%d\n--> (Marked, Type) (%d,%d)\n", x_init, y_init, G->mark[x_init][y_init], G->value[x_init][y_init]);
+    // if(x_init < 0 || y_init < 0) return;
+
+    // if (x_init < 1 || y_init < 1) {
+    //     // fprintf(stderr, "Stop1 because x:%d, y:%d\n", x_init, y_init);
+    //     return;
+    // }
+    
+    if(G->mark[x_init][y_init] == M_MARKED) return;
+
+    if(G->value[x_init][y_init] == V_WATER || G->value[x_init][y_init] == V_WALL) return;
     
     G->mark[x_init][y_init] = M_MARKED;
-    // fprintf(stderr, "-> X=%d;Y=%d\n--> (Marked, Type) (%d,%d)\n", x_init, y_init, G->mark[x_init][y_init], G->value[x_init][y_init]);
-
-    if (x_init < 1 || y_init < 1) {
-        // fprintf(stderr, "Stop1 because x:%d, y:%d\n", x_init, y_init);
-        return;
-    }
-
-    if(x_init >= G->X -1 || y_init >= G->Y -1){
-
-        // fprintf(stderr, "Stop2 because x:%d, y:%d\n", x_init, y_init);
-        return;
-    }
 
 
-    //LEFT
-    if(G->value[x_init--][y_init] == V_ISLAND && G->mark[x_init--][y_init] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init--, y_init);
-    }
-    
-    //RIGHT
-    if(G->value[x_init++][y_init] == V_ISLAND && G->mark[x_init++][y_init] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init++, y_init);
-    }
-    
-    //BOTTOM
-    if(G->value[x_init][y_init++] == V_ISLAND && G->mark[x_init][y_init++] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init, y_init++);
-    }
-    
-    //TOP
-    if(G->value[x_init][y_init--] == V_ISLAND && G->mark[x_init][y_init--] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init, y_init--);
-    }
     
 
+    // if(x_init >= G->X -1 || y_init >= G->Y -1){
+
+    //     // fprintf(stderr, "Stop2 because x:%d, y:%d\n", x_init, y_init);
+    //     return;
+    // }
 
 
-    //TOP LEFT
-    if(G->value[x_init--][y_init--] == V_ISLAND && G->mark[x_init--][y_init--] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init--, y_init--);
-    }
+    MarkNeighboursCells(G, x_init-1, y_init);
+    MarkNeighboursCells(G, x_init+1, y_init);
+
+    MarkNeighboursCells(G, x_init, y_init-1);
+    MarkNeighboursCells(G, x_init, y_init+1);
+
+    // MarkNeighboursCells(G, x_init+1, y_init-1);
+    // MarkNeighboursCells(G, x_init+1, y_init+1);
+
+    // MarkNeighboursCells(G, x_init-1, y_init-1);
+    // MarkNeighboursCells(G, x_init-1, y_init+1);
+
+    // // //LEFT
+    // // if(G->value[x_init--][y_init] == V_ISLAND && G->mark[x_init--][y_init] == M_UNMARKED){
+    // //     MarkNeighboursCells(G, x_init--, y_init);
+    // // }
     
-    //TOP RIGHT
-    if(G->value[x_init++][y_init--] == V_ISLAND && G->mark[x_init++][y_init--] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init++, y_init--);
-    }
+    // //RIGHT
+    // if(G->value[x_init++][y_init] == V_ISLAND && G->mark[x_init++][y_init] == M_UNMARKED){
+    //     MarkNeighboursCells(G, x_init++, y_init);
+    // }
     
-    //BOTTOM LEFT
-    if(G->value[x_init--][y_init++] == V_ISLAND && G->mark[x_init--][y_init++] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init--, y_init++);
-    }
+    // //BOTTOM
+    // if(G->value[x_init][y_init++] == V_ISLAND && G->mark[x_init][y_init++] == M_UNMARKED){
+    //     MarkNeighboursCells(G, x_init, y_init++);
+    // }
     
-    //BOTTOM RIGHT
-    if(G->value[x_init++][y_init++] == V_ISLAND && G->mark[x_init++][y_init++] == M_UNMARKED){
-        MarkNeighboursCells(G, x_init++, y_init++);
-    }
+    // //TOP
+    // if(G->value[x_init][y_init--] == V_ISLAND && G->mark[x_init][y_init--] == M_UNMARKED){
+    //     MarkNeighboursCells(G, x_init, y_init--);
+    // }
+    
+
+
+
+    // // //TOP LEFT
+    // // if(G->value[x_init--][y_init--] == V_ISLAND && G->mark[x_init--][y_init--] == M_UNMARKED){
+    // //     MarkNeighboursCells(G, x_init--, y_init--);
+    // // }
+    
+    // // //TOP RIGHT
+    // // if(G->value[x_init++][y_init--] == V_ISLAND && G->mark[x_init++][y_init--] == M_UNMARKED){
+    // //     MarkNeighboursCells(G, x_init++, y_init--);
+    // // }
+    
+    // // //BOTTOM LEFT
+    // // if(G->value[x_init--][y_init++] == V_ISLAND && G->mark[x_init--][y_init++] == M_UNMARKED){
+    // //     MarkNeighboursCells(G, x_init--, y_init++);
+    // // }
+    
+    // // //BOTTOM RIGHT
+    // // if(G->value[x_init++][y_init++] == V_ISLAND && G->mark[x_init++][y_init++] == M_UNMARKED){
+    // //     MarkNeighboursCells(G, x_init++, y_init++);
+    // // }
     
 }
 
 
 int ExploreMap(grid * G) {
     int number_of_islands = 0;
-    for(int y = 0; y < G->Y-1; y++) {
-        for(int x = 0; x < G->X-1; x++) {
+    for(int y = 1; y < G->Y; y++) {
+        for(int x = 1; x < G->X; x++) {
             // printf("Iteration (%d;%d)\n", x, y);
             if(G->mark[x][y] == M_MARKED) continue;
 
@@ -188,7 +209,7 @@ int ExploreMap(grid * G) {
                 // printf("New island spotted from pos (%d,%d)!\n", x, y);
                 if(!G->value[x][y] || !G || !G->value[x])
                     continue;
-                G->mark[x][y] = M_MARKED;
+                // G->mark[x][y] = M_MARKED;
                 MarkNeighboursCells(G, x, y);
                 number_of_islands +=1;
             }
@@ -204,6 +225,7 @@ int main (void) {
     while(width != 0 && height != 0){
         scanf("%d", &width);
         scanf("%d", &height);
+        
         grid G = InitGrid(width, height);
         // printf("\n\n\n");
 
