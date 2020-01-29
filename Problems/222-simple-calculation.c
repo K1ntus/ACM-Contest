@@ -3,19 +3,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_CHAR 100
+#define MAX_CHAR 101
 #define MAX_ELEMS 10
 
 int main (void){
     int number_of_tests = 5;
     // scanf("%d",&number_of_tests);
-    fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
+    // fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
 
-    char tmp_buffer[MAX_CHAR-1];
+    char tmp_buffer[MAX_CHAR];
     float result = 0.0;
 
     for(int i = 0; i < number_of_tests; i++){
-        fgets(tmp_buffer, MAX_CHAR-1, stdin);
+        char *eof_checker;
+        eof_checker =fgets(tmp_buffer, MAX_CHAR, stdin);
+        
+        if(!eof_checker) break;
+
+        if(i>0) fprintf(stdout, "\n");
+
         char * buffer = (char *) malloc(MAX_CHAR * sizeof(char));
         strcpy(buffer, tmp_buffer);
         
@@ -30,7 +36,7 @@ int main (void){
             
             j++;
         }
-        fprintf(stderr, "result is: %.4f\n\n", result);
+        fprintf(stdout, "%.4f\n\n", result);
         result = 0.0;
 
         free(tok);

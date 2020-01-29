@@ -98,6 +98,9 @@ void addNode(struct Graph * G){
 
 }
 
+void removeNode(struct Graph * G) {
+    
+}
 
 
 // Adds an edge to an undirected graph 
@@ -126,7 +129,7 @@ void removeEdge(struct Graph * graph, struct AdjListNode* node){
 void printGraph(struct Graph* graph) 
 { 
     int v; 
-    for (v = 0; v < graph->V; ++v) 
+    for (v = 0; v < graph->V; v++) 
     { 
         struct AdjListNode* pCrawl = graph->array[v].head; 
         if(pCrawl == NULL) continue;
@@ -141,15 +144,14 @@ void printGraph(struct Graph* graph)
 } 
   
 // Driver program to test above functions 
-int main() 
-{ 
+int main(void) { 
     // create the graph given in above fugure 
     int number_of_people = 0;
     // fprintf(stderr, "Number of tests to run: ");
     scanf("%d", &number_of_people);
     // fprintf(stderr, "There will be %d Tests Case.\n", number_of_people);
 
-    struct Graph* graph = createGraph(SIZE); 
+    struct Graph* graph = createGraph(1); 
     
 
     //Init graph
@@ -169,7 +171,7 @@ int main()
 
     int min = SIZE;
     for(int j = graph->V; j>0 && number_of_people > 0; j--) {
-        for(int i = 0; i < SIZE; i++){
+        for(int i = 0; i < graph->V; i++){
             
             int node_size = sizeNode(graph, i);
 
@@ -180,7 +182,7 @@ int main()
             }
         }
 
-        for(int i = 0; i < SIZE; i++){
+        for(int i = 0; i < graph->V; i++){
             int node_size = sizeNode(graph, i);
             if(node_size <= min && graph->array[i].head != NULL){
                 graph->array[i].head = NULL;
@@ -192,15 +194,9 @@ int main()
 
     }
 
-        fprintf(stdin, "%d\n", NumberOfNodes(graph));
+    free(graph);
+    fprintf(stdout, "%d\n", NumberOfNodes(graph));
 
-    // addEdge(graph, 0, 1); 
-    // addEdge(graph, 0, 4); 
-    // addEdge(graph, 1, 2); 
-    // addEdge(graph, 1, 3); 
-    // addEdge(graph, 1, 4); 
-    // addEdge(graph, 2, 3); 
-    // addEdge(graph, 3, 4); 
   
     // print the adjacency list representation of the above graph 
     // printGraph(graph); 

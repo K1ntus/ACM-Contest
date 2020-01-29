@@ -64,8 +64,8 @@ int main (void){
     stack.top = 0;
 
     char input_equation[MAX_LINES] = "";
-
-    for(int i = 0; i < 50; i++){
+    // push(&stack, '(');
+    for(int i = 0; i < MAX_LINES-1; i++){
         char c;
         int res = scanf("%c", &c);
         input_equation[i] = c;
@@ -75,8 +75,10 @@ int main (void){
         }
             
     }
-
+    // strcat(input_equation, ')');
     printf("Input equation is: %s\n", input_equation);
+
+
     char equation[MAX_LINES];
     int i = 0;
     for(int nb_test = 0; nb_test < number_of_tests; nb_test++){
@@ -96,15 +98,6 @@ int main (void){
                 fprintf(stderr, "Priority +1\n");
 
                 push(&stack, current_word);
-            } else if(current_word == ')') {
-                priority--;
-                fprintf(stderr, "Priority -1\n");
-                char res;
-                while((res = pop(&stack)) != '(') {
-                    
-                    equation[i] = res;
-                    i++;
-                }
             } else if (isDigit(current_word) || isAlpha(current_word)) {
                     printf("adding %c at indice %d!\nEquation is: %s\n", current_word, i, equation);
 
@@ -135,6 +128,15 @@ int main (void){
             // } else if (current_word == '\n') {
             //     break;
                 // fprintf(stderr, "????");
+            } else if(current_word == ')') {
+                priority--;
+                fprintf(stderr, "Priority -1\n");
+                char res;
+                while((res = pop(&stack)) != '(') {
+                    
+                    equation[i] = res;
+                    i++;
+                }
             } else {
             }
 
