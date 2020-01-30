@@ -204,9 +204,9 @@ int MoveKnight(grid * G, int x, int y, int count) {
     for(int i = 0; i < 8; i++) {
         position current_move = available_move[i];
         if(IsValidPosition(G, current_move)) {
-            int value = MoveKnight(G, current_move.x, current_move.y, count + 1);
+            int tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1);
 
-            if(value != -1) return value;
+            if(tmp_value < count) count = tmp_value;
         }
     }
     return -1;
@@ -224,7 +224,7 @@ int main (void) {
         G = InitGrid();
         // printf("\n\n\n");
 
-        PrintGrid(G);
+        // PrintGrid(G);
         int res = MoveKnight (&G, black_x, black_y, 0);
         if(res == -1) printf("Case %d: IMPOSSIBLE\n", case_number);
         else printf("Case %d: %d\n", case_number, res);

@@ -36,9 +36,12 @@ all:clean_problems graph_sample_problem 251_problem 688_problem 48_problem 194_p
 
 ###################
 problems_current:
+	# @echo ''
+	# @echo '* Problem 688 - Chess *'
+	# @./688_problem
 	@echo ''
-	@echo '* Problem 688 - Chess *'
-	@./688_problem
+	@echo '* Problem 110 - Longest Word *'
+	@./110_problem
 
 problems_doing:
 	@echo ''
@@ -78,7 +81,7 @@ sum_problem: Week1/sum.c  #$(OBJ)
 lpd_problem: Week1/LPD.c  #$(OBJ) 
 		$(CC) $(CFLAGS) $< -o $@
 
-graph_sample_problem: Problems/sample_program_graphs.c
+graph_sample_problem: Problems/Sample/sample_program_graphs.c
 		$(CC) $(CFLAGS) $< -o $@
 # .PHONY: doc
 # doc:

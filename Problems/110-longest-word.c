@@ -7,7 +7,7 @@
 
 #define MAX_TEXT_SIZE 15000
 #define MAX_WORD_SIZE 150
-#define END_WORD "E-N-D\n"
+#define END_WORD "E-N-D"
 
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
@@ -21,13 +21,13 @@ int main (void) {
     char * best_word = (char*) malloc(sizeof(char) * 100);
     while (tok != NULL) {
         
-        if(tok != 0x0 && tok != END_WORD) {
+        if(tok != 0x0 && !strstr(tok, END_WORD)) {
             int current_size = strlen(tok);
             if(current_size > best_size) {
                 best_size = current_size;
                 strcpy(best_word, tok);
 
-                printf("New best word: %s <- %s.\n", best_word, tok);
+                // printf("New best word: %s <- %s.\n", best_word, tok);
 
             }
         }
