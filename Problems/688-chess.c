@@ -192,7 +192,6 @@ bool IsValidPosition(grid * G, position p) {
 
 int MoveKnight(grid * G, int x, int y, int count) {
     position * available_move = GetAvailableMove(G, x, y);
-
     if(G->value[x][y] == V_WHITE_KNIGHT) {
         return count;
     } else if(G->value[x][y] == V_TESTED) {
@@ -201,15 +200,18 @@ int MoveKnight(grid * G, int x, int y, int count) {
         G->value[x][y] = V_TESTED;
     }
 
+    int res = 8*8;
     for(int i = 0; i < 8; i++) {
         position current_move = available_move[i];
         if(IsValidPosition(G, current_move)) {
             int tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1);
 
-            if(tmp_value < count) count = tmp_value;
+            if(tmp_value < res && tmp_value >0 ) res = tmp_value;
         }
     }
-    return -1;
+    if(res == 8*8)
+        return -1;
+    return res;
 }
 
 
@@ -226,9 +228,9 @@ int main (void) {
 
         // PrintGrid(G);
         int res = MoveKnight (&G, black_x, black_y, 0);
-        if(res == -1) printf("Case %d: IMPOSSIBLE\n", case_number);
-        else printf("Case %d: %d\n", case_number, res);
-
+        if(res == -1) printf("Case %d: IMPOSSIBLE", case_number);
+        else printf("Case %d: %d", case_number, res);
+        if(case_number < __nb_case__) printf("\n");
         // FreeGrid(&G);
     }
 

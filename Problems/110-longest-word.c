@@ -8,6 +8,7 @@
 #define MAX_TEXT_SIZE 15000
 #define MAX_WORD_SIZE 150
 #define END_WORD "E-N-D"
+#define SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n"
 
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
@@ -15,7 +16,7 @@ int main (void) {
     char *eof_checker;
     while( eof_checker = fgets(text_buffer, MAX_TEXT_SIZE, stdin) );
     
-    char * tok = strtok(text_buffer, " ");
+    char * tok = strtok(text_buffer, SEPARATOR);
     
     int best_size = -1;
     char * best_word = (char*) malloc(sizeof(char) * 100);
@@ -26,20 +27,24 @@ int main (void) {
             if(current_size > best_size) {
                 best_size = current_size;
                 strcpy(best_word, tok);
-
+                strcat(best_word, "\0");
                 // printf("New best word: %s <- %s.\n", best_word, tok);
 
             }
         }
 
-        tok = strtok(NULL, " ");
+        tok = strtok(NULL, SEPARATOR);
     }
 
     for(int i = 0; i < best_size; i++){
         if(best_word[i]>=65 && best_word[i]<=90)
             best_word[i]=best_word[i]+32;
+        // printf("%d: %c\n", i, best_word[i]);
     }
-    std::cout<<best_word<<std::endl;
+
+    std::string res(best_word);
+    std::cout << res << std::endl;
+    // std::cout<<best_word;//<<std::endl;
     // printf("%s", best_word);
     // fflush(stdout);
 }

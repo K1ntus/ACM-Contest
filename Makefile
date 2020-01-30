@@ -36,12 +36,12 @@ all:clean_problems graph_sample_problem 251_problem 688_problem 48_problem 194_p
 
 ###################
 problems_current:
-	# @echo ''
-	# @echo '* Problem 688 - Chess *'
-	# @./688_problem
 	@echo ''
-	@echo '* Problem 110 - Longest Word *'
-	@./110_problem
+	@echo '* Problem 688 - Chess *'
+	@./688_problem
+	# @echo ''
+	# @echo '* Problem 110 - Longest Word *'
+	# @./110_problem
 
 problems_doing:
 	@echo ''
