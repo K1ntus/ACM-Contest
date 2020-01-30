@@ -10,35 +10,43 @@ OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
 .PHONY: all
-all:clean_problems graph_sample_problem 251_problem 48_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:clean_problems graph_sample_problem 251_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 48_problem: Problems/48-party.c
 		$(CC) $(CFLAGS) $< -o $@
-
 78_problem: Problems/78-largest-subsequence.c
 		$(CC) $(CFLAGS) $< -o $@
-
 190_problem: Problems/190-equation.c
+		$(CC) $(CFLAGS) $< -o $@
+194_problem: Problems/194-eight-queens.c
 		$(CC) $(CFLAGS) $< -o $@
 110_problem: Problems/110-longest-word.c
 		$(CC) $(CFLAGS) $< -o $@
-
 248_problem: Problems/248-intersection.c
+		$(CC) $(CFLAGS) $< -o $@
+222_problem: Problems/222-simple-calculation.c
+		$(CC) $(CFLAGS) $< -o $@
+688_problem: Problems/688-chess.c
 		$(CC) $(CFLAGS) $< -o $@
 
 # DONE
-222_problem: Problems/222-simple-calculation.c
-		$(CC) $(CFLAGS) $< -o $@
-
 251_problem: Problems/Accepted/251-how-many-islands.c
 		$(CC) $(CFLAGS) $< -o $@
 
+
+###################
 problems_current:
 	@echo ''
-	@echo '* Problem 110 - Longest Word *'
-	@./110_problem
+	@echo '* Problem 688 - Chess *'
+	@./688_problem
 
 problems_doing:
+	@echo ''
+	@echo '* Problem 194 - Eight Queens *'
+	@./194_problem
+	@echo ''
+	@echo '* Problem 222 - Simple Calculation II *'
+	@./222_problem
 	@echo ''
 	@echo '* Problem 190 - Equations *'
 	@./190_problem
@@ -51,11 +59,11 @@ problems_doing:
 	@echo ''
 	@echo '* Problem 48 - Party *'
 	@./48_problem
+	@echo ''
+	@echo '* Problem 110 - Longest Word *'
+	@./110_problem
 
 problems_done:
-	@echo ''
-	@echo '* Problem 222 - Simple Calculation II *'
-	@./222_problem
 	@echo ''
 	@echo '* Problem 251 - How Many Islands *'
 	@./251_problem

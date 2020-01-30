@@ -19,13 +19,10 @@ typedef struct {
 enum {
 
     // pour .value
-    V_EMPTY,    // Eau
-    V_OCCUPIED,     // Sable
-    V_WALL,
-    // pour .mark
-    M_INSIGHT,  // sommet non marqué
-    M_AVAILABLE,  // sommet marqué dans P
-    M_FORBIDDEN
+    V_EMPTY,        // empty cell
+    V_OCCUPIED,     // queen
+    V_UNAVAILABLE,  // already in sight of a queen
+    V_WALL          // game frontier
 };
 
 
@@ -56,7 +53,6 @@ static grid AllocGrid() {
             exit(EXIT_FAILURE);
         }
         for (int j = 0; j < y; j++) {
-            G.mark[i][j]  = M_FORBIDDEN; // initialise
             G.value[i][j] = V_WALL;
         }
     }
@@ -78,7 +74,11 @@ void FreeGrid(grid *G) {
 void PrintGrid(grid G) {
     for(int y = 0; y < G.Y; y++) {
         for(int x = 0; x < G.X; x++){
-            printf("%d ", G.value[x][y]);
+            if(G.value[x][y] == 3) printf("x ");
+            else if(G.value[x][y] == 2) printf("* ");
+            else if(G.value[x][y] == 1) printf("Q ");
+            else if(G.value[x][y] == 0) printf("_ ");
+            else printf("%d ", G.value[x][y]);
         }
         printf("\n");
     }
@@ -88,12 +88,9 @@ void PrintGrid(grid G) {
 grid InitGrid() {
     grid G = AllocGrid();
 
-    for(int y = 1; y < G.Y; y++){
-        for(int x = 1; x < G.X; x++){
-            G.mark[x][y] = M_AVAILABLE;
+    for(int y = 1; y < G.Y-1; y++){
+        for(int x = 1; x < G.X-1; x++){
             G.value[x][y]= V_EMPTY;
-            
-
         }
     }
 
@@ -105,77 +102,17 @@ void MarkCells(grid * G, int x, int y) {
 }
 
 
-/**
- * 
-1 0 1 1 0 
-1 0 0 1 1 
-0 1 0 0 1 
-0 1 0 1 1 
-1 0 1 0 0 
- *
- */
-void MarkNeighboursCells(grid * G, int x_init, int y_init) {
-    if(G->mark[x_init][y_init] == M_MARKED) return;
-
-    if(G->value[x_init][y_init] == V_WATER || G->value[x_init][y_init] == V_WALL) return;
-    
-    G->mark[x_init][y_init] = M_MARKED;
-
-    MarkNeighboursCells(G, x_init-1, y_init);
-    MarkNeighboursCells(G, x_init+1, y_init);
-
-    MarkNeighboursCells(G, x_init, y_init-1);
-    MarkNeighboursCells(G, x_init, y_init+1);
-
-    MarkNeighboursCells(G, x_init+1, y_init-1);
-    MarkNeighboursCells(G, x_init+1, y_init+1);
-
-    MarkNeighboursCells(G, x_init-1, y_init-1);
-    MarkNeighboursCells(G, x_init-1, y_init+1);    
-}
-
-
-int ExploreMap(grid * G) {
-    int number_of_islands = 0;
-    for(int y = 1; y < G->Y; y++) {
-        for(int x = 1; x < G->X; x++) {
-            // printf("Iteration (%d;%d)\n", x, y);
-            if(G->mark[x][y] == M_MARKED) continue;
-
-            if(G->value[x][y] == V_ISLAND && G->mark[x][y] == M_UNMARKED) {
-                // printf("New island spotted from pos (%d,%d)!\n", x, y);
-                if(!G->value[x][y] || !G || !G->value[x])
-                    continue;
-                // G->mark[x][y] = M_MARKED;
-                MarkNeighboursCells(G, x, y);
-                number_of_islands +=1;
-            }
-        }
-    }
-
-    return number_of_islands;
-}
 
 int main (void) {
-    int width  = -1;
-    int height = -1;
-    while(width != 0 && height != 0){
-        scanf("%d", &width);
-        scanf("%d", &height);
-        
-        if(width == 0 && width == height) break;
-        grid G = InitGrid(width, height);
-        // printf("\n\n\n");
+    grid G = InitGrid();
+    // printf("\n\n\n");
+    // int ** soluce_array = (int **) malloc(sizeof())
 
+    PrintGrid(G);
+    // printf("%d\n", res);
 
-        // PrintGrid(G);
+    // FreeGrid(&G);
 
-        int res = ExploreMap(&G);
-        printf("%d\n", res);
-
-        // FreeGrid(&G);
-
-    }
 
     return EXIT_SUCCESS;
 }

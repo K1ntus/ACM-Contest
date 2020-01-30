@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
 // #include <locale>         // std::locale, std::tolower
 
-#define MAX_TEXT_SIZE 10000
-#define MAX_WORD_SIZE 100
-#define END_WORD "E-N-D"
+#define MAX_TEXT_SIZE 15000
+#define MAX_WORD_SIZE 150
+#define END_WORD "E-N-D\n"
 
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
@@ -38,5 +39,7 @@ int main (void) {
         if(best_word[i]>=65 && best_word[i]<=90)
             best_word[i]=best_word[i]+32;
     }
-    printf("%s\0", best_word);
+    std::cout<<best_word<<std::endl;
+    // printf("%s", best_word);
+    // fflush(stdout);
 }
