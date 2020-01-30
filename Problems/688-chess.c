@@ -13,7 +13,6 @@ typedef struct {
 typedef struct {
     int X, Y;       // dimensions: X et Y
     int **value;    // valuation des cases: value[i][j], 0<=i<X, 0<=j<Y
-    int **mark;     // marquage des cases: mark[i][j], 0<=i<X, 0<=j<Y
 } grid;
 
 // Valeurs possibles des cases d'une grille pour les champs .value et
@@ -51,13 +50,11 @@ static grid AllocGrid() {
     G.X = x;
     G.Y = y;
     G.value = (int**) malloc(x * sizeof(*(G.value)));
-    G.mark  = (int**) malloc(x * sizeof(*(G.mark)));
 
     for (int i = 0; i < x; i++) {
         G.value[i] = (int*) malloc(y * sizeof(*(G.value[i])));
-        G.mark[i] = (int*) malloc(y * sizeof(*(G.mark[i])));
 
-        if(G.mark[i] == 0x0 || G.value[i] == 0x0) {
+        if(G.value[i] == 0x0) {
             fprintf(stderr, "Unable to alloc memory.\n");
             exit(EXIT_FAILURE);
         }
@@ -71,10 +68,8 @@ static grid AllocGrid() {
 
 void FreeGrid(grid *G) {
     for(int i = 0; i < G->X; i++){
-        free(G->mark[i]);
         free(G->value[i]);
     }
-    free(G->mark);
     free(G->value);
 
     free(G);
