@@ -23,6 +23,15 @@ dictionnary_struct * InitDictionnary(void) {
     return dico;
 }
 
+void WordToInsensitive(char * word) {
+
+    for(int i = 0; word[i]; i++){
+        if(word[i]>=65 && word[i]<=90)
+            word[i]=word[i]+32;
+        // printf("%d: %c\n", i, best_word[i]);
+    }
+}
+
 void FreeDictionnary(dictionnary_struct * dico) {
     free(dico->word_list);
     free(dico);
@@ -52,12 +61,15 @@ void sort_words(char *words[], int count)
 }
 
 void AddWordToDictionnary(dictionnary_struct * dictionnary, const char * wordToAdd) {
+    char * tmp;
+    strcpy(tmp, wordToAdd);
+    WordToInsensitive(tmp);
     for(int i = 0; i < dictionnary->size_list; i++) {
-        if(strcmp(dictionnary->word_list[i], wordToAdd)) return;
+        if(strcmp(dictionnary->word_list[i], tmp)) return;
     }
 
     dictionnary->size_list += 1;
-    strcpy(dictionnary->word_list[dictionnary->size_list], wordToAdd);
+    strcpy(dictionnary->word_list[dictionnary->size_list], tmp);
 }
 
 void PrintDictionnary(dictionnary_struct dictionnary) {
