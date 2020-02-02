@@ -71,8 +71,8 @@ void AddWordToDictionnary(dictionnary_struct * dictionnary, const char * wordToA
         } 
     }
 
-    dictionnary->size_list += 1;
     strcpy(dictionnary->word_list[dictionnary->size_list], tmp);
+    dictionnary->size_list += 1;
 }
 
 void PrintDictionnary(dictionnary_struct dictionnary) {
