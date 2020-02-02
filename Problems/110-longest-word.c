@@ -5,8 +5,8 @@
 #include <iostream>
 // #include <locale>         // std::locale, std::tolower
 
-#define MAX_TEXT_SIZE 15000
-#define MAX_WORD_SIZE 150
+#define MAX_TEXT_SIZE 10000
+#define MAX_WORD_SIZE 100
 #define END_WORD "E-N-D"
 #define SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n0123456789$£€µ§~ù\%[]|&`\t"
 
@@ -15,8 +15,22 @@ int main (void) {
 
     char *eof_checker;
     while( eof_checker = fgets(text_buffer, MAX_TEXT_SIZE, stdin) );
-    
-    char * tok = strtok(text_buffer, SEPARATOR);
+    char nonAlphachars[0xFF];
+    memset(nonAlphachars, 0, 0xFF);
+    int i = 0;    
+    int c = 1;
+    for(; c <= 0xFF; c++)
+    {
+        if(!isalpha(c))
+        {
+            nonAlphachars[i++] = c;
+        }
+    }
+
+    char * separator_list = (char *) malloc(sizeof(char) * (0xFF + 150) );
+    strcpy(separator_list, nonAlphachars);
+    strcat(separator_list, SEPARATOR);
+    char * tok = strtok(text_buffer, separator_list);
     
     int best_size = -1;
     char * best_word = (char*) malloc(sizeof(char) * 100);
@@ -32,7 +46,7 @@ int main (void) {
             }
         }
 
-        tok = strtok(NULL, SEPARATOR);
+        tok = strtok(NULL, separator_list);
     }
 
     for(int i = 0; i < best_size; i++){

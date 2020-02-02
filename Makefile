@@ -10,17 +10,19 @@ OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
 .PHONY: all
-all:graph_sample_problem 449_problem 693_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 48_problem: Problems/48-party.c
 		$(CC) $(CFLAGS) $< -o $@
 78_problem: Problems/78-largest-subsequence.c
 		$(CC) $(CFLAGS) $< -o $@
+110_problem: Problems/110-longest-word.c
+		$(CC) $(CFLAGS) $< -o $@
+185_problem: Problems/185-dictionnary.c
+		$(CC) $(CFLAGS) $< -o $@
 190_problem: Problems/190-equation.c
 		$(CC) $(CFLAGS) $< -o $@
 194_problem: Problems/194-eight-queens.c
-		$(CC) $(CFLAGS) $< -o $@
-110_problem: Problems/110-longest-word.c
 		$(CC) $(CFLAGS) $< -o $@
 248_problem: Problems/248-intersection.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -59,10 +61,13 @@ problems_current:
 	# @./190_problem
 	# @echo ''
 	# @echo '* Problem 78 - Largest Subsequence *'
-	# @./78_problem
+	# # @./78_problem
 	# @echo ''
 	# @echo '* Problem 110 - Longest Word *'
 	# @./110_problem
+	@echo ''
+	@echo '* Problem 185 - Dictionnary *'
+	@./185_problem
 
 problems_doing:
 	@echo ''

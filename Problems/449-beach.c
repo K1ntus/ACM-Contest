@@ -19,9 +19,9 @@ typedef struct {
 enum {
 
     // pour .value
-    V_LAND,        // empty cell
-    V_WATER,     // queen
-    V_WALL          // game frontier
+    V_LAND,     // empty cell
+    V_WATER,    // queen
+    V_WALL      // game frontier
 };
 
 

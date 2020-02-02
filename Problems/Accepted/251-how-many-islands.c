@@ -171,15 +171,10 @@ int main (void) {
         
         if(width == 0 && width == height) break;
         grid G = InitGrid(width, height);
-        // printf("\n\n\n");
-
-
-        // PrintGrid(G);
-
+        
         int res = ExploreMap(&G);
         printf("%d\n", res);
 
-        // FreeGrid(&G);
 
     }
 
