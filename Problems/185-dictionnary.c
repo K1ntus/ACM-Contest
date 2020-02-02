@@ -65,7 +65,10 @@ void AddWordToDictionnary(dictionnary_struct * dictionnary, const char * wordToA
     strcpy(tmp, wordToAdd);
     WordToInsensitive(tmp);
     for(int i = 0; i < dictionnary->size_list; i++) {
-        if(strcmp(dictionnary->word_list[i], tmp)) return;
+        if(strcmp(dictionnary->word_list[i], tmp)){
+            free(tmp);
+            return;
+        } 
     }
 
     dictionnary->size_list += 1;
