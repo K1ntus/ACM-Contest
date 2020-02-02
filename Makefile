@@ -10,7 +10,7 @@ OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
 .PHONY: all
-all:clean_problems graph_sample_problem 251_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 449_problem 693_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 48_problem: Problems/48-party.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -26,7 +26,13 @@ all:clean_problems graph_sample_problem 251_problem 688_problem 48_problem 194_p
 		$(CC) $(CFLAGS) $< -o $@
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
+318_problem: Problems/318-obstacle-course.c
+		$(CC) $(CFLAGS) $< -o $@
+449_problem: Problems/449-beach.c
+		$(CC) $(CFLAGS) $< -o $@
 688_problem: Problems/688-chess.c
+		$(CC) $(CFLAGS) $< -o $@
+693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
 
 # DONE
@@ -36,9 +42,24 @@ all:clean_problems graph_sample_problem 251_problem 688_problem 48_problem 194_p
 
 ###################
 problems_current:
-	@echo ''
-	@echo '* Problem 688 - Chess *'
-	@./688_problem
+	# @echo ''
+	# @echo '* Problem 688 - Chess *'
+	# @./688_problem
+	# @echo ''
+	# @echo '* Problem 222 - Simple Calculation II *'
+	# @./222_problem
+	# @echo ''
+	# @echo '* Problem 693 - Towers Of Hanoi *'
+	# @./693_problem
+	# @echo ''
+	# @echo '* Problem 318 - Obstacle Course *'
+	# @./318_problem
+	# @echo ''
+	# @echo '* Problem 190 - Equations *'
+	# @./190_problem
+	# @echo ''
+	# @echo '* Problem 78 - Largest Subsequence *'
+	# @./78_problem
 	# @echo ''
 	# @echo '* Problem 110 - Longest Word *'
 	# @./110_problem

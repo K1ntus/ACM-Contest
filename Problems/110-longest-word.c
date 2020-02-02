@@ -8,7 +8,7 @@
 #define MAX_TEXT_SIZE 15000
 #define MAX_WORD_SIZE 150
 #define END_WORD "E-N-D"
-#define SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n"
+#define SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n0123456789$£€µ§~ù\%[]|&`\t"
 
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
@@ -29,7 +29,6 @@ int main (void) {
                 strcpy(best_word, tok);
                 strcat(best_word, "\0");
                 // printf("New best word: %s <- %s.\n", best_word, tok);
-
             }
         }
 
