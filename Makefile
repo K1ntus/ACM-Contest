@@ -60,14 +60,14 @@ problems_current:
 	# @echo '* Problem 110 - Longest Word *'
 	# @./110_problem
 	# @echo ''
-	# @echo '* Problem 185 - Dictionnary *'
-	# @./185_problem
-	# @echo ''
 	# @echo '* Problem 688 - Chess *'
 	# @./688_problem
+	# @echo ''
+	# @echo '* Problem 190 - Equations *'
+	# @./190_problem
 	@echo ''
-	@echo '* Problem 190 - Equations *'
-	@./190_problem
+	@echo '* Problem 185 - Dictionnary *'
+	@./185_problem
 
 problems_doing:
 	@echo ''
