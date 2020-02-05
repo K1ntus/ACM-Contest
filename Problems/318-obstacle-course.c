@@ -117,13 +117,16 @@ position* GetNeighbors(grid * G, int x, int y) {
 
 int FindPath(grid * G, int x, int y, int value, int best_value) {
 
-  if(G->board[x][y].mark == V_WALL) return -1;
-  if(x == G->width-1 && y == G->height-1)
-    return value;
   value += G->board[x][y].value;
   printf("Exploring Position (%d,%d):%d\n", x, y, value);
+  if(G->board[x][y].mark == V_WALL ||G->board[x][y].mark == V_MARKED) return -1;
+  if(x >= G->width-2 && y >= G->height-2){
+    printf("Reached destination. Returning value: %d\n", value);
+    return value;
+  }
 
   position * valid_moves = GetNeighbors(G, x, y);
+  G->board[x][y].mark = V_MARKED;
 
   for(int i = 0; i < NB_MOVES; i++) {
     int new_x = valid_moves[i].x;
@@ -134,25 +137,26 @@ int FindPath(grid * G, int x, int y, int value, int best_value) {
     int current_value = FindPath(G, new_x, new_y, value, best_value);
     if(current_value > 0 && current_value < best_value) best_value = current_value;
   }
-  G->board[x][y].mark = V_MARKED;
 
-
+  free(valid_moves);
   return best_value;
 }
 int FindPath_wrapper(grid * G, int x, int y, int value, int best_value) {
   queue<node> q;
   q.push(G->board[x][y]);
-  G->board[x][y].mark = V_MARKED;
+  // G->board[x][y].mark = V_MARKED;
 
-  while (!q.empty()){
-    node p = q.front();
-    q.pop();
+  return FindPath(G, x, y, value, best_value);
 
-    if(p.pos_in_grid.x == G->width-2 && p.pos_in_grid.y == G->height-2){
-      //END
+  // while (!q.empty()){
+  //   node p = q.front();
+  //   q.pop();
+
+  //   if(p.pos_in_grid.x == G->width-2 && p.pos_in_grid.y == G->height-2){
+  //     //END
       
-    }
-  }
+  //   }
+  // }
 
     // res = FindPath(&G, 1, 1, 0, 99999);
 
@@ -166,7 +170,7 @@ int main() {
   int size = 3;
   // scanf("%d", &size);
   // if(size == 0) return 0;
-  grid G = InitGrid(size+2);
+  grid G = InitGrid(size + 2);  //Board + wall
   int res = 0;//G.board[1][1].value;
 
   PrintGrid(G);

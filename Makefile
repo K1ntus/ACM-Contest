@@ -51,9 +51,6 @@ problems_current:
 	# @echo '* Problem 693 - Towers Of Hanoi *'
 	# @./693_problem
 	# @echo ''
-	# @echo '* Problem 318 - Obstacle Course *'
-	# @./318_problem
-	# @echo ''
 	# @echo '* Problem 78 - Largest Subsequence *'
 	# # @./78_problem
 	# @echo ''
@@ -65,9 +62,12 @@ problems_current:
 	# @echo ''
 	# @echo '* Problem 190 - Equations *'
 	# @./190_problem
+	# @echo ''
+	# @echo '* Problem 185 - Dictionnary *'
+	# @./185_problem
 	@echo ''
-	@echo '* Problem 185 - Dictionnary *'
-	@./185_problem
+	@echo '* Problem 318 - Obstacle Course *'
+	@./318_problem
 
 problems_doing:
 	@echo ''

@@ -116,7 +116,7 @@ int main (void){
                 //     op_res = pop(&stack);
                 // }
                 // push(&stack, op_res);
-                push(&stack, current_word);
+                push(&stack, op_res);
             } else if (current_word == '+' || current_word == '-'){
                 char op_res = pop(&stack);
                 // while(op_res == '+' || op_res == '-') {
@@ -127,7 +127,7 @@ int main (void){
                 //     op_res = pop(&stack);
                 // }
                 // push(&stack, op_res);
-                push(&stack, current_word);
+                push(&stack, op_res);
             // } else if (current_word == '\n') {
             //     break;
                 // fprintf(stderr, "????");
