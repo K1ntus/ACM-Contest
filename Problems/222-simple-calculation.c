@@ -9,9 +9,10 @@
 
 int main (void){
     char tmp_buffer[MAX_CHAR];
-    float result = 0.0;
+    double result = 0.0;
 
     char *eof_checker;
+    int first_case=0;
     while(eof_checker = fgets(tmp_buffer, MAX_CHAR, stdin)) {
         if(!eof_checker) break;
 
@@ -21,16 +22,17 @@ int main (void){
         char * tok = strtok(buffer, " ");
         
         int j = 0;
-        while (tok != NULL && j < MAX_ELEMS) {
+        while (tok != NULL && tok != "\n" && j < MAX_ELEMS) {
             // printf("%g\n", atof(tok));
             if(tok != 0x0)
-                result += atof(tok);
-                //  result += strtold(tok, NULL);
+                // result += atof(tok);
+                 result += strtod(tok, NULL);
             tok = strtok (NULL, " ");
             
             j++;
         }
         
+        if(!first_case) fprintf(stdout, "\n");
         result *= 10000;
         result = ceil(result);
         result /= 10000;

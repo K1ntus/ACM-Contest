@@ -107,12 +107,8 @@ int main (void) {
     }
 
     PrintDictionnary(*dictionnary);
-    
-    // std::string res(best_word);
-    // std::cout << res << std::endl;
-    // std::cout<<best_word;//<<std::endl;
-    // printf("%s", best_word);
-    // fflush(stdout);
 
     FreeDictionnary(dictionnary);
+
+    return 0;
 }

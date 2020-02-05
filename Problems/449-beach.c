@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define LAND '#'
+#define SEA '.'
+#define MAX_WIDTH 50    //[1;50] inclusif
+#define MAX_HEIGHT 50   //[1;50] inclusif
+
 // Une position entière dans la grille.
 typedef struct {
     int x, y;

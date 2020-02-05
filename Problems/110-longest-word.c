@@ -19,10 +19,8 @@ int main (void) {
     memset(nonAlphachars, 0, 0xFF);
     int i = 0;    
     int c = 1;
-    for(; c <= 0xFF; c++)
-    {
-        if(!isalpha(c))
-        {
+    for(; c <= 0xFF; c++) {
+        if(!isalpha(c)) {
             nonAlphachars[i++] = c;
         }
     }
@@ -33,7 +31,7 @@ int main (void) {
     char * tok = strtok(text_buffer, separator_list);
     
     int best_size = -1;
-    char * best_word = (char*) malloc(sizeof(char) * 100);
+    char * best_word = (char*) malloc(sizeof(char) * MAX_WORD_SIZE);
     while (tok != NULL) {
         
         if(tok != 0x0 && !strstr(tok, END_WORD)) {

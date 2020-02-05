@@ -65,13 +65,16 @@ int main (void){
 
     char input_equation[MAX_LINES] = "";
     // push(&stack, '(');
-    for(int i = 0; i < MAX_LINES-1; i++){
+    for(int i = 1; i < MAX_LINES-1; i++){
+        input_equation[0] = '(';
         char c;
         int res = scanf("%c", &c);
-        input_equation[i] = c;
-        if(res == EOF) {
+        if(res == EOF || res ==0) {
+            input_equation[i] = ')';
             input_equation[i+1] = '\0';
             break;
+        }else{
+            input_equation[i] = c;
         }
             
     }

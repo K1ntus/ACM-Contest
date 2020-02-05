@@ -134,7 +134,6 @@ grid InitGrid() {
             AddCell(&G, x, y, type);
         }
     }
-
     return G;
 }
 
@@ -228,10 +227,14 @@ int main (void) {
 
         // PrintGrid(G);
         int res = MoveKnight (&G, black_x, black_y, 0);
-        if(res == -1) printf("Case %d: IMPOSSIBLE", case_number);
-        else printf("Case %d: %d", case_number, res);
-        if(case_number < __nb_case__) printf("\n");
+        if(res == -1) printf("Case %d: IMPOSSIBLE\n", case_number);
+        else printf("Case %d: %d\n", case_number, res);
+        // if(case_number < __nb_case__) printf("\n");
         // FreeGrid(&G);
+        if(case_number >= __nb_case__) {
+            char bullshit_buffer[8];
+            fgets(bullshit_buffer, 8, stdin); //emptyline cleaning
+        }
     }
 
     return EXIT_SUCCESS;
