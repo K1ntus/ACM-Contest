@@ -5,8 +5,8 @@
 #include <iostream>
 // #include <locale>         // std::locale, std::tolower
 
-#define MAX_TEXT_LINES 5000
-#define MAX_LINE_SIZE 200
+#define MAX_TEXT_LINES 5500
+#define MAX_LINE_SIZE 250
 #define MAX_DISTINCTS_WORDS 5000
 #define END_WORD EOF
 #define WORD_SEPARATOR " .:\"\n?!/\\()[];"

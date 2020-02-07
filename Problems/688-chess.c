@@ -121,10 +121,10 @@ grid InitGrid() {
     }
 
 
-    string line;
-    getline(cin, line);
-    stringstream myString(line);
     for(int y = 1; y < G.Y-1; y++){
+        string line;
+        getline(cin, line);
+        stringstream myString(line);
         // for(int y = 1; y < G.Y-1; y++){
         char x1, x2, x3, x4, x5, x6, x7, x8;
 

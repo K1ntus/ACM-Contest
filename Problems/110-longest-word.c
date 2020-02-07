@@ -12,9 +12,15 @@
 
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
+    char* fileBuffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
 
     char *eof_checker;
-    while( eof_checker = fgets(text_buffer, MAX_TEXT_SIZE, stdin) );
+
+    char * separator_list = (char *) malloc(sizeof(char) * (0xFF + 150) );
+    
+    int best_size = -1;
+    char * best_word = (char*) malloc(sizeof(char) * MAX_WORD_SIZE);
+
     char nonAlphachars[0xFF];
     memset(nonAlphachars, 0, 0xFF);
     int i = 0;    
@@ -24,28 +30,37 @@ int main (void) {
             nonAlphachars[i++] = c;
         }
     }
-
-    char * separator_list = (char *) malloc(sizeof(char) * (0xFF + 150) );
     strcpy(separator_list, nonAlphachars);
     strcat(separator_list, SEPARATOR);
-    char * tok = strtok(text_buffer, separator_list);
-    
-    int best_size = -1;
-    char * best_word = (char*) malloc(sizeof(char) * MAX_WORD_SIZE);
-    while (tok != NULL) {
-        
-        if(tok != 0x0 && !strstr(tok, END_WORD)) {
-            int current_size = strlen(tok);
-            if(current_size > best_size) {
-                best_size = current_size;
-                strcpy(best_word, tok);
-                strcat(best_word, "\0");
-                // printf("New best word: %s <- %s.\n", best_word, tok);
+    while(fgets(fileBuffer, MAX_TEXT_SIZE, stdin) ) {
+        // if(isspace(fileBuffer[0])) {
+        //     text_buffer[strcspn(text_buffer, "\n")] = 0;//remove newline
+        //     strcat(text_buffer, &fileBuffer[1]);
+        //     printf("%s", text_buffer);
+        // } else {
+            strcpy(text_buffer, fileBuffer);
+            // printf("%s", text_buffer);
+
+        char * tok = strtok(text_buffer, separator_list);
+        while (tok != NULL) {
+            
+            if(tok != 0x0 && !strstr(tok, END_WORD)) {
+                int current_size = strlen(tok);
+                if(current_size > best_size) {
+                    best_size = current_size;
+                    strcpy(best_word, tok);
+                    strcat(best_word, "\0");
+                    // printf("New best word: %s <- %s.\n", best_word, tok);
+
+                }
             }
+
+            tok = strtok(NULL, separator_list);
         }
 
-        tok = strtok(NULL, separator_list);
+
     }
+
 
     for(int i = 0; i < best_size; i++){
         if(best_word[i]>=65 && best_word[i]<=90)

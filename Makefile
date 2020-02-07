@@ -68,6 +68,9 @@ problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
+	@./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
 	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
 	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
@@ -86,9 +89,6 @@ problems_doing:
 	@echo '* Problem 194 - Eight Queens *'
 	@./194_problem
 	@echo ''
-	@echo '* Problem 222 - Simple Calculation II *'
-	@./222_problem
-	@echo ''
 	@echo '* Problem 190 - Equations *'
 	@./190_problem
 	@echo ''
@@ -100,14 +100,7 @@ problems_doing:
 	@echo ''
 	@echo '* Problem 48 - Party *'
 	@./48_problem
-	@echo ''
-	@echo '* Problem 110 - Longest Word *'
-	@./110_problem
 
-problems_done:
-	@echo ''
-	@echo '* Problem 251 - How Many Islands *'
-	@./251_problem
 
 w1_problem1: Week1/countprime_3.c #$(OBJ) 
 		$(CC) $(CFLAGS) $< -o $@
@@ -160,3 +153,4 @@ clean:
 		rm -rf output
 		rm -f w1_*
 		rm -f *_problem
+		rm -f output.log

@@ -8,11 +8,11 @@
 int main (void){
     int number_of_tests = 0;
     scanf("%d",&number_of_tests);
-    fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
+    fprintf(stdout, "There will be %d Tests Case.\n", number_of_tests);
 
     char * word_to_analyze = (char *) malloc(sizeof(char) * MAX_LENGTH);
     scanf("%s\0", word_to_analyze);
-    fprintf(stderr, "The word: %s will be analyzed.\n", word_to_analyze);
+    fprintf(stdout, "The word: %s will be analyzed.\n", word_to_analyze);
 
     char * best_subsequence = (char*) malloc(sizeof(char) * MAX_LENGTH);
     char * current_subsequence = (char*) malloc(sizeof(char) * MAX_LENGTH);
@@ -28,8 +28,8 @@ int main (void){
     // loop starting from each characters
     // Do not stop at the first misplaced char and just skip it - should be ok
     while(word_to_analyze[i] != '\0' && i < MAX_LENGTH){
-        fprintf(stderr, "Current character: %c - Previous Character: %c.\n", word_to_analyze[i], last_character_read);
-        fprintf(stderr, "current word state: %s\n", current_subsequence);
+        fprintf(stdout, "Current character: %c - Previous Character: %c.\n", word_to_analyze[i], last_character_read);
+        fprintf(stdout, "current word state: %s\n", current_subsequence);
         if(word_to_analyze[i] <= last_character_read){
             // fprintf(stderr, "adding this char to the string.\n");
             current_subsequence[current_length] = word_to_analyze[i];
@@ -48,7 +48,7 @@ int main (void){
         i++;
     }
 
-    fprintf(stderr, "Result String is: %s\n", best_subsequence);
+    fprintf(stdout, "Result String is: %s\n", best_subsequence);
 
     free(best_subsequence);
     free(word_to_analyze);

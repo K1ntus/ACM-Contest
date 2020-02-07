@@ -14,6 +14,7 @@ int main (void){
 
     char *eof_checker;
     int consecutive_case = 0;
+
     while(eof_checker = fgets(tmp_buffer, MAX_CHAR, stdin)) {
         if(!eof_checker) break;
         else if(!strcmp(tmp_buffer, "\n")) continue;
@@ -41,7 +42,14 @@ int main (void){
         // }
         
         // result *= 10000;
-        result = ceil(result *10000) / 10000;
+        // printf("previous result:%Lf\n", result);
+        
+        result = result * 10000.0;
+        // printf("%Lf->", result);
+        result = truncl(result);
+        result = std::ceil(result);
+        // printf("%Lf->", result);
+        result = result / 10000.0;
         // result /= 10000;
         fprintf(stdout, "%.4Lf\n", result);
         result = 0.0;
