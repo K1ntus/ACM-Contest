@@ -6,41 +6,46 @@
 
 #define MAX_CHAR 102
 #define MAX_ELEMS 10
+#define MIN_ELEMS 1
 
 int main (void){
     char tmp_buffer[MAX_CHAR];
-    double result = 0.0;
+    long double result = 0.0;
 
     char *eof_checker;
-    int first_case=0;
+    int consecutive_case = 0;
     while(eof_checker = fgets(tmp_buffer, MAX_CHAR, stdin)) {
         if(!eof_checker) break;
+        else if(!strcmp(tmp_buffer, "\n")) continue;
+        else if(eof_checker[0] == EOF) break;
+        else printf("\n");
 
         char * buffer = (char *) malloc(MAX_CHAR * sizeof(char));
         strcpy(buffer, tmp_buffer);
-        
-        char * tok = strtok(buffer, " ");
-        
-        int j = 0;
-        while (tok != NULL && tok != "\n" && j < MAX_ELEMS) {
-            // printf("%g\n", atof(tok));
-            if(tok != 0x0)
-                // result += atof(tok);
-                 result += strtod(tok, NULL);
-            tok = strtok (NULL, " ");
-            
-            j++;
+
+        for(int j = 0; j < MAX_ELEMS; j++){
+            if(buffer[0] == '\n') break;
+            result += strtold(buffer, &buffer);
         }
         
-        if(!first_case) fprintf(stdout, "\n");
+        // char * tok = strtok(buffer, " ");
+        
+        // int j = 0;
+        // while (tok != NULL && tok != "\n" && j < MAX_ELEMS) {
+        //     if(tok != 0x0)
+        //         result += strtold(tok, NULL);
+        //     tok = strtok (NULL, " ");
+        //     j++;
+        // }
+        
         result *= 10000;
         result = ceil(result);
         result /= 10000;
-        fprintf(stdout, "%.4f\n", result);
+        fprintf(stdout, "%.4Lf\n", result);
         result = 0.0;
 
-        free(tok);
-        free(buffer);
+        // free(tok);
+        // free(buffer);
     }
     
     return EXIT_SUCCESS;

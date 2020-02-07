@@ -7,8 +7,9 @@
 
 #define MAX_TEXT_LINES 5000
 #define MAX_LINE_SIZE 200
+#define MAX_DISTINCTS_WORDS 5000
 #define END_WORD EOF
-#define WORD_SEPARATOR " .:\"\n"
+#define WORD_SEPARATOR " .:\"\n?!/\\()[];"
 
 typedef struct {
     char ** word_list;
@@ -18,7 +19,7 @@ typedef struct {
 dictionnary_struct * InitDictionnary(void) {
     dictionnary_struct * dico = (dictionnary_struct *) malloc(sizeof(dictionnary_struct));
     dico->size_list = 0;
-    dico->word_list = (char **) malloc(sizeof(char *) * MAX_LINE_SIZE * MAX_TEXT_LINES);
+    dico->word_list = (char **) malloc(sizeof(char *) * MAX_DISTINCTS_WORDS);
 
     return dico;
 }
@@ -43,7 +44,7 @@ static int myCompare(const void* a, const void* b)
   
     // setting up rules for comparison 
     return strcmp(*(const char**)a, *(const char**)b); 
-} 
+}
   
 // Function to sort the array 
 void sort(char* arr[], int n) 
@@ -84,16 +85,16 @@ void AddWordToDictionnary(dictionnary_struct * dictionnary, const char * wordToA
         } 
     }
 
-    printf("---> Added Word: %s\n", tmp);
+    // printf("---> Added Word: %s\n", tmp);
     dictionnary->word_list[dictionnary->size_list] = tmp;
     dictionnary->size_list += 1;
 }
 
 void PrintDictionnary(dictionnary_struct dictionnary) {
-    printf("** Printing the Dictionnary.\n");
+    // printf("** Printing the Dictionnary.\n");
     for(int i = 0; i < dictionnary.size_list; i++)
         fprintf(stdout, "%s\n", dictionnary.word_list[i]);
-    printf("** End printing.\n");
+    // printf("** End printing.\n");
 }
 
 int main (void) {
@@ -107,7 +108,7 @@ int main (void) {
         while (tok != NULL) {
             
             if(tok != 0x0 && strcmp(tok, "\n")) {
-                fprintf(stderr, "-> Current word is %s\n", tok);
+                // fprintf(stderr, "-> Current word is %s\n", tok);
                 AddWordToDictionnary(dictionnary, tok);
                 // int current_size = strlen(tok);
                 // if(current_size > 0) {

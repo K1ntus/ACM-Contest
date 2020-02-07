@@ -221,20 +221,20 @@ int main (void) {
     stringstream myString(line);
     int __nb_case__ = -1;
     myString >> __nb_case__;
-    for(int case_number= 1; case_number < __nb_case__+1; case_number++){
+    for(int case_number = 1; case_number < __nb_case__+1; case_number++){
         G = InitGrid();
         // printf("\n\n\n");
 
         // PrintGrid(G);
         int res = MoveKnight (&G, black_x, black_y, 0);
+        if(case_number < __nb_case__ && __nb_case__ > 1) {
+            char bullshit_buffer[8];
+            fgets(bullshit_buffer, 8, stdin); //emptyline cleaning
+        }
         if(res == -1) printf("Case %d: IMPOSSIBLE\n", case_number);
         else printf("Case %d: %d\n", case_number, res);
         // if(case_number < __nb_case__) printf("\n");
         // FreeGrid(&G);
-        if(case_number >= __nb_case__) {
-            char bullshit_buffer[8];
-            fgets(bullshit_buffer, 8, stdin); //emptyline cleaning
-        }
     }
 
     return EXIT_SUCCESS;

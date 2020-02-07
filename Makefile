@@ -45,9 +45,6 @@ all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_pro
 ###################
 problems_current:
 	# @echo ''
-	# @echo '* Problem 222 - Simple Calculation II *'
-	# @./222_problem
-	# @echo ''
 	# @echo '* Problem 693 - Towers Of Hanoi *'
 	# @./693_problem
 	# @echo ''
@@ -57,17 +54,20 @@ problems_current:
 	# @echo '* Problem 110 - Longest Word *'
 	# @./110_problem
 	# @echo ''
-	# @echo '* Problem 688 - Chess *'
-	# @./688_problem
-	# @echo ''
 	# @echo '* Problem 190 - Equations *'
 	# @./190_problem
+	# @echo ''
+	# @echo '* Problem 318 - Obstacle Course *'
+	# @./318_problem
+	# @echo ''
+	# @echo '* Problem 688 - Chess *'
+	# @./688_problem
 	# @echo ''
 	# @echo '* Problem 185 - Dictionnary *'
 	# @./185_problem
 	@echo ''
-	@echo '* Problem 318 - Obstacle Course *'
-	@./318_problem
+	@echo '* Problem 222 - Simple Calculation II *'
+	@./222_problem
 
 problems_doing:
 	@echo ''
