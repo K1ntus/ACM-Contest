@@ -4,11 +4,12 @@
 FILESPARS	= $(wildcard parser/src/*.c)
 FILESSRC	= $(wildcard src/*.c)
 CC			= g++
-CFLAGS		= -static
+CFLAGS		= -static -std=c++0x
 OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
-
+OUTPUT_FILE  = output.log
+CONCAT_LOG  = >> $(OUTPUT_FILE)
 .PHONY: all
 all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
@@ -51,23 +52,34 @@ problems_current:
 	# @echo '* Problem 78 - Largest Subsequence *'
 	# # @./78_problem
 	# @echo ''
-	# @echo '* Problem 110 - Longest Word *'
-	# @./110_problem
-	# @echo ''
 	# @echo '* Problem 190 - Equations *'
 	# @./190_problem
 	# @echo ''
 	# @echo '* Problem 318 - Obstacle Course *'
 	# @./318_problem
-	# @echo ''
-	# @echo '* Problem 688 - Chess *'
-	# @./688_problem
-	# @echo ''
-	# @echo '* Problem 185 - Dictionnary *'
-	# @./185_problem
-	@echo ''
-	@echo '* Problem 222 - Simple Calculation II *'
-	@./222_problem
+	@echo '' > $(OUTPUT_FILE)
+	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 251 - How Many Islands *' $(CONCAT_LOG)
+	@./251_problem < Input/251-how-many-islands.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
+
+
+	@echo '' $(CONCAT_LOG)
+	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
+	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
+	@./222_problem < Input/222-calculation.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo '* Problem 110 - Longest Word *' $(CONCAT_LOG)
+	@./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
+	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
 
 problems_doing:
 	@echo ''

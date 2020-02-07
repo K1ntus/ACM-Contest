@@ -18,7 +18,9 @@ int main (void){
         if(!eof_checker) break;
         else if(!strcmp(tmp_buffer, "\n")) continue;
         else if(eof_checker[0] == EOF) break;
-        else printf("\n");
+        else
+            if(consecutive_case > 0) printf("\n");// && tmp_buffer[0] != EOF) printf("\n");
+            else consecutive_case = 1;
 
         char * buffer = (char *) malloc(MAX_CHAR * sizeof(char));
         strcpy(buffer, tmp_buffer);
@@ -38,9 +40,9 @@ int main (void){
         //     j++;
         // }
         
-        result *= 10000;
-        result = ceil(result);
-        result /= 10000;
+        // result *= 10000;
+        result = ceil(result *10000) / 10000;
+        // result /= 10000;
         fprintf(stdout, "%.4Lf\n", result);
         result = 0.0;
 
