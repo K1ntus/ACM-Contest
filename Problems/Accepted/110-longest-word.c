@@ -10,6 +10,20 @@
 #define END_WORD "E-N-D"
 #define SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n0123456789$£€µ§~ù\%[]|&`\t"
 
+void PrintResult(char * best_word, int best_size) {
+
+    for(int i = 0; i < best_size; i++){
+        if(best_word[i]>=65 && best_word[i]<=90)
+            best_word[i]=best_word[i]+32;
+        // printf("%d: %c\n", i, best_word[i]);
+    }
+
+    std::string res(best_word);
+    std::cout << res << std::endl;
+    // std::cout<<best_word;//<<std::endl;
+    // printf("%s", best_word);
+    // fflush(stdout);
+}
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
     char* fileBuffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
@@ -30,7 +44,7 @@ int main (void) {
             nonAlphachars[i++] = c;
         }
     }
-    strcpy(separator_list, nonAlphachars);
+    // strcpy(separator_list, nonAlphachars);
     strcat(separator_list, SEPARATOR);
     while(fgets(fileBuffer, MAX_TEXT_SIZE, stdin) ) {
         // if(isspace(fileBuffer[0])) {
@@ -44,7 +58,7 @@ int main (void) {
         char * tok = strtok(text_buffer, separator_list);
         while (tok != NULL) {
             
-            if(tok != 0x0 && !strstr(tok, END_WORD)) {
+            if(tok && !strstr(tok, END_WORD)) {
                 int current_size = strlen(tok);
                 if(current_size > best_size) {
                     best_size = current_size;
@@ -53,7 +67,11 @@ int main (void) {
                     // printf("New best word: %s <- %s.\n", best_word, tok);
 
                 }
+            } else {
+                PrintResult(best_word, best_size);
+                return 0;
             }
+            // fprintf(stdout, "Reading Word: [%s]\n", tok);
 
             tok = strtok(NULL, separator_list);
         }
@@ -61,16 +79,6 @@ int main (void) {
 
     }
 
-
-    for(int i = 0; i < best_size; i++){
-        if(best_word[i]>=65 && best_word[i]<=90)
-            best_word[i]=best_word[i]+32;
-        // printf("%d: %c\n", i, best_word[i]);
-    }
-
-    std::string res(best_word);
-    std::cout << res << std::endl;
-    // std::cout<<best_word;//<<std::endl;
-    // printf("%s", best_word);
-    // fflush(stdout);
+    PrintResult(best_word, best_size);
+    return 0;
 }

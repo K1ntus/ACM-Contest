@@ -4,6 +4,8 @@
 #include <iostream>
 #include <bits/stdc++.h> 
 using namespace std;
+
+#define __NO_SOL_FOUND__ 4096
 // Une position entière dans la grille.
 typedef struct {
     int x, y;
@@ -34,6 +36,7 @@ int white_x = 0;
 int white_y = 0;
 int black_x = 0;
 int black_y = 0;
+int __nb_case__ = -1;
 //
 // Alloue une grille aux dimensions x,y ainsi que son image. On force
 // x,y>=3 pour avoir au moins un point qui n'est pas sur le bord.
@@ -181,15 +184,28 @@ bool IsValidPosition(grid * G, position p) {
     int x = p.x;
     int y = p.y;
 
-    if(p.x <= 1 || p.x >= 8) return false;
-    if(p.y <= 1 || p.x >= 8) return false;
+    if(p.x < 1 || p.x > 8) return false;
+    if(p.y < 1 || p.x > 8) return false;
 
     if(G->value[x][y] != V_EMPTY && G->value[x][y] != V_WHITE_KNIGHT) return false;
 
     return true;
 }
 
-int MoveKnight(grid * G, int x, int y, int count) {
+
+grid CreateAndCopyGrid(grid * G){
+    grid res = AllocGrid();
+
+    for(int x = 0; x < G->X; x++){
+        for(int y = 0; y < G->Y; y++) {
+            res.value[x][y] = G->value[x][y];
+        }
+    }
+
+    return res;
+}
+
+int MoveKnight(grid * G, int x, int y, int count, bool workOverGridCopy) {
     position * available_move = GetAvailableMove(G, x, y);
     if(G->value[x][y] == V_WHITE_KNIGHT) {
         return count;
@@ -199,16 +215,20 @@ int MoveKnight(grid * G, int x, int y, int count) {
         G->value[x][y] = V_TESTED;
     }
 
-    int res = 8*8;
+    int res = __NO_SOL_FOUND__;
     for(int i = 0; i < 8; i++) {
         position current_move = available_move[i];
         if(IsValidPosition(G, current_move)) {
-            int tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1);
+            int tmp_value = res;
+            if(workOverGridCopy){
+                grid G_copy = CreateAndCopyGrid(G);
+                tmp_value = MoveKnight(&G_copy, current_move.x, current_move.y, count + 1, false);
+            } else tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1, false);
 
-            if(tmp_value < res && tmp_value >0 ) res = tmp_value;
+            if(tmp_value < res && tmp_value > 0) res = tmp_value;
         }
     }
-    if(res == 8*8)
+    if(res == __NO_SOL_FOUND__)
         return -1;
     return res;
 }
@@ -219,14 +239,13 @@ int main (void) {
     string line;
     getline(cin, line);
     stringstream myString(line);
-    int __nb_case__ = -1;
     myString >> __nb_case__;
     for(int case_number = 0; case_number < __nb_case__; case_number++){
         G = InitGrid();
         // printf("\n\n\n");
 
         // PrintGrid(G);
-        int res = MoveKnight (&G, black_x, black_y, 0);
+        int res = MoveKnight (&G, black_x, black_y, 0, true);
         if(res == -1) printf("Case %d: IMPOSSIBLE\n", case_number+1);
         else printf("Case %d: %d\n", case_number+1, res);
         // if(case_number < __nb_case__) printf("\n");

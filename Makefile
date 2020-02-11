@@ -10,14 +10,13 @@ OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
+
 .PHONY: all
 all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 48_problem: Problems/48-party.c
 		$(CC) $(CFLAGS) $< -o $@
 78_problem: Problems/78-largest-subsequence.c
-		$(CC) $(CFLAGS) $< -o $@
-110_problem: Problems/110-longest-word.c
 		$(CC) $(CFLAGS) $< -o $@
 185_problem: Problems/185-dictionnary.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -41,7 +40,8 @@ all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_pro
 # DONE
 251_problem: Problems/Accepted/251-how-many-islands.c
 		$(CC) $(CFLAGS) $< -o $@
-
+110_problem: Problems/Accepted/110-longest-word.c
+		$(CC) $(CFLAGS) $< -o $@
 
 ###################
 problems_current:
@@ -60,9 +60,12 @@ problems_current:
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 110 - Longest Word *' $(CONCAT_LOG)
+	@./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 251 - How Many Islands *' $(CONCAT_LOG)
 	@./251_problem < Input/251-how-many-islands.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 
 
 	@echo '' $(CONCAT_LOG)
@@ -70,16 +73,13 @@ problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
 	@./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
 	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
 	@./222_problem < Input/222-calculation.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
-	@echo '* Problem 110 - Longest Word *' $(CONCAT_LOG)
-	@./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
 	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
@@ -148,9 +148,9 @@ clean_week1:
 	rm -f w1_*
 
 clean:
-		rm -f build/*.o *~ parser/Lexer.c parser/Lexer.h parser/Parser.c parser/Parser.h equalPath graphParser Z3Example doc.html
-		rm -rf doc
-		rm -rf output
-		rm -f w1_*
-		rm -f *_problem
-		rm -f output.log
+	rm -f build/*.o *~ parser/Lexer.c parser/Lexer.h parser/Parser.c parser/Parser.h equalPath graphParser Z3Example doc.html
+	rm -rf doc
+	rm -rf output
+	rm -f w1_*
+	rm -f *_problem
+	rm -f output.log
