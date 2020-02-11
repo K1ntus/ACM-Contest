@@ -75,7 +75,7 @@ void FreeGrid(grid *G) {
     }
     free(G->value);
 
-    // free(&G);
+    free(G);
 }
 
 void PrintGrid(grid G) {
@@ -198,7 +198,6 @@ grid CreateAndCopyGrid(grid * G){
 
     for(int x = 0; x < G->X; x++){
         for(int y = 0; y < G->Y; y++) {
-            // AddCell(&res, x, y, G->value[x][y]);
             res.value[x][y] = G->value[x][y];
         }
     }
@@ -206,7 +205,7 @@ grid CreateAndCopyGrid(grid * G){
     return res;
 }
 
-int MoveKnight(grid * G, int x, int y, int count) {
+int MoveKnight(grid * G, int x, int y, int count, bool workOverGridCopy) {
     position * available_move = GetAvailableMove(G, x, y);
     if(G->value[x][y] == V_WHITE_KNIGHT) {
         return count;
@@ -220,7 +219,11 @@ int MoveKnight(grid * G, int x, int y, int count) {
     for(int i = 0; i < 8; i++) {
         position current_move = available_move[i];
         if(IsValidPosition(G, current_move)) {
-            int tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1);
+            int tmp_value = res;
+            if(workOverGridCopy){
+                grid G_copy = CreateAndCopyGrid(G);
+                tmp_value = MoveKnight(&G_copy, current_move.x, current_move.y, count + 1, false);
+            } else tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1, false);
             if(tmp_value >= __NO_SOL_FOUND__) continue;
             if(tmp_value < res) res = tmp_value;
         }
@@ -231,44 +234,26 @@ int MoveKnight(grid * G, int x, int y, int count) {
 }
 
 
-void BoardAnalyze_wrapper(grid G, int case_number) {
-    int res = __NO_SOL_FOUND__;
-    position * available_move = GetAvailableMove(&G, black_x, black_y);
-    for(int i = 0; i < 8; i++) {
-        position current_move = available_move[i];
-        if(IsValidPosition(&G, current_move)) {
-            int tmp_value = res;
-            // PrintGrid(G);
-            grid G_copy = CreateAndCopyGrid(&G);
-            // PrintGrid(G_copy);
-            tmp_value = MoveKnight(&G_copy, current_move.x, current_move.y, 1);
-            G_copy.value[current_move.x][current_move.y] = V_TESTED;
-            // PrintGrid(G_copy);
-            if(tmp_value < res) res = tmp_value;
-        }
-    }
-
-    if(res >= __NO_SOL_FOUND__) printf("Case %d: IMPOSSIBLE\n", case_number+1);
-    else printf("Case %d: %d\n", case_number+1, res);    
-}
-
 int main (void) {
+    grid G;
     string line;
     getline(cin, line);
     stringstream myString(line);
     myString >> __nb_case__;
     for(int case_number = 0; case_number < __nb_case__; case_number++){
-        grid G = InitGrid();
+        G = InitGrid();
         // printf("\n\n\n");
 
-        BoardAnalyze_wrapper(G, case_number);
-
+        // PrintGrid(G);
+        int res = MoveKnight (&G, black_x, black_y, 0, true);
+        if(res >= __NO_SOL_FOUND__) printf("Case %d: IMPOSSIBLE\n", case_number+1);
+        else printf("Case %d: %d\n", case_number+1, res);
+        // if(case_number < __nb_case__) printf("\n");
+        // FreeGrid(&G);
         if(case_number < __nb_case__-1 && __nb_case__ > 1) {
             char bullshit_buffer[8];
             fgets(bullshit_buffer, 8, stdin); //emptyline cleaning
-        } 
-
-        // FreeGrid(&G);
+        }  
     }
 
     return EXIT_SUCCESS;
