@@ -80,7 +80,7 @@ static grid AllocGrid() {
 }
 
 void FreeGrid(grid *G) {
-    for(int i = 0; i < G->X; i++){
+    for(int i = 0; i <= __RIGHT_BORDER_ID__; i++){
         // free(G->value[i]);
     }
     free(G->value);
@@ -90,8 +90,8 @@ void FreeGrid(grid *G) {
 
 void PrintGrid(grid G) {
     //Dup2 for stdout <- stdout
-    for(int y = 0; y < G.Y; y++) {
-        for(int x = 0; x < G.X; x++){
+    for(int y = 0; y <= __BOTTOM_BORDER_ID__; y++) {
+        for(int x = 0; x <= __RIGHT_BORDER_ID__; x++){
             if(G.value[x][y] == V_WALL) fprintf(stdout, "x ");
             else if(G.value[x][y] == V_BLACK_KNIGHT) fprintf(stdout, "# ");
             else if(G.value[x][y] == V_WHITE_KNIGHT) fprintf(stdout, "@ ");
@@ -101,7 +101,7 @@ void PrintGrid(grid G) {
         }
         fprintf(stdout, "\n");
     }
-    fprintf(stdout, "* Width: %d\n* Height: %d\n", G.X, G.Y);
+    // fprintf(stdout, "* Width: %d\n* Height: %d\n", G.X, G.Y);
     //dup restore stdout
 }
 
@@ -156,7 +156,7 @@ grid InitGrid() {
         // for(int y = 1; y < G.Y-1; y++){
         char x1, x2, x3, x4, x5, x6, x7, x8;
 
-        for(int x = 1; x < G.X-1; x++){
+        for(int x = 1; x < __RIGHT_BORDER_ID__; x++){
             char type = '?';
             myString >> type;
             AddCell(&G, x, y, type);
@@ -235,20 +235,31 @@ grid CreateAndCopyGrid(grid G){
     return res;
 }
 
+grid ClearTestedGrid(grid * G){
+    grid res = AllocGrid();
+
+    for(int x = 1; x < __RIGHT_BORDER_ID__; x++){
+        for(int y = 1; y < __BOTTOM_BORDER_ID__; y++) {
+            if(G->value[x][y] == V_TESTED) G->value[x][y] == V_EMPTY;
+            // AddCell(&res, x, y, IntegerToChar(G.value[x][y]));
+        }
+    }
+
+    return res;
+}
+
 int MoveKnight(grid * G, position current_pos, int count) {
-    if(! IsValidPosition(G, current_pos)){// || G->value[current_pos.x][current_pos.y] == V_OCCUPIED){
+    if(! IsValidPosition(G, current_pos)){
         return __NO_SOL_FOUND__;
     } else if(G->value[current_pos.x][current_pos.y] == V_WHITE_KNIGHT) {
-        // G->value[current_pos.x][current_pos.y] = V_EMPTY;
-        // fprintf(stdout, "Solution found: %d moves required.\n", count);
+    // fprintf(stdout, "Find following board. Size = %d\n", count);
+    // PrintGrid(*G);
+        ClearTestedGrid(G);
         return count;
     }
-    // fprintf(stdout, "Find following board:\n");
-    // PrintGrid(*G);
 
     position * available_move = GetAvailableMove(G, current_pos.x, current_pos.y);
     G->value[current_pos.x][current_pos.y] = V_TESTED;
-    // if(count < __NO_SOL_FOUND__)     G->value[current_pos.x][current_pos.y] = V_EMPTY;
 
     int res = __NO_SOL_FOUND__;
     for(int i = 0; i < __MAX_NB_MOVE__; i++) {
@@ -259,12 +270,15 @@ int MoveKnight(grid * G, position current_pos, int count) {
         if(tmp_value >= __NO_SOL_FOUND__) {
             continue;
         } else if(tmp_value < res){
+            // G->value[current_pos.x][current_pos.y] = V_EMPTY;
             res = tmp_value; 
         } 
     }
 
-    if(res != __NO_SOL_FOUND__){    //If path leads to at least one solution
+    if(res != __NO_SOL_FOUND__) {    //If path leads to at least one solution we clear the path for later
         G->value[current_pos.x][current_pos.y] = V_EMPTY;
+    } else {
+        ClearTestedGrid(G);
     }
 
     return res;
@@ -274,6 +288,7 @@ int MoveKnight(grid * G, position current_pos, int count) {
 void ChessBoardAnalyze_wrapper(grid G, int case_number) {
     int res = __NO_SOL_FOUND__;
     position * available_move = GetAvailableMove(&G, black_x, black_y);
+
     for(int i = 0; i < __MAX_NB_MOVE__; i++) {
 
         position current_move = available_move[i];
@@ -290,8 +305,8 @@ void ChessBoardAnalyze_wrapper(grid G, int case_number) {
 
     }
 
-    if(res >= __NO_SOL_FOUND__) fprintf(stdout, "Case %d: IMPOSSIBLE\n", case_number+1);
-    else fprintf(stdout, "Case %d: %d\n", case_number + 1, res);    
+    if(res >= __NO_SOL_FOUND__) fprintf(stdout, "Case %d: IMPOSSIBLE", case_number + 1);
+    else fprintf(stdout, "Case %d: %d", case_number + 1, res);    
 }
 
 int main (void) {
@@ -305,13 +320,15 @@ int main (void) {
 
         ChessBoardAnalyze_wrapper(G, case_number);
 
-        if(case_number < __nb_case__-1 && __nb_case__ > 1) {    //More than 1 case and not the first case
+        if(case_number < __nb_case__ - 1 && __nb_case__ > 1) {    //More than 1 case and not the last case
             char bullshit_buffer[8];
             fgets(bullshit_buffer, 8, stdin); //emptyline cleaning
+            fprintf(stdout, bullshit_buffer);
         } 
 
         FreeGrid(&G);
     }
+    fprintf(stdout, "\n");
 
     return EXIT_SUCCESS;
 }
