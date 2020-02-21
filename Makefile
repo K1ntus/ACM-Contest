@@ -45,18 +45,6 @@ all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_pro
 
 ###################
 problems_current:
-	# @echo ''
-	# @echo '* Problem 693 - Towers Of Hanoi *'
-	# @./693_problem
-	# @echo ''
-	# @echo '* Problem 78 - Largest Subsequence *'
-	# # @./78_problem
-	# @echo ''
-	# @echo '* Problem 190 - Equations *'
-	# @./190_problem
-	# @echo ''
-	# @echo '* Problem 318 - Obstacle Course *'
-	# @./318_problem
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -82,9 +70,24 @@ problems_current:
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
 	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 48 - Party *' $(CONCAT_LOG)
+	@./48_problem < Input/48-party.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
 problems_doing:
+	# @echo ''
+	# @echo '* Problem 693 - Towers Of Hanoi *'
+	# @./693_problem
+	# @echo ''
+	# @echo '* Problem 78 - Largest Subsequence *'
+	# # @./78_problem
+	# @echo ''
+	# @echo '* Problem 190 - Equations *'
+	# @./190_problem
+	# @echo ''
+	# @echo '* Problem 318 - Obstacle Course *'
+	# @./318_problem
 	@echo ''
 	@echo '* Problem 194 - Eight Queens *'
 	@./194_problem

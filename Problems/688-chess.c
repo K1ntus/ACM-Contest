@@ -6,6 +6,13 @@
 using namespace std;
 
 #define __NO_SOL_FOUND__ 4096
+
+#define __TOP_BORDER_ID__ 0
+#define __BOTTOM_BORDER_ID__ 9
+#define __LEFT_BORDER_ID__ 0
+#define __RIGHT_BORDER_ID__ 9
+#define __MAX_NB_MOVE__ 8
+
 // Une position entière dans la grille.
 typedef struct {
     int x, y;
@@ -15,6 +22,7 @@ typedef struct {
 typedef struct {
     int X, Y;       // dimensions: X et Y
     int **value;    // valuation des cases: value[i][j], 0<=i<X, 0<=j<Y
+    //Save position black and white knight here
 } grid;
 
 // Valeurs possibles des cases d'une grille pour les champs .value et
@@ -31,6 +39,12 @@ enum {
     V_TESTED
 };
 
+#define __CHAR_WHITE_KNIGHT__ '@'
+#define __CHAR_BLACK_KNIGHT__ '#'
+#define __CHAR_WALL__ 'x'
+#define __CHAR_EMPTY__ '-'
+#define __CHAR_OCCUPIED__ '*'
+
 void AddCell(grid * G, int x, int y, char type);
 int white_x = 0;
 int white_y = 0;
@@ -45,10 +59,6 @@ static grid AllocGrid() {
     int x = 10;
     int y = 10;
     grid G;
-    //   if (x < 1)
-    //     x = 1;
-    //   if (y < 1)
-    //     y = 1;
 
     G.X = x;
     G.Y = y;
@@ -58,7 +68,7 @@ static grid AllocGrid() {
         G.value[i] = (int*) malloc(y * sizeof(*(G.value[i])));
 
         if(G.value[i] == 0x0) {
-            fprintf(stderr, "Unable to alloc memory.\n");
+            fprintf(stdout, "Unable to alloc memory.\n");
             exit(EXIT_FAILURE);
         }
         for (int j = 0; j < y; j++) {
@@ -71,41 +81,56 @@ static grid AllocGrid() {
 
 void FreeGrid(grid *G) {
     for(int i = 0; i < G->X; i++){
-        free(G->value[i]);
+        // free(G->value[i]);
     }
     free(G->value);
 
-    // free(&G);
+    // free(G);
 }
 
 void PrintGrid(grid G) {
+    //Dup2 for stdout <- stdout
     for(int y = 0; y < G.Y; y++) {
         for(int x = 0; x < G.X; x++){
-            if(G.value[x][y] == 4) printf("x ");
-            else if(G.value[x][y] == 3) printf("# ");
-            else if(G.value[x][y] == 2) printf("@ ");
-            else if(G.value[x][y] == 1) printf("* ");
-            else if(G.value[x][y] == 0) printf("- ");
-            else printf("%d ", G.value[x][y]);
+            if(G.value[x][y] == V_WALL) fprintf(stdout, "x ");
+            else if(G.value[x][y] == V_BLACK_KNIGHT) fprintf(stdout, "# ");
+            else if(G.value[x][y] == V_WHITE_KNIGHT) fprintf(stdout, "@ ");
+            else if(G.value[x][y] == V_OCCUPIED) fprintf(stdout, "* ");
+            else if(G.value[x][y] == V_EMPTY) fprintf(stdout, "- ");
+            else fprintf(stdout, "%d ", G.value[x][y]);
         }
-        printf("\n");
+        fprintf(stdout, "\n");
     }
-    printf("* Width: %d\n* Height: %d\n", G.X, G.Y);
+    fprintf(stdout, "* Width: %d\n* Height: %d\n", G.X, G.Y);
+    //dup restore stdout
+}
+
+char IntegerToChar(int type) {
+    switch(type){
+        case V_BLACK_KNIGHT:
+            return __CHAR_BLACK_KNIGHT__;
+        case V_WHITE_KNIGHT:
+            return __CHAR_WHITE_KNIGHT__;
+        case V_OCCUPIED:
+            return __CHAR_OCCUPIED__;
+        default:
+            return __CHAR_EMPTY__;
+    }
 }
 
 void AddCell(grid * G, int x, int y, char type) {
     switch (type) {
-        case '#':
+        case __CHAR_BLACK_KNIGHT__:
             G->value[x][y] = V_BLACK_KNIGHT;
             black_x = x;
             black_y = y;
         break;
-        case '@':
+        case __CHAR_WHITE_KNIGHT__:
             G->value[x][y] = V_WHITE_KNIGHT;
             white_x = x;
             white_y = y;
         break;
-        case '*':
+        case __CHAR_OCCUPIED__:
             G->value[x][y] = V_OCCUPIED;
         break;
         default: 
@@ -117,14 +142,14 @@ void AddCell(grid * G, int x, int y, char type) {
 grid InitGrid() {
     grid G = AllocGrid();
 
-    for(int y = 1; y < G.Y-1; y++){
-        for(int x = 1; x < G.X-1; x++){
+    for(int y = 1; y < __BOTTOM_BORDER_ID__; y++){
+        for(int x = 1; x < __RIGHT_BORDER_ID__; x++){
             G.value[x][y]= V_EMPTY;
         }
     }
 
 
-    for(int y = 1; y < G.Y-1; y++){
+    for(int y = 1; y < __BOTTOM_BORDER_ID__; y++){
         string line;
         getline(cin, line);
         stringstream myString(line);
@@ -140,20 +165,22 @@ grid InitGrid() {
     return G;
 }
 
+
+//Use a stack implementation
 position* GetAvailableMove(grid * G, int x, int y) {
-    position *possible_move = (position *) malloc(sizeof(position) * 8);
+    position *possible_move = (position *) malloc(sizeof(position) * __MAX_NB_MOVE__);
 
     // Case 1
-    possible_move[0].x = x+1;
-    possible_move[0].y = y+2;
+    possible_move[5].x = x+1;
+    possible_move[5].y = y+2;
 
     // Case 1
-    possible_move[1].x = x+1;
-    possible_move[1].y = y-2;
+    possible_move[6].x = x+1;
+    possible_move[6].y = y-2;
 
     // Case 1
-    possible_move[2].x = x+2;
-    possible_move[2].y = y+1;
+    possible_move[7].x = x+2;
+    possible_move[7].y = y+1;
 
     // Case 1
     possible_move[3].x = x+2;
@@ -165,16 +192,16 @@ position* GetAvailableMove(grid * G, int x, int y) {
     possible_move[4].y = y-2;
 
     // Case 1
-    possible_move[5].x = x-1;
-    possible_move[5].y = y+2;
+    possible_move[0].x = x-1;
+    possible_move[0].y = y+2;
 
     // Case 1
-    possible_move[6].x = x-2;
-    possible_move[6].y = y-1;
+    possible_move[1].x = x-2;
+    possible_move[1].y = y-1;
 
     // Case 1
-    possible_move[7].x = x-2;
-    possible_move[7].y = y+1;
+    possible_move[2].x = x-2;
+    possible_move[2].y = y+1;
 
 
     return possible_move;
@@ -184,72 +211,87 @@ bool IsValidPosition(grid * G, position p) {
     int x = p.x;
     int y = p.y;
 
-    if(p.x < 1 || p.x > 8) return false;
-    if(p.y < 1 || p.x > 8) return false;
+    if(x < __LEFT_BORDER_ID__ || x > __RIGHT_BORDER_ID__ ) return false;
+    if(y < __TOP_BORDER_ID__  || y > __BOTTOM_BORDER_ID__) return false;
 
-    if(G->value[x][y] != V_EMPTY && G->value[x][y] != V_WHITE_KNIGHT) return false;
+    if( G->value[x][y] == V_WALL 
+        || G->value[x][y] == V_OCCUPIED 
+        || G->value[x][y] == V_TESTED) 
+            return false;
 
     return true;
 }
 
 
-grid CreateAndCopyGrid(grid * G){
+grid CreateAndCopyGrid(grid G){
     grid res = AllocGrid();
 
-    for(int x = 0; x < G->X; x++){
-        for(int y = 0; y < G->Y; y++) {
-            // AddCell(&res, x, y, G->value[x][y]);
-            res.value[x][y] = G->value[x][y];
+    for(int x = 1; x < __RIGHT_BORDER_ID__; x++){
+        for(int y = 1; y < __BOTTOM_BORDER_ID__; y++) {
+            AddCell(&res, x, y, IntegerToChar(G.value[x][y]));
         }
     }
 
     return res;
 }
 
-int MoveKnight(grid * G, int x, int y, int count) {
-    position * available_move = GetAvailableMove(G, x, y);
-    if(G->value[x][y] == V_WHITE_KNIGHT) {
-        return count;
-    } else if(G->value[x][y] == V_TESTED) {
+int MoveKnight(grid * G, position current_pos, int count) {
+    if(! IsValidPosition(G, current_pos)){// || G->value[current_pos.x][current_pos.y] == V_OCCUPIED){
         return __NO_SOL_FOUND__;
-    } else {
-        G->value[x][y] = V_TESTED;
+    } else if(G->value[current_pos.x][current_pos.y] == V_WHITE_KNIGHT) {
+        // G->value[current_pos.x][current_pos.y] = V_EMPTY;
+        return count;
     }
+        // fprintf(stdout, "Find following board:\n");
+        // PrintGrid(*G);
+
+    position * available_move = GetAvailableMove(G, current_pos.x, current_pos.y);
+    G->value[current_pos.x][current_pos.y] = V_TESTED;
+    // if(count < __NO_SOL_FOUND__)     G->value[current_pos.x][current_pos.y] = V_EMPTY;
 
     int res = __NO_SOL_FOUND__;
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < __MAX_NB_MOVE__; i++) {
         position current_move = available_move[i];
-        if(IsValidPosition(G, current_move)) {
-            int tmp_value = MoveKnight(G, current_move.x, current_move.y, count + 1);
-            if(tmp_value >= __NO_SOL_FOUND__) continue;
-            if(tmp_value < res) res = tmp_value;
-        }
+
+        int tmp_value = MoveKnight(G, current_move, count + 1);
+        
+        if(tmp_value >= __NO_SOL_FOUND__) {
+            // G->value[current_pos.x][current_pos.y] = V_EMPTY;
+            continue;
+        } else if(tmp_value < res){
+            res = tmp_value; 
+        } 
     }
-    if(res == __NO_SOL_FOUND__)
-        return __NO_SOL_FOUND__;
+    
+    if(res != __NO_SOL_FOUND__){
+        G->value[current_pos.x][current_pos.y] = V_EMPTY;
+    }
+
     return res;
 }
 
 
-void BoardAnalyze_wrapper(grid G, int case_number) {
+void ChessBoardAnalyze_wrapper(grid G, int case_number) {
     int res = __NO_SOL_FOUND__;
     position * available_move = GetAvailableMove(&G, black_x, black_y);
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < __MAX_NB_MOVE__; i++) {
+
         position current_move = available_move[i];
         if(IsValidPosition(&G, current_move)) {
             int tmp_value = res;
-            // PrintGrid(G);
-            grid G_copy = CreateAndCopyGrid(&G);
-            // PrintGrid(G_copy);
-            tmp_value = MoveKnight(&G_copy, current_move.x, current_move.y, 1);
-            G_copy.value[current_move.x][current_move.y] = V_TESTED;
-            // PrintGrid(G_copy);
+
+            grid G_copy = CreateAndCopyGrid(G);
+            G.value[current_move.x][current_move.y] = V_TESTED;
+            tmp_value = MoveKnight(&G_copy, current_move, 1);
+
             if(tmp_value < res) res = tmp_value;
+            FreeGrid(&G_copy);
         }
+
     }
 
-    if(res >= __NO_SOL_FOUND__) printf("Case %d: IMPOSSIBLE\n", case_number+1);
-    else printf("Case %d: %d\n", case_number+1, res);    
+    if(res >= __NO_SOL_FOUND__) fprintf(stdout, "Case %d: IMPOSSIBLE\n", case_number+1);
+    else fprintf(stdout, "Case %d: %d\n", case_number + 1, res);    
 }
 
 int main (void) {
@@ -257,18 +299,18 @@ int main (void) {
     getline(cin, line);
     stringstream myString(line);
     myString >> __nb_case__;
+
     for(int case_number = 0; case_number < __nb_case__; case_number++){
         grid G = InitGrid();
-        // printf("\n\n\n");
 
-        BoardAnalyze_wrapper(G, case_number);
+        ChessBoardAnalyze_wrapper(G, case_number);
 
-        if(case_number < __nb_case__-1 && __nb_case__ > 1) {
+        if(case_number < __nb_case__-1 && __nb_case__ > 1) {    //More than 1 case and not the first case
             char bullshit_buffer[8];
             fgets(bullshit_buffer, 8, stdin); //emptyline cleaning
         } 
 
-        // FreeGrid(&G);
+        FreeGrid(&G);
     }
 
     return EXIT_SUCCESS;

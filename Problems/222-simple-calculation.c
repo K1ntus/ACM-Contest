@@ -11,13 +11,13 @@
 
 using namespace std;
 
-#define MAX_CHAR 102
+#define MAX_CHAR 100
 #define MAX_ELEMS 10
 #define MIN_ELEMS 1
 
 #define __PRECISION__ 0.00001
 bool fgreater(long double a, long double b) {
-    return (fabs(a)-fabs(b)) > __PRECISION__;
+    return fabs(fabs(a)-fabs(b)) > __PRECISION__;
 }
 
 
@@ -41,12 +41,13 @@ int main (void){
 
         for(int j = 0; j < MAX_ELEMS; j++){
             if(buffer[0] == '\n') break;
-            result += strtold(buffer, &buffer);
+            // result += strtold(buffer, &buffer);
+            result += strtod(buffer, &buffer);
             // printf("Value is : %Lf\n", result);
         }
         long double saving_result = result * 10000.0;
         saving_result = floor(saving_result);
-        saving_result = truncl(saving_result);
+        saving_result = trunc(saving_result);
         long double tmp_result = result * 10000.0;
         if (fgreater(tmp_result, saving_result)){
             // printf("Result is: %Lf, other one is: %Lf\n", tmp_result, saving_result);
