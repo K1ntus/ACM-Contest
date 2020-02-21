@@ -240,10 +240,11 @@ int MoveKnight(grid * G, position current_pos, int count) {
         return __NO_SOL_FOUND__;
     } else if(G->value[current_pos.x][current_pos.y] == V_WHITE_KNIGHT) {
         // G->value[current_pos.x][current_pos.y] = V_EMPTY;
+        // fprintf(stdout, "Solution found: %d moves required.\n", count);
         return count;
     }
-        // fprintf(stdout, "Find following board:\n");
-        // PrintGrid(*G);
+    // fprintf(stdout, "Find following board:\n");
+    // PrintGrid(*G);
 
     position * available_move = GetAvailableMove(G, current_pos.x, current_pos.y);
     G->value[current_pos.x][current_pos.y] = V_TESTED;
@@ -256,14 +257,13 @@ int MoveKnight(grid * G, position current_pos, int count) {
         int tmp_value = MoveKnight(G, current_move, count + 1);
         
         if(tmp_value >= __NO_SOL_FOUND__) {
-            // G->value[current_pos.x][current_pos.y] = V_EMPTY;
             continue;
         } else if(tmp_value < res){
             res = tmp_value; 
         } 
     }
-    
-    if(res != __NO_SOL_FOUND__){
+
+    if(res != __NO_SOL_FOUND__){    //If path leads to at least one solution
         G->value[current_pos.x][current_pos.y] = V_EMPTY;
     }
 
