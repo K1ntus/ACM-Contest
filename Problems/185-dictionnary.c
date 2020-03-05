@@ -107,16 +107,8 @@ int main (void) {
         char * tok = strtok(text_buffer, WORD_SEPARATOR);
         while (tok != NULL) {
             
-            if(tok != 0x0 && strcmp(tok, "\n")) {
-                // fprintf(stderr, "-> Current word is %s\n", tok);
+            if(tok != 0x0) {
                 AddWordToDictionnary(dictionnary, tok);
-                // int current_size = strlen(tok);
-                // if(current_size > 0) {
-                //     // best_size = current_size;
-                //     // strcpy(best_word, tok);
-                //     // strcat(best_word, "\0");
-                //     // printf("New best word: %s <- %s.\n", best_word, tok);
-                // }
             }
 
             tok = strtok(NULL, WORD_SEPARATOR);

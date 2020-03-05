@@ -21,6 +21,20 @@ bool fgreater(long double a, long double b) {
 }
 
 
+long double RoundsValue(long double result){
+    long double saving_result = result * 10000.0;
+    saving_result = floor(saving_result);
+    saving_result = trunc(saving_result);
+    long double tmp_result = result * 10000.0;
+    if (fgreater(tmp_result, saving_result)){
+        // printf("Result is: %Lf, other one is: %Lf\n", tmp_result, saving_result);
+        saving_result += 1;
+    } 
+    result = saving_result / 10000.0; 
+
+    return result;
+}
+
 int main (void){
     char tmp_buffer[MAX_CHAR];
     long double result = 0.0;
@@ -45,17 +59,9 @@ int main (void){
             result += strtod(buffer, &buffer);
             // printf("Value is : %Lf\n", result);
         }
-        long double saving_result = result * 10000.0;
-        saving_result = floor(saving_result);
-        saving_result = trunc(saving_result);
-        long double tmp_result = result * 10000.0;
-        if (fgreater(tmp_result, saving_result)){
-            // printf("Result is: %Lf, other one is: %Lf\n", tmp_result, saving_result);
-            saving_result += 1;
-        } 
-        result = saving_result / 10000.0; 
+
             // printf("Final Value is : %.4Lf\n", result);
-        fprintf(stdout, "%.4Lf\n", result);// (long double) ((long int) floorl( 10000*(result))) / 10000);
+        fprintf(stdout, "%.4Lf\n", RoundsValue(result));// (long double) ((long int) floorl( 10000*(result))) / 10000);
 
         result = 0.0;
 

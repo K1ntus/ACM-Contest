@@ -98,8 +98,37 @@ void addNode(struct Graph * G){
 
 }
 
-void removeNode(struct Graph * G) {
-    
+
+void removeEdge(struct Graph * graph, int node_to_remove) {
+	for(int i = 0; i < graph->V; i++){
+		struct AdjList node_array = graph->array[i];
+
+		if(&node_array == 0x0) continue;
+		struct AdjListNode * prev_node = node_array.head;
+		// printf("Analyzing node %d\n", i);
+
+		if(prev_node != 0x0) {
+			if(prev_node->dest == node_to_remove) {
+				graph->array[i].head = prev_node->next;
+				prev_node = prev_node->next;
+			}
+		}
+
+		while(prev_node != 0x0) {
+			struct AdjListNode * current_node = prev_node->next;
+			if(current_node == 0x0) break;
+
+			if(current_node->dest == node_to_remove) {
+				prev_node->next = current_node->next;
+				// printf("Removed a node.\n");
+			}
+
+			prev_node = prev_node->next;
+		}
+	}
+
+
+	graph->array[node_to_remove].head->next = 0x0;
 }
 
 
@@ -121,9 +150,7 @@ void addEdge(struct Graph* graph, int src, int dest)
     graph->array[dest].head = newNode; 
 } 
 
-void removeEdge(struct Graph * graph, struct AdjListNode* node){
 
-}
 // A utility function to print the adjacency list  
 // representation of graph 
 void printGraph(struct Graph* graph) 
@@ -177,6 +204,7 @@ int main(void) {
 
             if(node_size == -1){    //Unlinked node
                 graph->array[i].head = NULL;
+                // removeEdge(graph, i);
             }else if(node_size < min){
                 min = node_size;
             }
@@ -187,6 +215,7 @@ int main(void) {
             if(node_size <= min && graph->array[i].head != NULL){
                 graph->array[i].head = NULL;
                 graph->V -=1;
+                // removeEdge(graph, i);
                 // j -=1;
                 // printf("Removed a node.\n");
             }

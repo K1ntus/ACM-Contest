@@ -74,6 +74,10 @@ problems_current:
 	@echo '* Problem 48 - Party *' $(CONCAT_LOG)
 	@./48_problem < Input/48-party.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 194 - Eight Queens *' $(CONCAT_LOG)
+	@./194_problem < Input/194-8queens.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
 
 problems_doing:
 	# @echo ''

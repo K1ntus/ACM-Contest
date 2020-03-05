@@ -15,15 +15,13 @@ void PrintResult(char * best_word, int best_size) {
     for(int i = 0; i < best_size; i++){
         if(best_word[i]>=65 && best_word[i]<=90)
             best_word[i]=best_word[i]+32;
-        // printf("%d: %c\n", i, best_word[i]);
     }
 
     std::string res(best_word);
     std::cout << res << std::endl;
-    // std::cout<<best_word;//<<std::endl;
-    // printf("%s", best_word);
-    // fflush(stdout);
 }
+
+
 int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
     char* fileBuffer = (char*) malloc(sizeof(char) * MAX_TEXT_SIZE);
@@ -35,25 +33,21 @@ int main (void) {
     int best_size = -1;
     char * best_word = (char*) malloc(sizeof(char) * MAX_WORD_SIZE);
 
-    char nonAlphachars[0xFF];
-    memset(nonAlphachars, 0, 0xFF);
-    int i = 0;    
-    int c = 1;
-    for(; c <= 0xFF; c++) {
-        if(!isalpha(c)) {
-            nonAlphachars[i++] = c;
-        }
-    }
+    // char nonAlphachars[0xFF];
+    // memset(nonAlphachars, 0, 0xFF);
+    // int i = 0;    
+    // int c = 1;
+    // for(; c <= 0xFF; c++) {
+    //     if(!isalpha(c)) {
+    //         nonAlphachars[i++] = c;
+    //     }
+    // }
     // strcpy(separator_list, nonAlphachars);
+
+
     strcat(separator_list, SEPARATOR);
     while(fgets(fileBuffer, MAX_TEXT_SIZE, stdin) ) {
-        // if(isspace(fileBuffer[0])) {
-        //     text_buffer[strcspn(text_buffer, "\n")] = 0;//remove newline
-        //     strcat(text_buffer, &fileBuffer[1]);
-        //     printf("%s", text_buffer);
-        // } else {
-            strcpy(text_buffer, fileBuffer);
-            // printf("%s", text_buffer);
+        strcpy(text_buffer, fileBuffer);
 
         char * tok = strtok(text_buffer, separator_list);
         while (tok != NULL) {
@@ -64,14 +58,12 @@ int main (void) {
                     best_size = current_size;
                     strcpy(best_word, tok);
                     strcat(best_word, "\0");
-                    // printf("New best word: %s <- %s.\n", best_word, tok);
 
                 }
             } else {
                 PrintResult(best_word, best_size);
                 return 0;
             }
-            // fprintf(stdout, "Reading Word: [%s]\n", tok);
 
             tok = strtok(NULL, separator_list);
         }
@@ -80,5 +72,11 @@ int main (void) {
     }
 
     PrintResult(best_word, best_size);
+
+    free(text_buffer);
+    free(fileBuffer);
+    free(eof_checker);
+    free(separator_list);
+    free(best_word);
     return 0;
 }

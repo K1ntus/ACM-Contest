@@ -35,10 +35,6 @@ enum {
 //
 static grid AllocGrid(int x, int y) {
     grid G;
-    //   if (x < 1)
-    //     x = 1;
-    //   if (y < 1)
-    //     y = 1;
 
     G.X = x;
     G.Y = y;
