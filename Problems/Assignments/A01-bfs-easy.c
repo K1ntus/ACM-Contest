@@ -31,6 +31,19 @@ struct Graph {
 	int V; 
 	struct AdjList* array; 
 }; 
+// A structure to represent a node in adjacency list 
+struct AdjListNode { 
+	int dest; 
+	int weight; 
+	bool visited;
+	struct AdjListNode* next; 
+}; 
+
+// A structure to represent an adjacency list 
+struct AdjList { 
+	struct AdjListNode *head;
+}; 
+
 
 struct Graph* createGraph(int V);
 void addEdge(struct Graph* graph, int src, int dest, int weight);
@@ -39,37 +52,69 @@ void removeEdge(struct Graph * graph, int node);
 int * ShortestPathFromSrcToAll(struct Graph * graph, int src);
 int * Dijkstra(struct Graph* graph, int src);
 int * BellmanFord(struct Graph* graph, int src);
+void bfs(struct Graph* graph, int startVertex, int vertex_to_stop);
 
 void printGraph(struct Graph * graph);
 
 // Source: https://www.geeksforgeeks.org/dijkstras-algorithm-for-adjacency-list-representation-greedy-algo-8/
 
 
+int NbRoadDestoyable(struct Graph * graph) {
+	int sum = 0;
+	int i = 0;
+	for(; i < graph->V; i++){
+		if(graph->array[i].head->visited)
+			sum += 1;
+	}
+
+	return sum;
+}
 int main() { 
-	struct Graph* graph = createGraph(__GRAPH_SIZE__); 
-	addEdge(graph, 0, 1, 4); 
-	addEdge(graph, 0, 7, 8); 
-	addEdge(graph, 1, 2, -8); 
-	addEdge(graph, 1, 7, 11); 
-	addEdge(graph, 2, 3, -7); 
-	addEdge(graph, 2, 8, 2); 
-	addEdge(graph, 2, 5, 4); 
-	addEdge(graph, 3, 4, 9); 
-	addEdge(graph, 3, 5, 14); 
-	addEdge(graph, 4, 5, 10); 
-	addEdge(graph, 5, 6, 2); 
-	addEdge(graph, 6, 7, 1); 
-	addEdge(graph, 6, 8, 6); 
-	addEdge(graph, 7, 8, 7); 
+	int nb_cases = 0;
+	scanf("%d", &nb_cases);
 
-	// printGraph(graph);
-	// fprintf(stdout, "*********\n");
-	// removeEdge(graph, 6);
-	// removeEdge(graph, 3);
+	fprintf(stderr, "There is %d cases.\n", nb_cases);
 
-	// dijkstra(graph, 0); 
-	// printGraph(graph);
-	ShortestPathFromSrcToAll(graph, 0);
+	for(int i = 0; i < nb_cases; i++) {
+		int nb_cities = 0;
+		int nb_edges = 0;
+
+		scanf("%d", &nb_cities);
+
+		scanf("%d", &nb_edges);
+		fprintf(stderr, "Init graph with %d nodes and %d edges\n", nb_cities, nb_edges);
+		struct Graph* graph = createGraph(nb_cities); 
+
+		for(int current_edge = 0; current_edge < nb_edges; current_edge++) {
+			int src = 0;
+			int dst = 0;
+
+			scanf("%d", &src);
+			scanf("%d", &dst);
+
+			addEdge(graph, src-1, dst-1, 1);
+		}
+
+		int SourceCity, TargetCity, MaxTroups;
+
+		scanf("%d", &SourceCity);
+		scanf("%d", &TargetCity);
+		scanf("%d", &MaxTroups);
+
+		fprintf(stderr, "S=%d, T=%d, L=%d\n", SourceCity, TargetCity, MaxTroups);
+
+		bfs(graph, SourceCity-1, TargetCity-1);
+		fprintf(stderr, "%d roads can be destroyed.\n", NbRoadDestoyable(graph));
+	}
+
+
+	// struct Graph* graph = createGraph(__GRAPH_SIZE__); 
+	// // printGraph(graph);
+	// // fprintf(stdout, "*********\n");
+	// // removeEdge(graph, 6);
+	// // removeEdge(graph, 3);
+
+	// ShortestPathFromSrcToAll(graph, 0);
 
 	return 0; 
 } 
@@ -93,6 +138,125 @@ int * ShortestPathFromSrcToAll(struct Graph * graph, int src) {
 
 
 
+
+// A linked list (LL) node to store a queue entry 
+struct QNode { 
+    int key; 
+    struct QNode* next; 
+}; 
+  
+// The queue, front stores the front node of LL and tail stores the 
+// last node of LL 
+struct Queue { 
+    struct QNode *front, *tail; 
+	int size;
+}; 
+  
+// A utility function to create a new linked list node. 
+struct QNode* newNode(int k) 
+{ 
+    struct QNode* temp = (struct QNode*)malloc(sizeof(struct QNode)); 
+    temp->key = k; 
+    temp->next = NULL; 
+    return temp; 
+} 
+  
+// A utility function to create an empty queue 
+struct Queue* createQueue() 
+{ 
+    struct Queue* q = (struct Queue*)malloc(sizeof(struct Queue)); 
+    q->front = q->tail = NULL; 
+	q->size = 0;
+    return q; 
+} 
+  
+// The function to add a key k to q 
+void enQueue(struct Queue* q, int k) 
+{ 
+    // Create a new LL node 
+    struct QNode* temp = newNode(k); 
+  
+    // If queue is empty, then new node is front and tail both 
+    if (q->tail == NULL) { 
+        q->tail = temp; 
+		q->front = temp;
+		q->size = 1;
+        return; 
+    } 
+  
+	q->size +=1;
+    // Add the new node at the end of queue and change tail 
+    q->tail->next = temp; 
+    q->tail = temp; 
+} 
+  
+// Function to remove a key from given queue q 
+int deQueue(struct Queue* q) 
+{ 
+    // If queue is empty, return NULL. 
+    if (q->front == NULL) 
+        return -1; 
+  
+    // Store previous front and move front one node ahead 
+    struct QNode* temp = q->front; 
+  
+    q->front = q->front->next; 
+  
+    // If front becomes NULL, then change tail also as NULL 
+    if (q->front == NULL) 
+        q->tail = NULL; 
+	
+	q->size -=1;
+    return temp->key;
+} 
+
+int isEmptyQueue(struct Queue* pQueue) {
+    if (pQueue == NULL) {
+        return false;
+    }
+    if (pQueue->size == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void bfs(struct Graph* graph, int startVertex, int vertex_to_stop) {
+
+    struct Queue* q = createQueue(); 
+    
+    graph->array[startVertex].head->visited = true;
+    enQueue(q, startVertex);
+    
+    while(q->front){
+        // printQueue(q);
+        int currentVertex = deQueue(q);
+        // fprintf(stderr,"Visited %d\n", currentVertex);
+    
+		struct AdjList node_array = graph->array[currentVertex];
+		// fprintf(stderr, "a\n");
+
+		if(&node_array == 0x0) continue;
+		struct AdjListNode * temp = node_array.head;
+
+        while(temp) {
+            int adjVertex = temp->dest;
+			// fprintf(stderr, "read node %d. Value is %d\n", adjVertex, graph->visited[adjVertex]);
+
+            if(graph->array[adjVertex].head->visited == false){
+                graph->array[adjVertex].head->visited = true;
+                enQueue(q, adjVertex);
+				// fprintf(stderr,"Enqueued.\n");
+            }else{
+				// fprintf(stderr, "no enqueu\n");
+			}
+
+            temp = temp->next;
+        }
+		// fprintf(stderr, "b\n");
+    }
+
+}
 
 
 
@@ -127,18 +291,6 @@ int * ShortestPathFromSrcToAll(struct Graph * graph, int src) {
 
 
 
-// A structure to represent a node in adjacency list 
-struct AdjListNode { 
-	int dest; 
-	int weight; 
-	struct AdjListNode* next; 
-}; 
-
-// A structure to represent an adjacency list 
-struct AdjList { 
-	struct AdjListNode *head;
-}; 
-
 
 // A utility function to create a new adjacency list node 
 struct AdjListNode* newAdjListNode(int dest, int weight) { 
@@ -156,10 +308,12 @@ struct Graph* createGraph(int size) {
 	graph->V = size; 
 
 	graph->array = (struct AdjList*) malloc(size * sizeof(struct AdjList)); 
-
+	// graph->visited = (int *) malloc(sizeof(int) * size);
 	// Initialize each adjacency list as empty by making head as NULL 
-	for (int i = 0; i < size; ++i) 
+	for (int i = 0; i < size; ++i)  {
 		graph->array[i].head = NULL; 
+		// graph->visited[i] = 0;
+	}
 
 	return graph; 
 } 

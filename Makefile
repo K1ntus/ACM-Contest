@@ -11,8 +11,19 @@ OBJ 		= $(OBJPARS) $(OBJSRC)
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
 
+OUTPUT_FILE_ASS  = output_ass.log
+CONCAT_LOG_ASS  = >> $(OUTPUT_FILE)
+
 .PHONY: all
-all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem ass01_F ass01_D ass01_bfs_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+
+ass01_bfs_problem: Problems/Assignments/A01-bfs-easy.c
+		$(CC) $(CFLAGS) $< -o $@
+ass01_F: Problems/Assignments/A01-F.c
+		$(CC) $(CFLAGS) $< -o $@
+ass01_D: Problems/Assignments/A01-D.c
+		$(CC) $(CFLAGS) $< -o $@
+
 
 48_problem: Problems/48-party.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -29,6 +40,8 @@ all:graph_sample_problem 449_problem 693_problem 185_problem 251_problem 318_pro
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
 318_problem: Problems/318-obstacle-course.c
+		$(CC) $(CFLAGS) $< -o $@
+362_problem: Problems/362-winger-trials.c
 		$(CC) $(CFLAGS) $< -o $@
 449_problem: Problems/449-beach.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -79,7 +92,25 @@ problems_current:
 	@./194_problem < Input/194-8queens.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
+	@echo '* Problem 362 - Winger Trial *' $(CONCAT_LOG)
+	@./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
+
 problems_doing:
+	# @echo '' > $(OUTPUT_FILE_ASS)
+	# @echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
+	# @echo '' $(CONCAT_LOG_ASS)
+	# @./ass01_bfs_problem < Input/a01-bfs.test $(CONCAT_LOG)
+	# # @echo '' $(CONCAT_LOG_ASS)
+	# # @./ass01_F < Input/ass01_F.test $(CONCAT_LOG)
+	# @echo '' $(CONCAT_LOG_ASS)
+	# @./ass01_D < Input/ass01_D.test # $(CONCAT_LOG)
+
+
+
+
+
+	
 	# @echo ''
 	# @echo '* Problem 693 - Towers Of Hanoi *'
 	# @./693_problem

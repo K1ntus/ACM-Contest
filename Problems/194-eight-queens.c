@@ -267,7 +267,7 @@ int SoluceResearch(grid * G, int nb_queens_placed) {
 
     if(nb_queens_placed >= __NB_QUEENS_TO_PLACE__) {
         // AddSolution(G, result_buffer);
-        GridToOutputFormat(*G);
+        // GridToOutputFormat(*G);
         return __SOLUCE_BOARD__;
     }
     

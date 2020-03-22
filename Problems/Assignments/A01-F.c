@@ -46,21 +46,45 @@ void printGraph(struct Graph * graph);
 
 
 int main() { 
-	struct Graph* graph = createGraph(__GRAPH_SIZE__); 
-	addEdge(graph, 0, 1, 4); 
-	addEdge(graph, 0, 7, 8); 
-	addEdge(graph, 1, 2, -8); 
-	addEdge(graph, 1, 7, 11); 
-	addEdge(graph, 2, 3, -7); 
-	addEdge(graph, 2, 8, 2); 
-	addEdge(graph, 2, 5, 4); 
-	addEdge(graph, 3, 4, 9); 
-	addEdge(graph, 3, 5, 14); 
-	addEdge(graph, 4, 5, 10); 
-	addEdge(graph, 5, 6, 2); 
-	addEdge(graph, 6, 7, 1); 
-	addEdge(graph, 6, 8, 6); 
-	addEdge(graph, 7, 8, 7); 
+	// struct Graph* graph = createGraph(__GRAPH_SIZE__); 
+	// addEdge(graph, 0, 1, 4); 
+	// addEdge(graph, 0, 7, 8); 
+	// addEdge(graph, 1, 2, -8); 
+	// addEdge(graph, 1, 7, 11); 
+	// addEdge(graph, 2, 3, -7); 
+	// addEdge(graph, 2, 8, 2); 
+	// addEdge(graph, 2, 5, 4); 
+	// addEdge(graph, 3, 4, 9); 
+	// addEdge(graph, 3, 5, 14); 
+	// addEdge(graph, 4, 5, 10); 
+	// addEdge(graph, 5, 6, 2); 
+	// addEdge(graph, 6, 7, 1); 
+	// addEdge(graph, 6, 8, 6); 
+	// addEdge(graph, 7, 8, 7); 
+
+
+
+
+
+    int Rows, Columns, ncolors;
+
+    scanf("%d", &Rows);
+    scanf("%d", &Columns);
+    scanf("%d", &ncolors);
+	struct Graph* graph = createGraph(Rows * Columns); 
+
+    // int G [Rows][Columns];
+
+    for(int r = 1; r < Rows; r++) {
+        for(int c = 1; c < Columns; c++) {
+            // scanf("%d", &G[r][c]);
+
+        }
+    }
+
+    int nb_delivery;
+    scanf("%d", &nb_delivery);
+
 
 	// printGraph(graph);
 	// fprintf(stdout, "*********\n");
