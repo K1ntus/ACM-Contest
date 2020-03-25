@@ -15,7 +15,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE)
 
 .PHONY: all
-all:graph_sample_problem ass01_F ass01_D ass01_bfs_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 48_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem ass01_F ass01_D ass01_bfs_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 ass01_bfs_problem: Problems/Assignments/A01-bfs-easy.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -25,7 +25,7 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
-48_problem: Problems/48-party.c
+438_problem: Problems/438-party.c
 		$(CC) $(CFLAGS) $< -o $@
 78_problem: Problems/78-largest-subsequence.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -84,8 +84,8 @@ problems_current:
 	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
 	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 48 - Party *' $(CONCAT_LOG)
-	@./48_problem < Input/48-party.test $(CONCAT_LOG)
+	@echo '* Problem 438 - Party *' $(CONCAT_LOG)
+	@./438_problem < Input/438-party.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 194 - Eight Queens *' $(CONCAT_LOG)
@@ -136,8 +136,6 @@ problems_doing:
 	@echo '* Problem 78 - Largest Subsequence *'
 	@./78_problem
 	@echo ''
-	@echo '* Problem 48 - Party *'
-	@./48_problem
 
 
 w1_problem1: Week1/countprime_3.c #$(OBJ) 

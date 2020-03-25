@@ -9,7 +9,7 @@
 #define MAX_LINE_SIZE 200
 #define MAX_DISTINCTS_WORDS 5000
 #define END_WORD EOF
-#define WORD_SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n0123456789$£€µ§~ù\%[]|&`\t"
+#define WORD_SEPARATOR " ,.*+/:;?!)('@_\\\"={}<>^#\n0123456789$£€µ§~\%[]|&`-\t\n"
 
 typedef struct {
     char ** word_list;
@@ -27,9 +27,10 @@ dictionnary_struct * InitDictionnary(void) {
 void WordToInsensitive(char * word) {
 
     for(int i = 0; word[i]; i++){
-        if(word[i]>=65 && word[i]<=90)
-            word[i]=word[i]+32;
-        // printf("%d: %c\n", i, best_word[i]);
+        // if(word[i]>=65 && word[i]<=90)
+        //     word[i]=word[i]+32;
+        // // printf("%d: %c\n", i, best_word[i]);
+        word[i] = tolower(word[i]);
     }
 }
 
@@ -55,16 +56,12 @@ void sort(char* arr[], int n)
 } 
   
 
-void sort_words(char *words[], int count)
-{
+void sort_words(char *words[], int count) {
     char *x;
 
-    for (int i = 0; i<count; i++)
-    {
-        for (int j = i + 1; j<count; j++)
-        {
-            if (strcmp(words[i], words[j]) < 0)
-            {
+    for (int i = 0; i<count; i++) {
+        for (int j = i + 1; j<count; j++) {
+            if (strcmp(words[i], words[j]) < 0) {
                 x = words[j];
                 words[j] = words[i];
                 words[i] = x;
@@ -77,7 +74,10 @@ void sort_words(char *words[], int count)
 void AddWordToDictionnary(dictionnary_struct * dictionnary, const char * wordToAdd) {
     char * tmp = (char *) malloc( sizeof(char) * MAX_LINE_SIZE);
     strcpy(tmp, wordToAdd);
+
+
     WordToInsensitive(tmp);
+    
     for(int i = 0; i < dictionnary->size_list; i++) {
         if(!strcmp(dictionnary->word_list[i], tmp)){
             free(tmp);
@@ -119,7 +119,6 @@ int main (void) {
     sort(dictionnary->word_list, dictionnary->size_list);
 
     PrintDictionnary(*dictionnary);
-
     FreeDictionnary(dictionnary);
 
     return 0;
