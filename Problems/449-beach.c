@@ -3,6 +3,7 @@
 
 #define LAND '#'
 #define SEA '.'
+#define __SIZE_ELEMENT_KINGDOM__ 50
 #define MAX_WIDTH 50    //[1;50] inclusif
 #define MAX_HEIGHT 50   //[1;50] inclusif
 
@@ -130,17 +131,47 @@ void PrintGrid(grid G) {
     printf("* Width: %d\n* Height: %d\n", G.X, G.Y);
 }
 
+void ReadInput(grid* G);
 grid InitGrid() {
-    grid G = AllocGrid(50,50);
+    grid G = AllocGrid(10,10);
 
     for(int y = 1; y < G.Y-1; y++){
         for(int x = 1; x < G.X-1; x++){
-            G.value[x][y]= V_WATER;
+            G.value[x][y]= V_WALL;
         }
     }
+    ReadInput(&G);
 
     return G;
 }
+
+
+void ReadInput(grid * G) {
+    char buffer[50];
+    int y = 1;
+    do {
+        if(fgets(buffer, __SIZE_ELEMENT_KINGDOM__, stdin) == 0x0) return;
+        for(int x = 1; x < __SIZE_ELEMENT_KINGDOM__; x++){
+            switch(buffer[x-1]){
+                case LAND:
+                    G->value[x][y] = V_LAND;
+                    break;
+                case SEA:
+                    G->value[x][y] = V_WATER;
+                    break;
+                default:
+                    break;
+
+
+            } 
+        }
+        y++;
+
+
+    } while(buffer[0] != '\n');
+
+}
+
 
 void MarkCells(grid * G, int x, int y) {
 

@@ -12,10 +12,23 @@ OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
 
 OUTPUT_FILE_ASS  = output_ass.log
-CONCAT_LOG_ASS  = >> $(OUTPUT_FILE)
+CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem ass01_F ass01_D ass01_bfs_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+
+ass02_A: Problems/Assignments/ass02_A.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_B: Problems/Assignments/ass02_B.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_C: Problems/Assignments/ass02_C.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_D: Problems/Assignments/ass02_D.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_E: Problems/Assignments/ass02_E.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_F: Problems/Assignments/ass02_F.c
+		$(CC) $(CFLAGS) $< -o $@
 
 ass01_bfs_problem: Problems/Assignments/A01-bfs-easy.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -25,6 +38,8 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
+165_problem: Problems/165-frogger.c
+		$(CC) $(CFLAGS) $< -o $@
 438_problem: Problems/438-party.c
 		$(CC) $(CFLAGS) $< -o $@
 78_problem: Problems/78-largest-subsequence.c
@@ -55,11 +70,39 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 110_problem: Problems/Accepted/110-longest-word.c
 		$(CC) $(CFLAGS) $< -o $@
+676_problem: Problems/Accepted/676-capital.c
+		$(CC) $(CFLAGS) $< -o $@
 
 ###################
 problems_current:
+
+	@echo '' > $(OUTPUT_FILE_ASS)
+	@echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem A *' $(CONCAT_LOG_ASS)
+	@./ass02_A < Input/ass02_A.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem B *' $(CONCAT_LOG_ASS)
+	@./ass02_B < Input/ass02_B.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem C *' $(CONCAT_LOG_ASS)
+	@./ass02_C < Input/ass02_C.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem D *' $(CONCAT_LOG_ASS)
+	@./ass02_D < Input/ass02_D.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem E *' $(CONCAT_LOG_ASS)
+	@./ass02_E < Input/ass02_E.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem F *' $(CONCAT_LOG_ASS)
+	@./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
+
+
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 676 - Capital *' $(CONCAT_LOG)
+	@./676_problem < Input/676-capital.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 110 - Longest Word *' $(CONCAT_LOG)
 	@./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
@@ -71,6 +114,13 @@ problems_current:
 
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 165 - Frogger *' $(CONCAT_LOG)
+	@./165_problem < Input/165-frogger.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 449 - Beach Length *' $(CONCAT_LOG)
+	@./449_problem < Input/449-beach.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
 	@./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)

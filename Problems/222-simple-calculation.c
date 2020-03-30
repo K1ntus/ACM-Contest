@@ -23,7 +23,10 @@ bool fgreater(long double a, long double b) {
 
 long double RoundsValue(long double result){
     long double saving_result = result * 10000.0;
-    saving_result = floor(saving_result);
+    // if(saving_result > 0)
+        saving_result = floor(saving_result);
+    // else
+    //     saving_result = ceil(saving_result);
     saving_result = trunc(saving_result);
     long double tmp_result = result * 10000.0;
     if (fgreater(tmp_result, saving_result)){

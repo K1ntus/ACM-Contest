@@ -171,16 +171,16 @@ position* GetAvailableMove(grid * G, int x, int y) {
     position *possible_move = (position *) malloc(sizeof(position) * __MAX_NB_MOVE__);
 
     // Case 1
-    possible_move[5].x = x+1;
-    possible_move[5].y = y+2;
+    possible_move[0].x = x+1;
+    possible_move[0].y = y+2;
 
     // Case 1
-    possible_move[6].x = x+1;
-    possible_move[6].y = y-2;
+    possible_move[1].x = x+1;
+    possible_move[1].y = y-2;
 
     // Case 1
-    possible_move[7].x = x+2;
-    possible_move[7].y = y+1;
+    possible_move[2].x = x+2;
+    possible_move[2].y = y+1;
 
     // Case 1
     possible_move[3].x = x+2;
@@ -192,16 +192,16 @@ position* GetAvailableMove(grid * G, int x, int y) {
     possible_move[4].y = y-2;
 
     // Case 1
-    possible_move[0].x = x-1;
-    possible_move[0].y = y+2;
+    possible_move[5].x = x-1;
+    possible_move[5].y = y+2;
 
     // Case 1
-    possible_move[1].x = x-2;
-    possible_move[1].y = y-1;
+    possible_move[6].x = x-2;
+    possible_move[6].y = y-1;
 
     // Case 1
-    possible_move[2].x = x-2;
-    possible_move[2].y = y+1;
+    possible_move[7].x = x-2;
+    possible_move[7].y = y+1;
 
 
     return possible_move;
