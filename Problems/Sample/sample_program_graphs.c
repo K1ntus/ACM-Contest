@@ -47,25 +47,43 @@ void printGraph(struct Graph * graph);
 
 int main() { 
 	struct Graph* graph = createGraph(__GRAPH_SIZE__); 
-	addEdge(graph, 0, 1, 4); 
-	addEdge(graph, 0, 7, 8); 
-	addEdge(graph, 1, 2, -8); 
-	addEdge(graph, 1, 7, 11); 
-	addEdge(graph, 2, 3, -7); 
-	addEdge(graph, 2, 8, 2); 
-	addEdge(graph, 2, 5, 4); 
-	addEdge(graph, 3, 4, 9); 
-	addEdge(graph, 3, 5, 14); 
-	addEdge(graph, 4, 5, 10); 
-	addEdge(graph, 5, 6, 2); 
-	addEdge(graph, 6, 7, 1); 
-	addEdge(graph, 6, 8, 6); 
-	addEdge(graph, 7, 8, 7); 
+	//A
+	addEdge(graph, 0, 1, 3);
+	addEdge(graph, 0, 2, 4);
+
+	//B
+	addEdge(graph, 1, 3, 8);
+	addEdge(graph, 1, 4, 7);
+
+	//C
+	addEdge(graph, 2, 4, 8);
+	addEdge(graph, 2, 5, 9);
+
+	//D
+	addEdge(graph, 3, 4, 1);
+	addEdge(graph, 3, 6, 6);
+
+	//E
+	addEdge(graph, 4, 5, 2);
+	addEdge(graph, 4, 6, 4);
+	addEdge(graph, 4, 7, 5);
+
+	//F
+	addEdge(graph, 5, 7, 2);
+
+	//G
+	addEdge(graph, 6, 8, 2);
+
+	//H
+	addEdge(graph, 7, 8, 3);
+
+	
 
 	// printGraph(graph);
 	// fprintf(stdout, "*********\n");
 	// removeEdge(graph, 6);
 	// removeEdge(graph, 3);
+
 
 	// dijkstra(graph, 0); 
 	// printGraph(graph);

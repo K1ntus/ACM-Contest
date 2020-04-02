@@ -1,0 +1,13 @@
+2 
+office 
+hall 
+1 
+office:hall 1 1 
+3 
+hall 
+office 
+blue zone 
+3 
+office:blue zone 1 1 
+blue zone:hall 1 
+hall:blue zone 2
