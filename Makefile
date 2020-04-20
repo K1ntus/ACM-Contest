@@ -15,7 +15,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 ass02_A: Problems/Assignments/ass02_A.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -44,8 +44,6 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 78_problem: Problems/78-largest-subsequence.c
 		$(CC) $(CFLAGS) $< -o $@
-185_problem: Problems/185-dictionnary.c
-		$(CC) $(CFLAGS) $< -o $@
 190_problem: Problems/190-equation.c
 		$(CC) $(CFLAGS) $< -o $@
 194_problem: Problems/194-eight-queens.c
@@ -71,6 +69,8 @@ ass01_D: Problems/Assignments/A01-D.c
 110_problem: Problems/Accepted/110-longest-word.c
 		$(CC) $(CFLAGS) $< -o $@
 676_problem: Problems/Accepted/676-capital.c
+		$(CC) $(CFLAGS) $< -o $@
+185_problem: Problems/Accepted/185-dictionnary.c
 		$(CC) $(CFLAGS) $< -o $@
 
 ###################
@@ -110,6 +110,9 @@ problems_current:
 	@echo '* Problem 251 - How Many Islands *' $(CONCAT_LOG)
 	@./251_problem < Input/251-how-many-islands.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
+	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
+	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 
 
 	@echo '' $(CONCAT_LOG)
@@ -124,9 +127,6 @@ problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
 	@./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
-	@echo ''  $(CONCAT_LOG)
-	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
-	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
 	@./222_problem < Input/222-calculation.test $(CONCAT_LOG)
@@ -239,4 +239,5 @@ clean:
 	rm -rf output
 	rm -f w1_*
 	rm -f *_problem
-	rm -f output.log
+	# rm -f output.log
+	rm -f output*.log

@@ -102,16 +102,27 @@ int main (void) {
     char* text_buffer = (char*) malloc(sizeof(char) * MAX_LINE_SIZE);
 
     char *eof_checker;
+    char nonAlphachars[0xFF];
+    memset(nonAlphachars, 0, 0xFF);
+    int i = 0;    
+    int c = 1;
+    for(; c <= 0xFF; c++) {
+        if(!isalpha(c)) {
+            nonAlphachars[i++] = c;
+        }
+    }
+    //strcpy(separator_list, nonAlphachars);
+
     int nb_lines = 0;
     while( (eof_checker = fgets(text_buffer, MAX_LINE_SIZE, stdin)) && nb_lines < MAX_TEXT_LINES) {
-        char * tok = strtok(text_buffer, WORD_SEPARATOR);
+        char * tok = strtok(text_buffer, nonAlphachars);
         while (tok != NULL) {
             
             if(tok != 0x0) {
                 AddWordToDictionnary(dictionnary, tok);
             }
 
-            tok = strtok(NULL, WORD_SEPARATOR);
+            tok = strtok(NULL, nonAlphachars);
         }
         nb_lines += 1;
     }
