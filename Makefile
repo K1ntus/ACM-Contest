@@ -58,12 +58,12 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 449_problem: Problems/449-beach.c
 		$(CC) $(CFLAGS) $< -o $@
-688_problem: Problems/688-chess.c
-		$(CC) $(CFLAGS) $< -o $@
 693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
 
 # DONE
+688_problem: Problems/Accepted/688-chess.c
+		$(CC) $(CFLAGS) $< -o $@
 251_problem: Problems/Accepted/251-how-many-islands.c
 		$(CC) $(CFLAGS) $< -o $@
 110_problem: Problems/Accepted/110-longest-word.c
@@ -113,6 +113,9 @@ problems_current:
 	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
 	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
+	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
+	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
 
 
 	@echo '' $(CONCAT_LOG)
@@ -130,9 +133,6 @@ problems_current:
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
 	@./222_problem < Input/222-calculation.test $(CONCAT_LOG)
-	@echo ''  $(CONCAT_LOG)
-	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
-	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 438 - Party *' $(CONCAT_LOG)
 	@./438_problem < Input/438-party.test $(CONCAT_LOG)
@@ -147,32 +147,6 @@ problems_current:
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
 problems_doing:
-	# @echo '' > $(OUTPUT_FILE_ASS)
-	# @echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
-	# @echo '' $(CONCAT_LOG_ASS)
-	# @./ass01_bfs_problem < Input/a01-bfs.test $(CONCAT_LOG)
-	# # @echo '' $(CONCAT_LOG_ASS)
-	# # @./ass01_F < Input/ass01_F.test $(CONCAT_LOG)
-	# @echo '' $(CONCAT_LOG_ASS)
-	# @./ass01_D < Input/ass01_D.test # $(CONCAT_LOG)
-
-
-
-
-
-	
-	# @echo ''
-	# @echo '* Problem 693 - Towers Of Hanoi *'
-	# @./693_problem
-	# @echo ''
-	# @echo '* Problem 78 - Largest Subsequence *'
-	# # @./78_problem
-	# @echo ''
-	# @echo '* Problem 190 - Equations *'
-	# @./190_problem
-	# @echo ''
-	# @echo '* Problem 318 - Obstacle Course *'
-	# @./318_problem
 	@echo ''
 	@echo '* Problem 194 - Eight Queens *'
 	@./194_problem

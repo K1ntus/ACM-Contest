@@ -247,14 +247,18 @@ grid ClearTestedGrid(grid * G){
 
     return res;
 }
+int best_count;
 
 int MoveKnight(grid * G, position current_pos, int count) {
-    if(! IsValidPosition(G, current_pos)){
+    if(!IsValidPosition(G, current_pos) || count > best_count){
         return __NO_SOL_FOUND__;
-    } else if(G->value[current_pos.x][current_pos.y] == V_WHITE_KNIGHT) {
+    } 
+    
+    if(G->value[current_pos.x][current_pos.y] == V_WHITE_KNIGHT) {
     // fprintf(stdout, "Find following board. Size = %d\n", count);
     // PrintGrid(*G);
-        ClearTestedGrid(G);
+    // ClearTestedGrid(G);
+
         return count;
     }
 
@@ -266,20 +270,22 @@ int MoveKnight(grid * G, position current_pos, int count) {
         position current_move = available_move[i];
 
         int tmp_value = MoveKnight(G, current_move, count + 1);
+
         
         if(tmp_value >= __NO_SOL_FOUND__) {
+            if(IsValidPosition(G, current_pos))
+                G->value[current_move.x][current_move.y] = V_WALL;  // Block forever
             continue;
-        } else if(tmp_value < res){
-            // G->value[current_pos.x][current_pos.y] = V_EMPTY;
-            res = tmp_value; 
         } 
+        if(tmp_value < best_count){
+            // G->value[current_pos.x][current_pos.y] = V_EMPTY;
+            best_count = tmp_value; 
+        } 
+        
     }
 
-    if(res != __NO_SOL_FOUND__) {    //If path leads to at least one solution we clear the path for later
-        G->value[current_pos.x][current_pos.y] = V_EMPTY;
-    } else {
-        ClearTestedGrid(G);
-    }
+    G->value[current_pos.x][current_pos.y] = V_EMPTY;
+
 
     return res;
 }
@@ -295,18 +301,19 @@ void ChessBoardAnalyze_wrapper(grid G, int case_number) {
         if(IsValidPosition(&G, current_move)) {
             int tmp_value = res;
 
-            grid G_copy = CreateAndCopyGrid(G);
-            G.value[current_move.x][current_move.y] = V_TESTED;
-            tmp_value = MoveKnight(&G_copy, current_move, 1);
+            //grid G_copy = CreateAndCopyGrid(G);
+            //tmp_value = MoveKnight(&G_copy, current_move, 1);
+            tmp_value = MoveKnight(&G, current_move, 1);
+            G.value[current_move.x][current_move.y] = V_WALL;
 
-            if(tmp_value < res) res = tmp_value;
-            FreeGrid(&G_copy);
+            if(tmp_value < best_count) best_count = tmp_value;
+            //FreeGrid(&G_copy);
         }
 
     }
 
-    if(res >= __NO_SOL_FOUND__) fprintf(stdout, "Case %d: IMPOSSIBLE", case_number + 1);
-    else fprintf(stdout, "Case %d: %d", case_number + 1, res);    
+    if(best_count >= __NO_SOL_FOUND__) fprintf(stdout, "Case %d: IMPOSSIBLE", case_number + 1);
+    else fprintf(stdout, "Case %d: %d", case_number + 1, best_count);    
 }
 
 int main (void) {
@@ -316,6 +323,7 @@ int main (void) {
     myString >> __nb_case__;
 
     for(int case_number = 0; case_number < __nb_case__; case_number++){
+        best_count = __NO_SOL_FOUND__;
         grid G = InitGrid();
 
         ChessBoardAnalyze_wrapper(G, case_number);
