@@ -15,7 +15,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 ass02_A: Problems/Assignments/ass02_A.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -44,6 +44,8 @@ ass01_D: Problems/Assignments/A01-D.c
 
 
 165_problem: Problems/165-frogger.c
+		$(CC) $(CFLAGS) $< -o $@
+689_problem: Problems/689-trends.c
 		$(CC) $(CFLAGS) $< -o $@
 438_problem: Problems/438-party.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -140,6 +142,9 @@ problems_current:
 
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 689 - Trends *' $(CONCAT_LOG)
+	@./689_problem < Input/689-trends.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 381 - Hexadecimal *' $(CONCAT_LOG)
 	@./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
