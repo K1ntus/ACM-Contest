@@ -15,7 +15,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 ass02_A: Problems/Assignments/ass02_A.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -36,6 +36,11 @@ ass01_F: Problems/Assignments/A01-F.c
 		$(CC) $(CFLAGS) $< -o $@
 ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
+
+
+
+
+
 
 
 165_problem: Problems/165-frogger.c
@@ -61,8 +66,15 @@ ass01_D: Problems/Assignments/A01-D.c
 693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
 
+381_problem: Problems/381-hexadecimal.c
+		$(CC) $(CFLAGS) $< -o $@
+
+
+
 # DONE
 688_problem: Problems/Accepted/688-chess.c
+		$(CC) $(CFLAGS) $< -o $@
+142_problem: Problems/Accepted/142-friends.c
 		$(CC) $(CFLAGS) $< -o $@
 251_problem: Problems/Accepted/251-how-many-islands.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -71,6 +83,8 @@ ass01_D: Problems/Assignments/A01-D.c
 676_problem: Problems/Accepted/676-capital.c
 		$(CC) $(CFLAGS) $< -o $@
 185_problem: Problems/Accepted/185-dictionnary.c
+		$(CC) $(CFLAGS) $< -o $@
+108_problem: Problems/Accepted/108-birthday.c
 		$(CC) $(CFLAGS) $< -o $@
 
 ###################
@@ -101,6 +115,9 @@ problems_current:
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 142 - Friends *' $(CONCAT_LOG)
+	@./142_problem < Input/142-friends.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 676 - Capital *' $(CONCAT_LOG)
 	@./676_problem < Input/676-capital.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -115,15 +132,23 @@ problems_current:
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
 	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 108 - Birthday *' $(CONCAT_LOG)
+	@./108_problem < Input/108-birthday.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 
 
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 381 - Hexadecimal *' $(CONCAT_LOG)
+	@./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 190 - Equation *' $(CONCAT_LOG)
+	@./190_problem < Input/190-equation.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 165 - Frogger *' $(CONCAT_LOG)
 	@./165_problem < Input/165-frogger.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 449 - Beach Length *' $(CONCAT_LOG)
 	@./449_problem < Input/449-beach.test $(CONCAT_LOG)
