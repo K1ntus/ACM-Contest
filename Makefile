@@ -68,12 +68,12 @@ ass01_D: Problems/Assignments/A01-D.c
 693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
 
-381_problem: Problems/381-hexadecimal.c
-		$(CC) $(CFLAGS) $< -o $@
 
 
 
 # DONE
+381_problem: Problems/Accepted/381-hexadecimal.c
+		$(CC) $(CFLAGS) $< -o $@
 192_problem: Problems/Accepted/192-mobile.c
 		$(CC) $(CFLAGS) $< -o $@
 688_problem: Problems/Accepted/688-chess.c
@@ -121,6 +121,9 @@ problems_current:
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 381 - Hexadecimal *' $(CONCAT_LOG)
+	@./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 168 - Networking *' $(CONCAT_LOG)
 	@./168_problem < Input/168-networking.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -155,9 +158,6 @@ problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 689 - Trends *' $(CONCAT_LOG)
 	@./689_problem < Input/689-trends.test $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 381 - Hexadecimal *' $(CONCAT_LOG)
-	@./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 190 - Equation *' $(CONCAT_LOG)
 	@./190_problem < Input/190-equation.test $(CONCAT_LOG)
