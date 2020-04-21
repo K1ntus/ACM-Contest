@@ -15,7 +15,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 192_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 ass02_A: Problems/Assignments/ass02_A.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -74,6 +74,8 @@ ass01_D: Problems/Assignments/A01-D.c
 
 
 # DONE
+192_problem: Problems/Accepted/192-mobile.c
+		$(CC) $(CFLAGS) $< -o $@
 688_problem: Problems/Accepted/688-chess.c
 		$(CC) $(CFLAGS) $< -o $@
 142_problem: Problems/Accepted/142-friends.c
@@ -116,6 +118,9 @@ problems_current:
 
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 192 - Mobile *' $(CONCAT_LOG)
+	@./192_problem < Input/192-mobile.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 142 - Friends *' $(CONCAT_LOG)
 	@./142_problem < Input/142-friends.test $(CONCAT_LOG)

@@ -94,22 +94,15 @@ int main() {
 			myString >> src >> dest;
 
             addEdge(graph, src-1, dest-1, 1); 
-            
         }
-
-        // printGraph(graph);
-        // fprintf(stdout, "*********\n");
-        // removeEdge(graph, 6);
-        // removeEdge(graph, 3);
-
+        
         int min_value = -1;
         for(int i = 0; i < __nb_people__; i++){
             if(!skipAnalytic(graph, i)){
                 int tmp = 0;
                 DFS(graph, i);
                 tmp = SizeComponent(graph);
-                //int tmp = sumArray(Dijkstra(graph, i), __nb_people__); 
-                //printf("Component size: %d\n", tmp);
+                
                 if( tmp > min_value) {
                     min_value = tmp;
                 }
