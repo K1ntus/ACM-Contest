@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <cstring>
+#include <string.h>
+#include <iostream>
+#include <bits/stdc++.h> 
+using namespace std;
 
 #define __NO_SOLUCE__ -1
 #define __SOLUCE_BOARD__ 0
@@ -21,21 +25,18 @@
 //     return dico;
 // }
 
-// Une position entière dans la grille.
+
 typedef struct {
     int x, y;
 } position;
 
-// Une grille.
 typedef struct {
     int X, Y;       // dimensions: X et Y
     int **value;    // valuation des cases: value[i][j], 0<=i<X, 0<=j<Y
     // int **mark;     // marquage des cases: mark[i][j], 0<=i<X, 0<=j<Y
 } grid;
 
-// Valeurs possibles des cases d'une grille pour les champs .value et
-// .mark. L'ordre est important: il doit être cohérent avec les
-// tableaux color[] (tools.c) et weight[] (a_star.c).
+
 enum {
 
     // pour .value
@@ -46,10 +47,6 @@ enum {
 };
 
 
-//
-// Alloue une grille aux dimensions x,y ainsi que son image. On force
-// x,y>=3 pour avoir au moins un point qui n'est pas sur le bord.
-//
 static grid AllocGrid() {
     int x = 10;
     int y = 10;
@@ -160,11 +157,8 @@ void PlaceQueen (grid * G, int x, int y) {
 
 
 
-grid InitGrid() {
+grid InitGrid(int x_init, int y_init) {
     grid G = AllocGrid();
-    int x_init, y_init;
-        scanf("%d", &x_init);
-        scanf("%d", &y_init);
 
     for(int y = 1; y < G.Y-1; y++){
         for(int x = 1; x < G.X-1; x++){
@@ -214,14 +208,16 @@ void RemoveQueenAndRefresh(grid * G, int x, int y) {
     RefreshGrid(G);
 }
 
+int __soln = 0;
 void GridToOutputFormat(grid G){
     // char * buffer = (char *) malloc(sizeof(char) * 32);
     int i = 0;
+    printf("%2d     ", __soln);
     for(int y = 1; y < G.Y; y++){
         for(int x = 1; x < G.X; x++) {
             if(G.value[x][y] == V_QUEEN)
 
-            printf("%d ", x);
+            printf(" %d", x);
                 // buffer[i] = (x);
                 // i+=1;
                 // buffer[i+1] = ' ';
@@ -259,7 +255,7 @@ void PrintSolution(char ** soluces, int nb_cases) {
 
     // }
 }
-int SoluceResearch(grid * G, int nb_queens_placed) {
+int SoluceResearch(grid * G, int nb_queens_placed, int x_i, int y_i) {
     int first_x, first_y;
     if(NumberAvailableCells(G, &first_x, &first_y) < __NB_QUEENS_TO_PLACE__ - nb_queens_placed) {
         return __NO_SOLUCE__;
@@ -267,16 +263,19 @@ int SoluceResearch(grid * G, int nb_queens_placed) {
 
     if(nb_queens_placed >= __NB_QUEENS_TO_PLACE__) {
         // AddSolution(G, result_buffer);
-        // GridToOutputFormat(*G);
+        __soln += 1;
+        GridToOutputFormat(*G);
+        // PrintGrid(*G);
         return __SOLUCE_BOARD__;
     }
     
 
     for(int x = 1; x < G->X; x++) {
-        for(int y = 1; y < G->Y; y++) {
+        for(int y = y_i; y < G->Y; y++) {
             if(G->value[x][y] == V_EMPTY){
                 PlaceQueen(G, x, y);
-                SoluceResearch(G, nb_queens_placed + 1);
+    // PrintGrid(*G);
+                SoluceResearch(G, nb_queens_placed + 1, x, y);
                 RemoveQueenAndRefresh(G, x, y);
             }
         }
@@ -285,23 +284,45 @@ int SoluceResearch(grid * G, int nb_queens_placed) {
     return __NO_SOLUCE__;
 }
 int main (void) {
-       // scanf("%d", &height); //nb case
-    grid G = InitGrid();
-    // result_buffer = InitDictionnary();
+
+    int __nb_cases__;
+    string line;
+    getline(cin, line);
+    stringstream myString(line);
+    myString >> __nb_cases__;
+    getline(cin, line);
+
+    
+    for(int case_id = 0; case_id < __nb_cases__; case_id++){
+        string line;
+        getline(cin, line);
+        stringstream myString(line);
+
+        // New case or end of analytic
+        if(line.empty()){
+            case_id = case_id - 1;
+            // printf("\n");
+            __soln = 0;
+            if(case_id < __nb_cases__) printf("\n");
+
+            continue;
+        }
 
 
-    // PrintGrid(G);
-    // PlaceQueen(&G, 5,2);
-    // PrintGrid(G);
-    // RemoveQueen(&G, 5, 2);
-    // printf("\n\n\n");
-    // int ** soluce_array = (int **) malloc(sizeof())
-    SoluceResearch(&G, 1);
+        printf("SOLN       COLUMN\n");
+        printf(" #      1 2 3 4 5 6 7 8\n");
+        printf("\n");
 
-    PrintGrid(G);
-    // printf("%d\n", res);
+        int x,y;
+        myString >> x >> y;
 
-    // FreeGrid(&G);
+        grid G = InitGrid(x,y);
+
+        SoluceResearch(&G, 1, 1, 1);
+        // FreeGrid(&G);
+
+    }
+
 
 
     return EXIT_SUCCESS;

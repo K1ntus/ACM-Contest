@@ -15,7 +15,9 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 168_problem 192_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current #ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem# clean_week1 w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:graph_sample_problem 462_problem 168_problem 192_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current 
+assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+
 
 ass02_A: Problems/Assignments/ass02_A.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -53,8 +55,6 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 190_problem: Problems/190-equation.c
 		$(CC) $(CFLAGS) $< -o $@
-194_problem: Problems/194-eight-queens.c
-		$(CC) $(CFLAGS) $< -o $@
 248_problem: Problems/248-intersection.c
 		$(CC) $(CFLAGS) $< -o $@
 222_problem: Problems/222-simple-calculation.c
@@ -67,11 +67,15 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
+462_problem: Problems/462-euler.c
+		$(CC) $(CFLAGS) $< -o $@
 
 
 
 
 # DONE
+194_problem: Problems/Accepted/194-eight-queens.c
+		$(CC) $(CFLAGS) $< -o $@
 381_problem: Problems/Accepted/381-hexadecimal.c
 		$(CC) $(CFLAGS) $< -o $@
 192_problem: Problems/Accepted/192-mobile.c
@@ -118,8 +122,14 @@ problems_current:
 	@./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
 
 
+
+
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 194 - Eight Queens *' $(CONCAT_LOG)
+	@./194_problem < Input/194-8queens.test $(CONCAT_LOG)
+	@echo '* End Problem *'  $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 381 - Hexadecimal *' $(CONCAT_LOG)
 	@./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
@@ -152,9 +162,11 @@ problems_current:
 	@./108_problem < Input/108-birthday.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 
-
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 462 - Euler *' $(CONCAT_LOG)
+	@./462_problem < Input/462-euler.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 689 - Trends *' $(CONCAT_LOG)
 	@./689_problem < Input/689-trends.test $(CONCAT_LOG)
@@ -177,14 +189,11 @@ problems_current:
 	@echo '* Problem 438 - Party *' $(CONCAT_LOG)
 	@./438_problem < Input/438-party.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 194 - Eight Queens *' $(CONCAT_LOG)
-	@./194_problem < Input/194-8queens.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
 
 	@echo '* Problem 362 - Winger Trial *' $(CONCAT_LOG)
 	@./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
+
 
 problems_doing:
 	@echo ''
