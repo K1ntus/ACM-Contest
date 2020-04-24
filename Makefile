@@ -8,6 +8,8 @@ CFLAGS		= -static -std=c++0x
 OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
+
+TIMEOUT_CMD = timeout 5s
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
 
@@ -15,7 +17,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 462_problem 168_problem 192_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current 
+all:graph_sample_problem 22_problem 462_problem 168_problem 192_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current 
 assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 
 
@@ -45,6 +47,8 @@ ass01_D: Problems/Assignments/A01-D.c
 
 
 
+22_problem: Problems/22-prime.c
+		$(CC) $(CFLAGS) $< -o $@
 165_problem: Problems/165-frogger.c
 		$(CC) $(CFLAGS) $< -o $@
 689_problem: Problems/689-trends.c
@@ -104,22 +108,22 @@ problems_current:
 	@echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem A *' $(CONCAT_LOG_ASS)
-	@./ass02_A < Input/ass02_A.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_A < Input/ass02_A.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem B *' $(CONCAT_LOG_ASS)
-	@./ass02_B < Input/ass02_B.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_B < Input/ass02_B.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem C *' $(CONCAT_LOG_ASS)
-	@./ass02_C < Input/ass02_C.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_C < Input/ass02_C.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem D *' $(CONCAT_LOG_ASS)
-	@./ass02_D < Input/ass02_D.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_D < Input/ass02_D.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem E *' $(CONCAT_LOG_ASS)
-	@./ass02_E < Input/ass02_E.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_E < Input/ass02_E.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem F *' $(CONCAT_LOG_ASS)
-	@./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
 
 
 
@@ -128,70 +132,73 @@ problems_current:
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 194 - Eight Queens *' $(CONCAT_LOG)
-	@./194_problem < Input/194-8queens.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./194_problem < Input/194-8queens.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 381 - Hexadecimal *' $(CONCAT_LOG)
-	@./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./381_problem < Input/381-hexadecimal.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 168 - Networking *' $(CONCAT_LOG)
-	@./168_problem < Input/168-networking.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./168_problem < Input/168-networking.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 192 - Mobile *' $(CONCAT_LOG)
-	@./192_problem < Input/192-mobile.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./192_problem < Input/192-mobile.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 142 - Friends *' $(CONCAT_LOG)
-	@./142_problem < Input/142-friends.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./142_problem < Input/142-friends.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 676 - Capital *' $(CONCAT_LOG)
-	@./676_problem < Input/676-capital.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./676_problem < Input/676-capital.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 110 - Longest Word *' $(CONCAT_LOG)
-	@./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 251 - How Many Islands *' $(CONCAT_LOG)
-	@./251_problem < Input/251-how-many-islands.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./251_problem < Input/251-how-many-islands.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 185 - Dictionnary *' $(CONCAT_LOG)
-	@./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./185_problem < Input/185-dictionnary.test  $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
-	@./688_problem < Input/688-chess.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./688_problem < Input/688-chess.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 108 - Birthday *' $(CONCAT_LOG)
-	@./108_problem < Input/108-birthday.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./108_problem < Input/108-birthday.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 22 - Prime Path *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./22_problem < Input/22-prime.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 462 - Euler *' $(CONCAT_LOG)
-	@./462_problem < Input/462-euler.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./462_problem < Input/462-euler.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 689 - Trends *' $(CONCAT_LOG)
-	@./689_problem < Input/689-trends.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./689_problem < Input/689-trends.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 190 - Equation *' $(CONCAT_LOG)
-	@./190_problem < Input/190-equation.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./190_problem < Input/190-equation.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 165 - Frogger *' $(CONCAT_LOG)
-	@./165_problem < Input/165-frogger.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./165_problem < Input/165-frogger.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 449 - Beach Length *' $(CONCAT_LOG)
-	@./449_problem < Input/449-beach.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./449_problem < Input/449-beach.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
-	@./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
-	@./222_problem < Input/222-calculation.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./222_problem < Input/222-calculation.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 438 - Party *' $(CONCAT_LOG)
-	@./438_problem < Input/438-party.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./438_problem < Input/438-party.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
 	@echo '* Problem 362 - Winger Trial *' $(CONCAT_LOG)
-	@./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
 

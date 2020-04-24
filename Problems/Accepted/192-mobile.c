@@ -6,7 +6,7 @@
 using namespace std;
 
 
-bool isEquilibrium(int w_r, int d_r, int d_l, int w_l) {
+bool isMobileEquilibrium(int w_r, int d_r, int d_l, int w_l) {
     int right = w_r * d_r;
     int left = w_l * d_l;
 
@@ -38,7 +38,7 @@ int recursionAddSubMobile() {
         w_r = recursionAddSubMobile();
     }
 
-    __isEquilibrium = isEquilibrium(w_r, d_r, d_l, w_l) && __isEquilibrium;
+    __isEquilibrium = isMobileEquilibrium(w_r, d_r, d_l, w_l) && __isEquilibrium;
     return w_r + w_l;
 }
 
@@ -81,7 +81,7 @@ int main (void) {
             w_r = recursionAddSubMobile();
         }
 
-        if(__isEquilibrium  && isEquilibrium(w_r, d_r, d_l, w_l) ){
+        if(__isEquilibrium  && isMobileEquilibrium(w_r, d_r, d_l, w_l) ){
             printf("YES\n");
         } else {
             printf("NO\n");

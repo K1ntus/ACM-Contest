@@ -150,17 +150,8 @@ int KruskalMST(Graph* graph)
 }  
   
 // Driver code 
-int main()  
-{  
-    /* Let us create following weighted graph  
-            10  
-        0--------1  
-        | \ |  
-    6| 5\ |15  
-        | \ |  
-        2--------3  
-            4 */ 
-
+int main() {  
+    
 
     int V; // Number of cities/Vertices
     int E; // Number of connections/Edges in graph  

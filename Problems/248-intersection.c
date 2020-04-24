@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdbool.h>
 
 typedef struct {
     int x,y;
@@ -34,16 +34,16 @@ typedef struct {
  * Return 0 if the line segment is inside the rectangle. 
  * Else, it is returning 1
  */
-int isInsideRectangle(input_struct input) {
+bool isInsideRectangle(input_struct input) {
     if(input.xStart >= input.xLeft && input.xEnd <= input.xRight){
-        return 0;
+        return true;
     }
 
     if(input.yStart >= input.yBottom && input.yEnd <= input.yTop){
-        return 0;
+        return true;
     }
 
-    return 1;
+    return false;
 }
 
 int isIntersectRectangle(input_struct input) {
