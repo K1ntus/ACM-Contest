@@ -1,6 +1,9 @@
 // C / C++ program for Dijkstra's shortest path algorithm for adjacency 
 // list representation of graph 
 
+// To Debug
+// https://www.udebug.com/UVa/12101
+
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <limits.h> 
@@ -15,18 +18,19 @@ using namespace std;
 
 
 
-struct Queue {
-    int items[__SIZE__];
-    int front;
-    int rear;
-};
+// A structure to represent a stack 
+struct Stack { 
+    int top; 
+    unsigned capacity; 
+    int* array; 
+}; 
 
-struct Queue* createQueue();
-void enQueue(struct Queue* q, int);
-int deQueue(struct Queue* q);
-void display(struct Queue* q);
-int isEmpty(struct Queue* q);
-void printQueue(struct Queue* q);
+int peek(struct Stack* stack);
+int pop(struct Stack* stack);
+void push(struct Stack* stack, int item);
+int isEmpty(struct Stack* stack);
+int isFull(struct Stack* stack);
+struct Stack* createStack(unsigned capacity);
 
 struct node
 {
@@ -163,6 +167,28 @@ int UpdateValue(int x, int p, int j) {
 
     return res;
 }
+/*
+#define __FIRST_DIGIT__  0
+#define __SECOND_DIGIT__ 1
+#define __THIRD_DIGIT__  2
+#define __FOUR_DIGIT__   3
+int change(int n, int i, int j) {
+
+    switch (i) {
+        case __FIRST_DIGIT__:
+            return ( (n / 10) * 10 + j );
+        case __SECOND_DIGIT__:
+            return ( (n / 100) * 100 + j * 10 + n % 10 );
+        case __THIRD_DIGIT__:
+            return ( (n / 1000) * 1000 + j * 100 + n % 100 );
+        case __FOUR_DIGIT__:
+            return ( j * 1000 + n % 1000 );
+    }
+}
+
+*/
+
+
 
 bool IsValidValue(int valueToTest) {
     if (valueToTest < 1000) {
@@ -187,23 +213,22 @@ int bfs(int startVertex, int destVertex, bool * prime_list) {
         return 0;
     }
 
-    struct Queue* q = createQueue();
+    struct Stack* q = createStack(__SIZE__);
 
     bool * visited = (bool *) malloc(sizeof(bool) * __SIZE__);
     initArray(visited, __SIZE__);
 
     visited[startVertex] = true;
-    enQueue(q, startVertex);
+    push(q, startVertex);
     
     int depth = 1;
     
     while(!isEmpty(q)){
 
-        for(int nb_ite_depth = q->rear + 1; nb_ite_depth > 0; nb_ite_depth--) {    //Test every value from the current depth
-            int currentVertex = deQueue(q);
+        for(int nb_ite_depth = q->top; nb_ite_depth >= 0; nb_ite_depth--) {    //Test every value from the current depth
+            int currentVertex = pop(q);
 
             for(int digit_position = 0, offset = 1; digit_position < 4; digit_position++, offset*=10){
-
                 for(int digit_value = 0; digit_value < 10; digit_value++) {
                     if(digit_position == 0 && digit_value == 0){ continue; }    //First digit and 0
 
@@ -215,16 +240,16 @@ int bfs(int startVertex, int destVertex, bool * prime_list) {
 
                     if(!prime_list[newValue]) { 
                         if(newValue == destVertex) {
-                            if(depth == 1) {
-                                return depth;
-                            } else {
-                                return depth + 1;
-                            }
-                            // return depth + 1;
+                            // if(depth == 1) {
+                            //     return depth;
+                            // } else {
+                            //     return depth + 1;
+                            // }
+                            return depth + 1;
                         }
 
                         visited[newValue] = true;
-                        enQueue(q, newValue);
+                        push(q, newValue);
                     }
 
                 }   //End digits replacement
@@ -241,59 +266,51 @@ int bfs(int startVertex, int destVertex, bool * prime_list) {
 }
 
 
-
-
-struct Queue* createQueue() {
-    struct Queue* q = (struct Queue *) malloc(sizeof(struct Queue));
-    q->front = -1;
-    q->rear = -1;
-    return q;
-}
-
-
-int isEmpty(struct Queue* q) {
-    if(q->rear == -1) 
-        return 1;
-    else 
-        return 0;
-}
-
-void enQueue(struct Queue* q, int value){
-    if(q->rear == __SIZE__-1){
-        // printf("\nQueue is Full!!");
-     } else {
-        if(q->front == -1)
-            q->front = 0;
-        q->rear++;
-        q->items[q->rear] = value;
-    }
-}
-
-int deQueue(struct Queue* q){
-    int item;
-    if(isEmpty(q)){
-        // printf("Queue is empty");
-        item = -1;
-    } else {
-        item = q->items[q->front];
-        q->front++;
-        if(q->front > q->rear) {
-            // printf("Resetting Queue");
-            q->front = q->rear = -1;
-        }
-    }
-    return item;
-}
-
-void printQueue(struct Queue *q) {
-    int i = q->front;
-
-    if(isEmpty(q)) {
-        printf("Queue is empty");
-    } else {
-        printf("\nQueue contains \n");
-        for(i = q->front; i < q->rear + 1; i++) {
-                printf("%d ", q->items[i]);
-        }
-    }    
-}
+  
+// function to create a stack of given capacity. It initializes size of 
+// stack as 0 
+struct Stack* createStack(unsigned capacity) 
+{ 
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack)); 
+    stack->capacity = capacity; 
+    stack->top = -1; 
+    stack->array = (int*)malloc(stack->capacity * sizeof(int)); 
+    return stack; 
+} 
+  
+// Stack is full when top is equal to the last index 
+int isFull(struct Stack* stack) 
+{ 
+    return stack->top == stack->capacity - 1; 
+} 
+  
+// Stack is empty when top is equal to -1 
+int isEmpty(struct Stack* stack) 
+{ 
+    return stack->top == -1; 
+} 
+  
+// Function to add an item to stack.  It increases top by 1 
+void push(struct Stack* stack, int item) 
+{ 
+    if (isFull(stack)) 
+        return; 
+    stack->array[++stack->top] = item; 
+    // printf("%d pushed to stack\n", item); 
+} 
+  
+// Function to remove an item from stack.  It decreases top by 1 
+int pop(struct Stack* stack) 
+{ 
+    if (isEmpty(stack)) 
+        return INT_MIN; 
+    return stack->array[stack->top--]; 
+} 
+  
+// Function to return the top from stack without removing it 
+int peek(struct Stack* stack) 
+{ 
+    if (isEmpty(stack)) 
+        return INT_MIN; 
+    return stack->array[stack->top]; 
+} 
