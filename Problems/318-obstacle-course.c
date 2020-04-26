@@ -39,9 +39,11 @@ struct Stack * getLegalMoves(grid G, position p);
 grid InitGrid(int size);
 void PrintGrid(grid G);
 
-int MoveRover(grid * G, position current_position, position destination_position, int flow, int bestFlow);
+int MoveRover(grid * G, position current_position, int flow, int bestFlow);
 
 
+int dest_pos;
+int offset;
 int main (void) {
 
     string line;
@@ -55,12 +57,15 @@ int main (void) {
     while(__grid_size__ > 0) {
 
         grid G = InitGrid(__grid_size__);
+        dest_pos = __grid_size__;
+        offset = G.value[dest_pos][dest_pos];
         // PrintGrid(G);
 
-        int res = MoveRover(&G, {1,1}, {__grid_size__,__grid_size__}, 0, __MAXIMUM_COST__ * __MAXIMUM_COST__);
+        int res = MoveRover(&G, {1,1}, 0, __MAXIMUM_COST__ * __MAXIMUM_COST__);
+        // int res = MoveRover(&G, {1,2}, G.value[1][1], __MAXIMUM_COST__ * __MAXIMUM_COST__);
+        // res = MoveRover(&G, {2,1}, G.value[1][1], res);
 
         printf("Problem %d: %d\n", __problem_number, res);
-
 
         getline(cin, line);
         stringstream myString(line);
@@ -76,44 +81,67 @@ int main (void) {
 
 
 
-position * getLegalMoves(grid * G, position p) {
-    position * res = (position *) malloc(sizeof(position) * __MAX_NB_MOVES__);
+// position * getLegalMoves(grid * G, position p) {
+//     position * res = (position *) malloc(sizeof(position) * __MAX_NB_MOVES__);
 
-    res[0]={p.x - 1, p.y};
-    res[1]={p.x + 1, p.y};
-    res[2]={p.x, p.y - 1};
-    res[3]={p.x, p.y + 1};
+//     res[0]={p.x - 1, p.y};
+//     res[1]={p.x + 1, p.y};
+//     res[2]={p.x, p.y - 1};
+//     res[3]={p.x, p.y + 1};
 
-    return res;
-}
+//     return res;
+// }
+
+int MoveRover(grid * G, position current_position, int flow, int bestFlow) {
+    int curr_x = current_position.x;
+    int curr_y = current_position.y;
+
+    // Update the current flow value
+    flow = flow + G->value[curr_x][curr_y];     
 
 
-int MoveRover(grid * G, position current_position, position destination_position, int flow, int bestFlow) {
-    if(current_position.x == destination_position.x && current_position.y == destination_position.y) {
-        return flow + G->value[destination_position.x][destination_position.y];
+    // If current pos is destination pos, return updated flow
+    if(curr_x == dest_pos && curr_y == dest_pos) {
+        return flow;
     }
 
-    if(flow >= bestFlow) {
-        return flow * 10;
+    //If the flow is already greater than the bestFlow, return
+    if(flow >= bestFlow - offset) {
+        return __MAXIMUM_COST__ * __MAXIMUM_COST__;
     }
+    // get the four possibles legalMoves
+    position legalMoves[__MAX_NB_MOVES__] = {
+        {curr_x - 1, curr_y},
+        {curr_x + 1, curr_y},
+        {curr_x, curr_y - 1},
+        {curr_x, curr_y + 1}
+    };
 
-    position * legalMoves = getLegalMoves(G, current_position);
+    // Mark the current cell as visited
+    G->mark[curr_x][curr_y] = V_MARKED;
 
-    G->mark[current_position.x][current_position.y] = V_MARKED;
+
     for(int move = 0; move < __MAX_NB_MOVES__; ++move) {
         position nextMove = legalMoves[move];
+
+        // If the cell is a wall, or already been marked, continue
         if(G->mark[nextMove.x][nextMove.y] != V_EMPTY) { continue; }
 
-        int val = MoveRover(G, nextMove, destination_position, flow + G->value[current_position.x][current_position.y], bestFlow);
+        // If nextMove+flow will be greater than the bestFlow, continue
+        if(flow + G->value[nextMove.x][nextMove.y] > bestFlow) { continue; }
 
+        // Do the recursion
+        int val = MoveRover(G, nextMove, flow, bestFlow);
+
+        // Update the bestflow
         if(val < bestFlow) {
             bestFlow = val;
         }
 
     }
 
-    G->mark[current_position.x][current_position.y] = V_EMPTY;
-    free(legalMoves);
+    // Unmark this cells for next recursions
+    G->mark[curr_x][curr_y] = V_EMPTY;
 
     return bestFlow;
 }
@@ -137,15 +165,16 @@ static grid AllocGrid(int size) {
     G.value = (int**) malloc(x * sizeof(*(G.value)));
     G.mark  = (int**) malloc(x * sizeof(*(G.mark)));
 
-    for (int i = 0; i < x; i++) {
+    for (int i = 0; i < x; ++i) {
         G.value[i] = (int*) malloc(y * sizeof(*(G.value[i])));
-        G.mark[i] = (int*) malloc(y * sizeof(*(G.mark[i])));
+        G.mark[i]  = (int*) malloc(y * sizeof(*(G.mark[i])));
 
         if(G.mark[i] == 0x0 || G.value[i] == 0x0) {
             fprintf(stderr, "Unable to alloc memory.\n");
             exit(EXIT_FAILURE);
         }
-        for (int j = 0; j < y; j++) {
+
+        for (int j = 0; j < y; ++j) {
             G.value[i][j] = 126;
             G.mark[i][j] = V_WALL;
         }
@@ -156,7 +185,7 @@ static grid AllocGrid(int size) {
 
 
 void FreeGrid(grid *G) {
-    for(int i = 0; i < G->X; i++){
+    for(int i = 0; i < G->X; ++i){
         free(G->mark[i]);
         free(G->value[i]);
     }
@@ -167,8 +196,8 @@ void FreeGrid(grid *G) {
 }
 
 void PrintGrid(grid G) {
-    for(int y = 0; y < G.Y; y++) {
-        for(int x = 0; x < G.X; x++){
+    for(int y = 0; y < G.Y; ++y) {
+        for(int x = 0; x < G.X; ++x){
             if(G.mark[x][y] == V_WALL) printf("# ");
             else if(G.mark[x][y] == V_EMPTY) printf("%d ", G.value[x][y]);
             else printf("%d ", G.value[x][y]);
@@ -182,14 +211,12 @@ grid InitGrid(int size) {
     grid G = AllocGrid(size);
     string line;
 
-    for(int y = 1; y < G.Y-1; y++){
+    for(int y = 1; y < G.Y-1; ++y){
         getline(cin, line);
         stringstream myString(line);
 
-        for(int x = 1; x < G.X-1; x++){
-            int val;
-            myString >> val;
-            G.value[x][y]= val;
+        for(int x = 1; x < G.X-1; ++x){
+            myString >> G.value[x][y];
             G.mark[x][y] = V_EMPTY;
         }
     }
