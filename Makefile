@@ -9,7 +9,7 @@ OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
-TIMEOUT_CMD = timeout 5s
+TIMEOUT_CMD = timeout 2s
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
 
@@ -168,6 +168,9 @@ problems_current:
 
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 318 - Obstacle Course *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./318_problem < Input/318-obstacles.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 22 - Prime Path *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./22_problem < Input/22-prime.test $(CONCAT_LOG)

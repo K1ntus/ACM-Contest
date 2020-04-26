@@ -8,18 +8,17 @@ using namespace std;
 #define __EQ_SIZE__ 100
 
 char * expressionToParse;
+int expression();
 
-char peek()
-{
+char peek() {
     return *expressionToParse;
 }
 
-char get()
-{
+char get() {
     return *expressionToParse++;
 }
 
-int val_converter(char c){
+int val_converter(char c) {
         switch (c) {
         case '0':
             return 0;
@@ -57,10 +56,8 @@ int val_converter(char c){
             return -1;
     }
 }
-int expression();
 
-int number()
-{
+int number() {
     int result = val_converter(get());
     while (peek() >= '0' && peek() <= 'F')
     {
@@ -88,8 +85,7 @@ int factor()
     return 0; // error
 }
 
-int term()
-{
+int term() {
     int result = factor();
     while (peek() == '*' || peek() == '/')
         if (get() == '*')
@@ -99,8 +95,7 @@ int term()
     return result;
 }
 
-int expression()
-{
+int expression() {
     int result = term();
     while (peek() == '+' || peek() == '-')
         if (get() == '+')

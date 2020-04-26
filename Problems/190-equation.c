@@ -55,9 +55,9 @@ char isDigit(char c)
 }
 int main (void){
     int number_of_tests = 0;
-    fprintf(stderr, "Number of tests to run: ");
+    // fprintf(stderr, "Number of tests to run: ");
     scanf("%d", &number_of_tests);
-    fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
+    // fprintf(stderr, "There will be %d Tests Case.\n", number_of_tests);
 
 
     stack_struct stack;
@@ -85,7 +85,7 @@ int main (void){
     char equation[MAX_LINES];
     int i = 0;
     for(int nb_test = 0; nb_test < number_of_tests; nb_test++){
-        fprintf(stderr, "** Test %d over %d**\n", nb_test+1, number_of_tests);
+        // fprintf(stderr, "** Test %d over %d**\n", nb_test+1, number_of_tests);
 
         for(int j = 0; j < MAX_LINES+1; j++){
             equation[j] = '\0';
@@ -98,7 +98,7 @@ int main (void){
             position++;
             if(current_word == '('){
                 priority++;
-                fprintf(stderr, "Priority +1\n");
+                // fprintf(stderr, "Priority +1\n");
 
                 push(&stack, current_word);
             } else if (isDigit(current_word) || isAlpha(current_word)) {
@@ -133,7 +133,7 @@ int main (void){
                 // fprintf(stderr, "????");
             } else if(current_word == ')') {
                 priority--;
-                fprintf(stderr, "Priority -1\n");
+                // fprintf(stderr, "Priority -1\n");
                 char res;
                 while((res = pop(&stack)) != '(') {
                     
