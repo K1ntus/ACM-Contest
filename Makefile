@@ -17,8 +17,12 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:graph_sample_problem 22_problem 462_problem 168_problem 192_problem 689_problem 142_problem 381_problem 108_problem 165_problem 676_problem 362_problem 449_problem 693_problem 185_problem 251_problem 318_problem 688_problem 438_problem 194_problem 110_problem 190_problem 248_problem 222_problem 78_problem problems_current 
-assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+all:assignment completed doing 
+
+assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+completed: 108_problem 110_problem 142_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 676_problem 688_problem run_completed_problems
+doing: 22_problem 165_problem 462_problem 689_problem 381_problem 676_problem 362_problem 449_problem 693_problem 438_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
+
 
 
 ass02_A: Problems/Assignments/ass02_A.c
@@ -102,32 +106,8 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 
 ###################
-problems_current:
 
-	@echo '' > $(OUTPUT_FILE_ASS)
-	@echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
-	@echo '' $(CONCAT_LOG_ASS)
-	@echo '* Problem A *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_A < Input/ass02_A.test $(CONCAT_LOG_ASS)
-	@echo '' $(CONCAT_LOG_ASS)
-	@echo '* Problem B *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_B < Input/ass02_B.test $(CONCAT_LOG_ASS)
-	@echo '' $(CONCAT_LOG_ASS)
-	@echo '* Problem C *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_C < Input/ass02_C.test $(CONCAT_LOG_ASS)
-	@echo '' $(CONCAT_LOG_ASS)
-	@echo '* Problem D *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_D < Input/ass02_D.test $(CONCAT_LOG_ASS)
-	@echo '' $(CONCAT_LOG_ASS)
-	@echo '* Problem E *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_E < Input/ass02_E.test $(CONCAT_LOG_ASS)
-	@echo '' $(CONCAT_LOG_ASS)
-	@echo '* Problem F *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
-
-
-
-
+run_completed_problems:
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -169,6 +149,9 @@ problems_current:
 	@$(TIMEOUT_CMD) ./108_problem < Input/108-birthday.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 
+
+run_problems_current:
+	@echo '' > $(OUTPUT_FILE)
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -204,6 +187,28 @@ problems_current:
 	@$(TIMEOUT_CMD) ./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
+
+run_assignment_problem:
+	@echo '' > $(OUTPUT_FILE_ASS)
+	@echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem A *' $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_A < Input/ass02_A.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem B *' $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_B < Input/ass02_B.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem C *' $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_C < Input/ass02_C.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem D *' $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_D < Input/ass02_D.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem E *' $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_E < Input/ass02_E.test $(CONCAT_LOG_ASS)
+	@echo '' $(CONCAT_LOG_ASS)
+	@echo '* Problem F *' $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
 
 problems_doing:
 	@echo ''
