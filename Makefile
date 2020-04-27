@@ -9,7 +9,7 @@ OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
-TIMEOUT_CMD = timeout 2s
+TIMEOUT_CMD = timeout 1s
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
 
