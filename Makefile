@@ -63,8 +63,6 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
-318_problem: Problems/318-obstacle-course.c
-		$(CC) $(CFLAGS) $< -o $@
 362_problem: Problems/362-winger-trials.c
 		$(CC) $(CFLAGS) $< -o $@
 449_problem: Problems/449-beach.c
@@ -99,6 +97,8 @@ ass01_D: Problems/Assignments/A01-D.c
 108_problem: Problems/Accepted/108-birthday.c
 		$(CC) $(CFLAGS) $< -o $@
 168_problem: Problems/Accepted/168-networking.c
+		$(CC) $(CFLAGS) $< -o $@
+318_problem: Problems/Accepted/318-obstacle-course.c
 		$(CC) $(CFLAGS) $< -o $@
 
 ###################
@@ -162,15 +162,15 @@ problems_current:
 	@echo '* Problem 688 - Chess *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./688_problem < Input/688-chess.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 318 - Obstacle Course *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./318_problem < Input/318-obstacles.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 108 - Birthday *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./108_problem < Input/108-birthday.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 318 - Obstacle Course *' $(CONCAT_LOG)
-	@$(TIMEOUT_CMD) ./318_problem < Input/318-obstacles.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 22 - Prime Path *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./22_problem < Input/22-prime.test $(CONCAT_LOG)

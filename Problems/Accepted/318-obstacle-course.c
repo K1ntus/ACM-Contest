@@ -6,10 +6,10 @@
 using namespace std;
 
 #define __MAX_NB_MOVES__ 4 //Max nb of moves per turn (top, bot, left, right)
-#define __MAXIMUM_COST__ 125
+#define __MAXIMUM_COST__ INT_MAX
 
 // #define __INFINITY__ INT_MAX
-#define __INFINITY__ 128
+#define __INFINITY__ INT_MAX
 
 
 // Une position entière dans la grille.
@@ -68,7 +68,7 @@ int isEmptyQueue(struct Queue* pQueue);
 grid InitGrid(int size);
 void PrintGrid(grid G);
 
-int MoveRover(grid * G, position current_position, int flow, int bestFlow);
+int MoveRover(grid * G, position current_position);
 
 
 int dest_pos;
@@ -90,7 +90,7 @@ int main (void) {
         offset = G.value[dest_pos][dest_pos];
         // PrintGrid(G);
 
-        int res = MoveRover(&G, {1,1}, 0, __MAXIMUM_COST__ * __MAXIMUM_COST__);
+        int res = MoveRover(&G, {1,1});
         // int res = MoveRover(&G, {1,2}, G.value[1][1], __MAXIMUM_COST__ * __MAXIMUM_COST__);
         // res = MoveRover(&G, {2,1}, G.value[1][1], res);
 
@@ -128,19 +128,19 @@ position * getLegalMoves(grid * G, position p) {
     return res;
 }
 
-void addLegalMoves(grid * G, struct Queue * stack, position current_pos) {
+void addLegalMoves(grid * G, struct Queue * dataset, position current_pos) {
 
     if(G->mark[current_pos.x + 1][current_pos.y] == V_EMPTY) {
-        enQueue(stack, {current_pos.x + 1, current_pos.y});
+        enQueue(dataset, {current_pos.x + 1, current_pos.y});
     }
     if(G->mark[current_pos.x - 1][current_pos.y] == V_EMPTY) {
-        enQueue(stack, {current_pos.x - 1, current_pos.y});
+        enQueue(dataset, {current_pos.x - 1, current_pos.y});
     }
     if(G->mark[current_pos.x][current_pos.y + 1] == V_EMPTY) {
-        enQueue(stack, {current_pos.x, current_pos.y + 1});
+        enQueue(dataset, {current_pos.x, current_pos.y + 1});
     }
     if(G->mark[current_pos.x][current_pos.y - 1] == V_EMPTY) {
-        enQueue(stack, {current_pos.x, current_pos.y - 1});
+        enQueue(dataset, {current_pos.x, current_pos.y - 1});
     }
 
 }
@@ -151,11 +151,11 @@ void addLegalMoves(grid * G, struct Queue * stack, position current_pos) {
 
 
 
-int MoveRover(grid * G, position current_position, int flow, int bestFlow) {
+int MoveRover(grid * G, position current_position) {
 
     // Mark all nodes as unvisited with a distance from src to infinity
 
-    struct Queue * moveStack = createQueue();
+    struct Queue * moveQueue = createQueue();
     for(int x = 1; x < G->X - 1; ++x) {
         for(int y = 1; y < G->Y - 1; ++y) {
             G->mark[x][y] = V_EMPTY;
@@ -164,12 +164,13 @@ int MoveRover(grid * G, position current_position, int flow, int bestFlow) {
     }
     G->cost[1][1] = G->value[1][1];
     G->mark[1][1] = V_VISITED;
-    enQueue(moveStack, {1,1});
+    enQueue(moveQueue, {1,1});
 
-    // addLegalMoves(G, moveStack, {1,1});
-    while(!isEmptyQueue(moveStack)) {
-        position current_position = deQueue(moveStack);
+    // addLegalMoves(G, moveQueue, {1,1});
+    while(!isEmptyQueue(moveQueue)) {
+        position current_position = deQueue(moveQueue);
         position * neighboard = getLegalMoves(G, current_position);
+
 
         for(int nb_id = 0; nb_id < __MAX_NB_MOVES__; ++nb_id) {
             // printf("New: %d\n", nb_id);
@@ -185,7 +186,7 @@ int MoveRover(grid * G, position current_position, int flow, int bestFlow) {
             if(value < G->cost[x][y]) {
                 // printf("Minimal value (%d,%d): %d->%d\n", next_pos.x, next_pos.y, G->cost[next_pos.x][next_pos.y], value);
                 G->cost[x][y] = value;
-                enQueue(moveStack, next_pos);
+                enQueue(moveQueue, next_pos);
             }
         }
 
@@ -216,7 +217,7 @@ int MoveRover_deprecated(grid * G, position current_position, int flow, int best
 
     // If the flow is already greater than the bestFlow, return
     if(flow >= bestFlow - offset) {
-        return __MAXIMUM_COST__ * __MAXIMUM_COST__;
+        return __MAXIMUM_COST__;
     }
 
     // Get the four possibles legalMoves
@@ -241,7 +242,8 @@ int MoveRover_deprecated(grid * G, position current_position, int flow, int best
         if(flow + G->value[nextMove.x][nextMove.y] > bestFlow) { continue; }
 
         // Do the recursion
-        int val = MoveRover(G, nextMove, flow, bestFlow);
+        int val = __INFINITY__;
+        // val = MoveRover(G, nextMove, flow, bestFlow);
 
         // Update the bestflow
         if(val < bestFlow) {
