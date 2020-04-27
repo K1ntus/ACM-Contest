@@ -201,7 +201,10 @@ int MoveRover(grid * G, position current_position) {
 
 
 
-
+/**
+ * 
+ * Take too much time, deprecated.
+ */
 int MoveRover_deprecated(grid * G, position current_position, int flow, int bestFlow) {
     int curr_x = current_position.x;
     int curr_y = current_position.y;

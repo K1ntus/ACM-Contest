@@ -17,7 +17,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:assignment completed doing 
+all:assignment doing #completed doing 
 
 assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 completed: 108_problem 110_problem 142_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 676_problem 688_problem run_completed_problems
@@ -183,9 +183,9 @@ run_problems_current:
 	@$(TIMEOUT_CMD) ./438_problem < Input/438-party.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
-	@echo '* Problem 362 - Winger Trial *' $(CONCAT_LOG)
-	@$(TIMEOUT_CMD) ./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
-	@echo '* End Problem *'  $(CONCAT_LOG)
+	#@echo '* Problem 362 - Winger Trial *' $(CONCAT_LOG)
+	#@$(TIMEOUT_CMD) ./362_problem < Input/362-winger-trial.test $(CONCAT_LOG)
+	#@echo '* End Problem *'  $(CONCAT_LOG)
 
 
 run_assignment_problem:
