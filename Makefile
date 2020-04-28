@@ -20,8 +20,8 @@ CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 all:assignment doing #completed doing 
 
 assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
-completed: 108_problem 110_problem 142_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 676_problem 688_problem run_completed_problems
-doing: 22_problem 165_problem 462_problem 689_problem 381_problem 676_problem 362_problem 449_problem 693_problem 438_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
+completed: 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 676_problem 688_problem run_completed_problems
+doing: 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 449_problem 693_problem 438_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
 
 
 
@@ -52,8 +52,6 @@ ass01_D: Problems/Assignments/A01-D.c
 
 
 22_problem: Problems/22-prime.c
-		$(CC) $(CFLAGS) $< -o $@
-165_problem: Problems/165-frogger.c
 		$(CC) $(CFLAGS) $< -o $@
 689_problem: Problems/689-trends.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -104,6 +102,8 @@ ass01_D: Problems/Assignments/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 318_problem: Problems/Accepted/318-obstacle-course.c
 		$(CC) $(CFLAGS) $< -o $@
+165_problem: Problems/Accepted/165-frogger.c
+		$(CC) $(CFLAGS) $< -o $@
 
 ###################
 
@@ -148,6 +148,9 @@ run_completed_problems:
 	@echo '* Problem 108 - Birthday *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./108_problem < Input/108-birthday.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
+	@echo '* Problem 165 - Frogger *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./165_problem < Input/165-frogger.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 
 
 run_problems_current:
@@ -166,9 +169,6 @@ run_problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 190 - Equation *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./190_problem < Input/190-equation.test $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 165 - Frogger *' $(CONCAT_LOG)
-	@$(TIMEOUT_CMD) ./165_problem < Input/165-frogger.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 449 - Beach Length *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./449_problem < Input/449-beach.test $(CONCAT_LOG)

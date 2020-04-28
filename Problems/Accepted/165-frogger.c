@@ -60,11 +60,11 @@ int main (void) {
 
 
 		//	Floyd Warshall
-		for(int k = 1; k < __nb_stone__; ++k) {
+		for(int k = 0; k < __nb_stone__; ++k) {
 
-			for(int source_id = 0; source_id < __nb_stone__ / 2; ++source_id) {
+			for(int source_id = 0; source_id < __nb_stone__; ++source_id) {
 
-				for(int target_id = 1; target_id < __nb_stone__; ++target_id) {
+				for(int target_id = 0; target_id < __nb_stone__; ++target_id) {
 
 					double tmp = max(distances[source_id][k], distances[k][target_id]);
 					// printf("tmp %f VS current %f\n", tmp, distances[source_id][target_id]);
@@ -73,9 +73,10 @@ int main (void) {
 			}
 		}
 		printf("Scenario #%d\n", test_id);
-		printf("Frog Distance: %.3f\n\n", distances[0][1]);
+		printf("Frog Distance = %.3f\n\n", distances[0][1]);
 
 
+		getline(cin, line);	//Empty line separing cases
 		getline(cin, line);
 		stringstream myString(line);
 		myString >> __nb_stone__;
