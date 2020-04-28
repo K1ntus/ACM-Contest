@@ -173,7 +173,7 @@ int main (void) {
     getline(cin, line);
 
     int __grid_size = line.size();
-    while(__grid_size > 2){
+    while(__grid_size > 0){
         __grid_size += 2;
         grid * G = InitGrid(__grid_size);
 
@@ -207,25 +207,18 @@ int main (void) {
 
 
             // Check if eof has been reached
-            if( cin.bad() || cin.eof()) {
-                // G->Y = y + 2;
-                // for(int i = 0; i < G->X; i++) {
-                //     G->value[i][G->Y - 1] = V_WALL;
-                // }
+            if(cin.bad() || cin.eof()) {
+                G->Y = y + 2;
                 break;
+            } else {    // Not eof. Either empty line or new kingdom line
+                getline(cin, line); 
 
+                // Check if kingdom line or empty line (ie. new case)
+                if(line.empty() ){
+                    G->Y = y + 2;
+                    break;
+                } 
             }
-
-            getline(cin, line); // Not eof, reads new line
-
-            // Check if neither eof and kingdom line (ie. new case)
-            if(line.empty() ){
-                // G->Y = y + 2;
-                // for(int i = 0; i < G->X; i++) {
-                //     G->value[i][G->Y - 1] = V_WALL;
-                // }
-                break;
-            } 
         }
 
         int sum = 0;
@@ -244,7 +237,7 @@ int main (void) {
         printf("%d\n", sum);
         // PrintGrid(*G);
         // printf("\n\n----------------------------\n\n");
-        if(cin.bad() || cin.eof()){
+        if(cin.bad() || cin.eof()) {
                 break;
         } else {
             // printf("\n");

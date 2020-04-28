@@ -11,11 +11,111 @@
 
 using namespace std;
 
-#define MAX_CHAR 100
-#define MAX_ELEMS 10
-#define MIN_ELEMS 1
+#define __MAX_CHAR__ 100
+#define __MAX_ELEMS__ 10
+#define __MIN_ELEMS__ 1
 
 #define __PRECISION__ 0.00001
+
+#define __OFFSET__ 10000.0
+#define __ZERO__ 0.000000
+
+// A structure to represent a stack 
+struct Stack { 
+    int top; 
+    unsigned capacity; 
+    double* array; 
+}; 
+
+double peek(struct Stack* stack);
+double pop(struct Stack* stack);
+void push(struct Stack* stack, double item);
+int isEmpty(struct Stack* stack);
+int isFull(struct Stack* stack);
+struct Stack* createStack(unsigned capacity);
+
+double RoundValue(double input) {
+
+    double output = input;
+    int tmp_buffer = 0;
+    // printf("Input to round: %f\n", input);
+    input = input * __OFFSET__;
+    tmp_buffer = (int) floor(input);
+    // printf("-- I1:%d\n-- I2:%f\n", tmp_buffer, input);
+    // input = input - tmp_buffer;
+    // printf("---- Ires:%f\n", input);
+
+    if(input > 0.0 && input < 0.0001) {
+        // tmp_buffer += 1;
+    } else if (input < 0.0) {
+        // tmp_buffer -= 1;
+    } else {
+        tmp_buffer = ceil(input);
+
+    }
+    // printf("-- tmp value:%f\n", tmp_buffer);
+    output = (double) (tmp_buffer / __OFFSET__);
+    // printf("Output rounded: %f\n", output);
+
+    return output;
+}
+
+
+int main(void) {
+
+    string line;
+    bool consecutive_case = false;
+
+    while(!cin.eof()) {
+        getline(cin, line);
+        line.append(" 0");
+        stringstream myString(line);
+        // myString  << " 0";
+        struct Stack * stack = createStack(__MAX_ELEMS__);
+
+        if(consecutive_case) {
+            printf("\n");
+        } else {
+            consecutive_case = true;
+        }
+
+
+        double tmp;
+        for(int i = 0; i < __MAX_ELEMS__; ++i){
+            myString >> tmp;
+            push(stack, tmp);
+        } 
+
+        // while(myString >> tmp) {
+            // fprintf(stderr, "aa\n");
+            // push(stack, tmp);
+        // }
+
+
+        double res = 0;
+        while(!isEmpty(stack)) {
+            double tmp = pop(stack);
+            // fprintf(stderr, "poped:%f\n", tmp);
+            res += tmp;
+        }
+
+
+        // fprintf(stderr, "");
+        res = RoundValue(res);
+        printf("%0.4f\n",res);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+/*
 bool fgreater(long double a, long double b) {
     return fabs(fabs(a)-fabs(b)) > __PRECISION__;
 }
@@ -137,3 +237,61 @@ int main (void){
     
     return EXIT_SUCCESS;
 }
+*/
+
+
+
+
+
+
+
+
+
+  
+// function to create a stack of given capacity. It initializes size of 
+// stack as 0 
+struct Stack* createStack(unsigned capacity) 
+{ 
+    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack)); 
+    stack->capacity = capacity; 
+    stack->top = -1; 
+    stack->array = (double*)malloc(stack->capacity * sizeof(double)); 
+    return stack; 
+} 
+  
+// Stack is full when top is equal to the last index 
+int isFull(struct Stack* stack) 
+{ 
+    return stack->top == stack->capacity - 1; 
+} 
+  
+// Stack is empty when top is equal to -1 
+int isEmpty(struct Stack* stack) 
+{ 
+    return stack->top == -1; 
+} 
+  
+// Function to add an item to stack.  It increases top by 1 
+void push(struct Stack* stack, double item) 
+{ 
+    if (isFull(stack)) 
+        return; 
+    stack->array[++stack->top] = item; 
+    // printf("%d pushed to stack\n", item); 
+} 
+  
+// Function to remove an item from stack.  It decreases top by 1 
+double pop(struct Stack* stack) 
+{ 
+    if (isEmpty(stack)) 
+        return DBL_MIN; 
+    return stack->array[stack->top--]; 
+} 
+  
+// Function to return the top from stack without removing it 
+double peek(struct Stack* stack) 
+{ 
+    if (isEmpty(stack)) 
+        return DBL_MIN; 
+    return stack->array[stack->top]; 
+} 
