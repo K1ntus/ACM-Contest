@@ -9,8 +9,6 @@ using namespace std;
 #define LAND '#'
 #define SEA '.'
 #define __NB_FRONTIER__ 6
-#define __SIZE_ELEMENT_KINGDOM__ 50
-#define MAX_WIDTH 50    //[1;50] inclusif
 #define MAX_HEIGHT 50   //[1;50] inclusif
 
 // Une position entière dans la grille.
@@ -44,7 +42,7 @@ enum {
 static grid* AllocGrid(int width, int height) {
     // int x = 50;
     // int y = 50;
-    int x = width + 6;
+    int x = width;
     int y = height + 6;
     grid *G = (grid *) malloc(sizeof(grid));
     //   if (x < 1)
@@ -92,17 +90,17 @@ void PrintGrid(grid G) {
         for(int x = 0; x < G.X; x++){
             if(G.value[x][y] == 3) printf("x ");
             else if(G.value[x][y] == V_WALL) printf("* ");
-            else if(G.value[x][y] == V_LAND) printf("# ");
+            else if(G.value[x][y] == V_LAND) printf("%d ", G.mark[x][y]);
             else if(G.value[x][y] == V_WATER) printf("_ ");
             else printf("%d ", G.value[x][y]);
         }
         printf("\n");
     }
-    printf("* Width: %d\n* Height: %d\n", G.X, G.Y);
+    printf("-> Width: %d\n-> Height: %d\n", G.X, G.Y);
 }
 
 grid * InitGrid(int size) {
-    grid *G = AllocGrid(size,50);
+    grid *G = AllocGrid(size, MAX_HEIGHT);
 
     for(int y = 1; y < G->Y-1; y++){
         for(int x = 1; x < G->X-1; x++){
@@ -123,23 +121,15 @@ position * getLegalMoves(position current_pos) {
 
     array_to_return[0] = {current_pos.x - 1, current_pos.y};
     array_to_return[1] = {current_pos.x + 1, current_pos.y};
+    array_to_return[2] = {current_pos.x, current_pos.y - 1};
+    array_to_return[3] = {current_pos.x, current_pos.y + 1};
 
-    if(current_pos.y%2 == 1){
-        //TOP + TOPDROITE
-        array_to_return[2] = {current_pos.x - 1, current_pos.y + 1};
-        array_to_return[3] = {current_pos.x - 1, current_pos.y};
-        //BOT + BOTDROITE
-        array_to_return[4] = {current_pos.x + 1, current_pos.y};
-        array_to_return[5] = {current_pos.x + 1, current_pos.y + 1};
+    if(current_pos.y%2 == 0){
+        array_to_return[4] = {current_pos.x + 1, current_pos.y - 1};        // TOPRIGHT
+        array_to_return[5] = {current_pos.x + 1, current_pos.y + 1};        // BOTRIGHT
     } else {
-
-        // Top + Top-Right
-        array_to_return[2] = {current_pos.x, current_pos.y - 1};
-        array_to_return[3] = {current_pos.x + 1, current_pos.y - 1};
-
-        // Bottom + Bottom-Left
-        array_to_return[4] = {current_pos.x, current_pos.y + 1}; //Left
-        array_to_return[5] = {current_pos.x - 1, current_pos.y + 1}; //Right
+        array_to_return[4] = {current_pos.x - 1, current_pos.y - 1};        // TOPLEFT
+        array_to_return[5] = {current_pos.x - 1, current_pos.y + 1};        // BOTLEFT
 
     }
 
@@ -172,6 +162,8 @@ int CountBeaches(grid * G, int x, int y) {
 
     }
 
+    G->mark[x][y] = res;
+
     return res;
 }
 
@@ -180,71 +172,84 @@ int main (void) {
     string line;
     getline(cin, line);
 
-    grid * G = InitGrid(line.size());
     int __grid_size = line.size();
+    while(__grid_size > 2){
+        __grid_size += 2;
+        grid * G = InitGrid(__grid_size);
 
-    for(int y = 1; y < MAX_HEIGHT; ++y) {
-        stringstream myString(line);
+        for(int y = 1; y < MAX_HEIGHT; ++y) {
+            stringstream myString(line);
 
-        if(myString.fail() ||myString.eof()) { return EXIT_SUCCESS; }
+            if(myString.fail() || myString.eof()) { return EXIT_SUCCESS; }
 
-        char grid_char ='o';
-        myString >> grid_char;
-
-        int x = 1;
-        while((grid_char == '.' || grid_char == '#') && x <= __grid_size) {
-            switch(grid_char) {
-                case '.':
-                    G->value[x][y] = V_WATER;
-                    break;
-                case '#':
-                    G->value[x][y] = V_LAND;
-                    break;
-                default:
-                    break;
-            }
-
-            // printf("Current value to replace: %d %d\n -> %c\n",x,y,grid_char);
-            // G->value[x][y] = grid_char;
+            char grid_char ='o';
             myString >> grid_char;
-            x=x+1;
-        }
 
-        getline(cin, line);
+            int x = 1;
+            while((grid_char == '.' || grid_char == '#') && x < G->X - 1) {
+                switch(grid_char) {
+                    case '.':
+                        G->value[x][y] = V_WATER;
+                        break;
+                    case '#':
+                        G->value[x][y] = V_LAND;
+                        break;
+                    default:
+                        G->value[x][y] = V_WALL;
+                        break;
+                }
 
-        if(line.empty()){
-            G->Y = y + 2;
-            for(int i = 0; i < __grid_size + 1; i++) {
-                G->value[i][G->Y - 1] = V_WALL;
+                // printf("Current value to replace: %d %d\n -> %c\n",x,y,grid_char);
+                // G->value[x][y] = grid_char;
+                myString >> grid_char;
+                x=x+1;
             }
-            break;
+
+
+            // Check if eof has been reached
+            if( cin.bad() || cin.eof()) {
+                // G->Y = y + 2;
+                // for(int i = 0; i < G->X; i++) {
+                //     G->value[i][G->Y - 1] = V_WALL;
+                // }
+                break;
+
+            }
+
+            getline(cin, line); // Not eof, reads new line
+
+            // Check if neither eof and kingdom line (ie. new case)
+            if(line.empty() ){
+                // G->Y = y + 2;
+                // for(int i = 0; i < G->X; i++) {
+                //     G->value[i][G->Y - 1] = V_WALL;
+                // }
+                break;
+            } 
+        }
+
+        int sum = 0;
+        for(int x = 1; x < G->X; x++) {
+            for(int y = 1; y < G->Y - 1; y++) {
+
+                if(G->value[x][y] == V_LAND)
+                    sum = sum + CountBeaches(G, x, y);
+            }
+        }
+        
+        getline(cin, line);            
+        __grid_size = line.size();
+
+            
+        printf("%d\n", sum);
+        // PrintGrid(*G);
+        // printf("\n\n----------------------------\n\n");
+        if(cin.bad() || cin.eof()){
+                break;
+        } else {
+            // printf("\n");
         }
     }
-
-    int sum = 0;
-    for(int x = 1; x < __grid_size; x++) {
-        for(int y = 1; y < MAX_HEIGHT; y++) {
-
-            if(G->value[x][y] == V_LAND)
-                sum = sum + CountBeaches(G, x, y);
-        }
-    }
-    printf("GRID RES: %d\n", sum);
-    PrintGrid(*G);
-
 
     return EXIT_SUCCESS;
 }
-
-/**
- 
-
-        // New case or end of analytic
-        if(line.empty()){
-            case_id = case_id - 1;
-            __isEquilibrium = true;
-            if(case_id < __nb_cases__) printf("\n");
-
-            continue;
-        }
-*/
