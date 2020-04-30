@@ -9,7 +9,7 @@ OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
-TIMEOUT_CMD = timeout 1s
+TIMEOUT_CMD = timeout 5s
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
 
@@ -21,7 +21,7 @@ all:assignment doing #completed doing
 
 assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 completed: 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 676_problem 688_problem run_completed_problems
-doing: 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 449_problem 693_problem 438_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
+doing: 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 449_problem 693_problem 438_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
 
 
 
@@ -53,6 +53,8 @@ ass01_D: Problems/Assignments/A01-D.c
 
 22_problem: Problems/22-prime.c
 		$(CC) $(CFLAGS) $< -o $@
+570_problem: Problems/570-highscore.c
+		$(CC) $(CFLAGS) $< -o $@
 689_problem: Problems/689-trends.c
 		$(CC) $(CFLAGS) $< -o $@
 438_problem: Problems/438-party.c
@@ -72,6 +74,8 @@ ass01_D: Problems/Assignments/A01-D.c
 693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
 462_problem: Problems/462-euler.c
+		$(CC) $(CFLAGS) $< -o $@
+621_problem: Problems/621-rebuilding.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
@@ -153,10 +157,24 @@ run_completed_problems:
 	@echo '' $(CONCAT_LOG)
 
 
+
+
+
+
+
 run_problems_current:
 	@echo '' > $(OUTPUT_FILE)
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 570 - Highscore *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./570_problem < Input/570-highscore.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 621 - Rebuilding *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./621_problem < Input/621-rebuilding.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 693 - Hanoi *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./693_problem < Input/693-hanoi.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 22 - Prime Path *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./22_problem < Input/22-prime.test $(CONCAT_LOG)

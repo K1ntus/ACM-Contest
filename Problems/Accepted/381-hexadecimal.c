@@ -6,6 +6,8 @@
 using namespace std;
 
 #define __EQ_SIZE__ 100
+#define __CHAR_MIN_DIGIT__ '0'
+#define __CHAR_MAX_DIGIT__ 'F'
 
 char * expressionToParse;
 int expression();
@@ -18,7 +20,7 @@ char get() {
     return *expressionToParse++;
 }
 
-int val_converter(char c) {
+int charToInt(char c) {
         switch (c) {
         case '0':
             return 0;
@@ -58,56 +60,43 @@ int val_converter(char c) {
 }
 
 int number() {
-    int result = val_converter(get());
-    while (peek() >= '0' && peek() <= 'F')
-    {
-        result = 10*result + val_converter(get());
+    int result = charToInt(get());
+    while (peek() >= __CHAR_MIN_DIGIT__ && peek() <= __CHAR_MAX_DIGIT__) {
+        result = 10*result + charToInt(get());
     }
     return result;
 }
 
-int factor()
-{
-    if (peek() >= '0' && peek() <= 'F')
+int factor() {
+    if (peek() >= __CHAR_MIN_DIGIT__ && peek() <= __CHAR_MAX_DIGIT__)
         return number();
-    else if (peek() == '(')
-    {
+    else if (peek() == '(') {
         get(); // '('
         int result = expression();
         get(); // ')'
         return result;
-    }
-    else if (peek() == '-')
-    {
-        get();
-        return -factor();
     }
     return 0; // error
 }
 
 int term() {
     int result = factor();
-    while (peek() == '*' || peek() == '/')
+    while (peek() == '*')
         if (get() == '*')
             result *= factor();
-        else
-            result /= factor();
     return result;
 }
 
 int expression() {
     int result = term();
-    while (peek() == '+' || peek() == '-')
+    while (peek() == '+')
         if (get() == '+')
             result += term();
-        else
-            result -= term();
     return result;
 }
 
 
-// https://stackoverflow.com/questions/9329406/evaluating-arithmetic-expressions-from-string-in-c
-
+// https://stackoverflow.com/questions/9329406/evaluating-arithmetic-expressions-from-string-in-c mostly inspired of
 int main (void) {
     expressionToParse = (char *) malloc(sizeof(char)  * 10000);
     string line;

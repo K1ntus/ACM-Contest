@@ -29,6 +29,129 @@ class Graph
     // to src. Both are counted as 1 edge here.  
     Edge* edge;  
 };  
+
+
+Graph* createGraph(int V, int E);
+int KruskalMST(Graph* graph);
+
+#define __INFINITY__ INT_MAX
+
+// Driver code 
+int main()  
+{  
+    /* Let us create following weighted graph  
+            10  
+        0--------1  
+        | \ |  
+    6| 5\ |15  
+        | \ |  
+        2--------3  
+            4 */
+    int V; // Number of cities/Vertices
+    string line;
+    getline(cin, line);
+    stringstream myString(line);
+    myString >> V;
+
+
+
+    while(V != 0) {
+
+        Graph* graph = createGraph(V, V*V*V);  
+    
+        int __nb_edge = 0;
+        for(int y = 0; y < V; y++) {
+            getline(cin, line);
+            stringstream myString(line);
+
+            for(int x = 0; x < V; x++) {
+                char current_state;
+                myString >> current_state;
+
+                if(current_state == '0') {          //No Road
+                    // printf("-- No existing edge: %d->%d\n", y, x);
+                    graph->edge[__nb_edge].src = y;
+                    graph->edge[__nb_edge].dest = x;
+                    graph->edge[__nb_edge].weight = __INFINITY__;
+
+                    __nb_edge += 1;
+
+                } else if (current_state == '1') {  //Road already built
+                    // printf("-- Adding existing edge: %d->%d\n", y, x);
+                    graph->edge[__nb_edge].src = y;
+                    graph->edge[__nb_edge].dest = x;
+                    graph->edge[__nb_edge].weight = 0;
+
+                    __nb_edge += 1;
+                } else {
+                    // printf("Readed %c, break wtf\n", current_state);
+                    break;
+                }
+            }
+        }
+        // printf("Existing (and not) roads. Current nb edges: %d\n", __nb_edge);
+
+
+        for(int y = 0; y < V; y++) {
+            getline(cin, line);
+            stringstream myString(line);
+
+            for(int x = 0; x < V; x++) {
+                // if(x == y) { continue; }    // Same edge
+                int __cost_for_creation;
+
+                myString >> __cost_for_creation;
+                graph->edge[__nb_edge].src = y;
+                graph->edge[__nb_edge].dest = x;
+                graph->edge[__nb_edge].weight = __cost_for_creation;
+
+                __nb_edge += 1;
+
+                // printf("-- Possible road creation (%d,%d):%d\n",y,x,__cost_for_creation);
+
+            }
+        }
+
+
+
+
+        for(int y = 0; y < V; y++) {
+            getline(cin, line);
+            stringstream myString(line);
+
+            for(int x = 0; x < V; x++) {
+                // if(x == y) { continue; }    // Same edge
+                int __cost_for_deletion;
+
+                myString >> __cost_for_deletion;
+                graph->edge[__nb_edge].src = y;
+                graph->edge[__nb_edge].dest = x;
+                graph->edge[__nb_edge].weight = __cost_for_deletion;
+
+                // printf("-- Possible road deletion (%d,%d):%d\n",y,x,__cost_for_deletion);
+
+                __nb_edge += 1;
+
+            }
+        } 
+    
+        int res = KruskalMST(graph);  
+  
+        printf("---- RES: %d\n", res);
+
+        getline(cin, line);
+        stringstream myString(line);
+        myString >> V;
+
+    }
+    return 0;  
+}  
+  
+
+
+
+
+
   
 // Creates a graph with V vertices and E edges  
 Graph* createGraph(int V, int E)  
@@ -141,59 +264,11 @@ int KruskalMST(Graph* graph)
   
     // print the contents of result[] to display the  
     // built MST  
-    int sum = 0;
-    // cout<<"Following are the edges in the constructed MST\n";  
-    for (i = 0; i < e; ++i)
-        sum = sum + result[i].weight;  
-        // cout<<result[i].src<<" -- "<<result[i].dest<<" == "<<result[i].weight<<endl;  
-    return sum;  
-}  
-  
-
-
-  
-int main() {  
-    
-
-    int V; // Number of cities/Vertices
-    int E; // Number of connections/Edges in graph  
-    string line;
-
-    while(getline(cin, line)) {
-        stringstream myString(line);
-        myString >> V >> E;
-        if(V == 0) {
-            continue;
-        }
-        if(V == 1) {
-            printf("0\n");
-            getline(cin, line);
-            continue;
-        }
-        Graph* graph = createGraph(V, E);  
-
-        // printf("Created Graph: %d %d\n", V, E);
-  
-        for(int i = 0; i < E; i++) {
-            getline(cin, line);
-            stringstream myString(line);
-
-            int src, dest, weight;
-            myString >> src >> dest >> weight;
-
-            // printf("Edge %d->%d [%d]\n",src, dest, weight);
-            graph->edge[i].src = src-1;
-            graph->edge[i].dest = dest-1;
-            graph->edge[i].weight = weight;
-        }
- 
-    
-        int res = KruskalMST(graph); 
-        getline(cin, line); 
-        printf("%d\n", res);
-        
+    cout<<"Following are the edges in the constructed MST\n";  
+    int res = 0;
+    for (i = 0; i < e; ++i)  {
+        cout<<result[i].src<<" -- "<<result[i].dest<<" == "<<result[i].weight<<endl;  
+        res += result[i].weight;
     }
-    return 0;  
+    return res;  
 }  
-  
-// This code is contributed by rathbhupendra 

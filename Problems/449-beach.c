@@ -235,8 +235,8 @@ int main (void) {
 
             
         printf("%d\n", sum);
-        // PrintGrid(*G);
-        // printf("\n\n----------------------------\n\n");
+        PrintGrid(*G);
+        printf("\n\n----------------------------\n\n");
         if(cin.bad() || cin.eof()) {
                 break;
         } else {
