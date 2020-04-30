@@ -62,10 +62,11 @@ int main (void) {
 
         // printf("---\ninput: [%s]\ncomparaison: [%s]\n---\n", nickname, scorename);
 
-        int res = SolveScoreboard(nickname, scorename, __size_name - 1, 0, 0, __NO_DIRECTION__);
+        int res = SolveScoreboard(nickname, scorename, __size_name, 0, 1, __NO_DIRECTION__) - 1;
 
-        // res = res - __size_name%2;
-        if(res < 0) { res = 0; }
+        // res = res - 1;
+        // if(res%2 == 0) { res = res - 1;}
+        // if(res < 0) { res = 0; }
         printf("%d\n", res);
         // printf("RES:%d\n", res);
         // printf("------------------------------------------\n");
@@ -99,17 +100,17 @@ int NbMovesToSolvePosition(char requested_char, char current_char) {
 
 
 int SolveScoreboard(char * user_name, char * score_name, int size, int current_position, int nb_moves, int direction) {       
-    
+    if(current_position > size || current_position < 0) { return __INFINITY__; }
     if(strcmp(user_name, score_name) == 0) {
         // printf("Find similar word depth %d\n", nb_moves);
         // printf("---\ninput: [%s]\ncomparaison: [%s]\n---\n", user_name, score_name);
         score_name[current_position] = 'A';
-        if(nb_moves == 1) { return 0;}
-        if(nb_moves == 0) { return 0;}
+        // if(nb_moves == 1) { return 2;}
+        // if(nb_moves == 0) { return 1;}
         return nb_moves - 1;
     }
 
-    if(nb_moves > size) {
+    if(nb_moves > size * 2) {
         score_name[current_position] = 'A';
         return __INFINITY__;
     }
@@ -125,26 +126,26 @@ int SolveScoreboard(char * user_name, char * score_name, int size, int current_p
     // printf("----- %d moves required\n", nb_moves_required);
     // printf("----- %d nb moves done \n", nb_moves);
 
-    // if(direction == __LEFT__) {
-    //     int position_left =  NextPosition(current_position, size, __LEFT__);
-    //     int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, __LEFT__);
+    if(direction == __LEFT__) {
+        int position_left =  NextPosition(current_position, size, __LEFT__);
+        int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, __LEFT__);
 
-    //     nb_moves_required += nb_move_left;
-    // } else if (direction == __RIGHT__) {
-    //     int position_right =  NextPosition(current_position, size, __RIGHT__); 
-    //     int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, __RIGHT__);
+        nb_moves_required += nb_move_left;
+    } else if (direction == __RIGHT__) {
+        int position_right =  NextPosition(current_position, size, __RIGHT__); 
+        int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, __RIGHT__);
 
-    //     nb_moves_required += nb_move_right;
-    // } else {
+        nb_moves_required += nb_move_right;
+    } else {
 
-    int position_left =  NextPosition(current_position, size, __LEFT__); 
-    int position_right =  NextPosition(current_position, size, __RIGHT__); 
+        int position_left =  NextPosition(current_position, size, __LEFT__); 
+        int position_right =  NextPosition(current_position, size, __RIGHT__); 
 
-    int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, __LEFT__);
-    int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, __RIGHT__);
+        int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, __LEFT__);
+        int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, __RIGHT__);
 
-    nb_moves_required += returnMinValue(nb_move_left, nb_move_right);
-    // }
+        nb_moves_required += returnMinValue(nb_move_left, nb_move_right);
+    }
     score_name[current_position] = 'A';
 
     return nb_moves_required;
@@ -230,9 +231,9 @@ int NextLetter(int current_letter_position, int move_type) {    // Forward|Backw
 
 int NextPosition(int current_position, int size_name, int move_type) { // Left|Right
     if(move_type == __LEFT__) {
-        current_position-=1;
+        current_position -=1;
     } else {
-        current_position+=1;
+        current_position +=1;
     }
 
     if(current_position < 0) {

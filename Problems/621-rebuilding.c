@@ -68,25 +68,15 @@ int main()
                 char current_state;
                 myString >> current_state;
 
-                if(current_state == '0') {          //No Road
-                    // printf("-- No existing edge: %d->%d\n", y, x);
-                    graph->edge[__nb_edge].src = y;
-                    graph->edge[__nb_edge].dest = x;
-                    graph->edge[__nb_edge].weight = __INFINITY__;
+                graph->edge[__nb_edge].src = y;
+                graph->edge[__nb_edge].dest = x;
+                graph->edge[__nb_edge].weight = __INFINITY__;
 
-                    __nb_edge += 1;
-
-                } else if (current_state == '1') {  //Road already built
+                if (current_state == '1') {  //Road already built
                     // printf("-- Adding existing edge: %d->%d\n", y, x);
-                    graph->edge[__nb_edge].src = y;
-                    graph->edge[__nb_edge].dest = x;
                     graph->edge[__nb_edge].weight = 0;
-
-                    __nb_edge += 1;
-                } else {
-                    // printf("Readed %c, break wtf\n", current_state);
-                    break;
                 }
+                __nb_edge += 1;
             }
         }
         // printf("Existing (and not) roads. Current nb edges: %d\n", __nb_edge);
