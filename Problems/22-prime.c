@@ -154,7 +154,10 @@ int main() {
 
 **/
 
-int UpdateValue(int x, int p, int j) {
+// p digit position
+// x current value
+// j new digit value
+int UpdatePrimeValue(int x, int p, int j) {
     // printf("From: %d to", x);
     int a = x / p;
     int b = x % p;
@@ -190,7 +193,7 @@ int change(int n, int i, int j) {
 
 
 
-bool IsValidValue(int valueToTest) {
+bool IsValidIntervalValue(int valueToTest) {
     if (valueToTest < 1000) {
         return false;
     }
@@ -205,7 +208,7 @@ bool IsValidValue(int valueToTest) {
 
 
 int bfs(int startVertex, int destVertex, bool * prime_list) {
-    if(!IsValidValue(startVertex) || !IsValidValue(destVertex) || prime_list[startVertex] || prime_list[destVertex]){
+    if(!IsValidIntervalValue(startVertex) || !IsValidIntervalValue(destVertex) || prime_list[startVertex] || prime_list[destVertex]){
         return __NO_SOL__;
     }
     
@@ -232,9 +235,9 @@ int bfs(int startVertex, int destVertex, bool * prime_list) {
                 for(int digit_value = 0; digit_value < 10; digit_value++) {
                     if(digit_position == 0 && digit_value == 0){ continue; }    //First digit and 0
 
-                    int newValue = UpdateValue(currentVertex, offset, digit_value);
+                    int newValue = UpdatePrimeValue(currentVertex, offset, digit_value);
 
-                    if(!IsValidValue(newValue) || visited[newValue]) {
+                    if(!IsValidIntervalValue(newValue) || visited[newValue]) {
                         continue;
                     }
 

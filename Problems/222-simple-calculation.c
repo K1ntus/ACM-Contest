@@ -34,31 +34,31 @@ int isEmpty(struct Stack* stack);
 int isFull(struct Stack* stack);
 struct Stack* createStack(unsigned capacity);
 
-double RoundValue(double input) {
+// double RoundValue(double input) {
 
-    double output = input;
-    int tmp_buffer = 0;
-    // printf("Input to round: %f\n", input);
-    input = input * __OFFSET__;
-    tmp_buffer = (int) floor(input);
-    // printf("-- I1:%d\n-- I2:%f\n", tmp_buffer, input);
-    // input = input - tmp_buffer;
-    // printf("---- Ires:%f\n", input);
+//     double output = input;
+//     int tmp_buffer = 0;
+//     // printf("Input to round: %f\n", input);
+//     input = input * __OFFSET__;
+//     tmp_buffer = (int) floor(input);
+//     // printf("-- I1:%d\n-- I2:%f\n", tmp_buffer, input);
+//     // input = input - tmp_buffer;
+//     // printf("---- Ires:%f\n", input);
 
-    if(input > 0.0 && input < 0.0001) {
-        // tmp_buffer += 1;
-    } else if (input < 0.0) {
-        // tmp_buffer -= 1;
-    } else {
-        tmp_buffer = ceil(input);
+//     if(input > 0.0 && input < 0.0001) {
+//         // tmp_buffer += 1;
+//     } else if (input < 0.0) {
+//         // tmp_buffer -= 1;
+//     } else {
+//         tmp_buffer = ceil(input);
 
-    }
-    // printf("-- tmp value:%f\n", tmp_buffer);
-    output = (double) (tmp_buffer / __OFFSET__);
-    // printf("Output rounded: %f\n", output);
+//     }
+//     // printf("-- tmp value:%f\n", tmp_buffer);
+//     output = (double) (tmp_buffer / __OFFSET__);
+//     // printf("Output rounded: %f\n", output);
 
-    return output;
-}
+//     return output;
+// }
 
 
 int main(void) {
@@ -70,7 +70,7 @@ int main(void) {
         getline(cin, line);
         line.append(" 0");
         stringstream myString(line);
-        // myString  << " 0";
+        
         struct Stack * stack = createStack(__MAX_ELEMS__);
 
         if(consecutive_case) {
@@ -101,7 +101,7 @@ int main(void) {
 
 
         // fprintf(stderr, "");
-        res = RoundValue(res);
+        // res = RoundValue(res);
         printf("%0.4f\n",res);
     }
 

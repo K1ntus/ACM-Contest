@@ -38,6 +38,7 @@ int SolveScoreboard(char * user_name, char * score_name, int size, int current_p
 
 
 
+int bestscore = __INFINITY__-1;
 int main (void) {
     int __nb_people__; 
 
@@ -48,6 +49,7 @@ int main (void) {
 
 
     for(int people_number = 0; people_number < __nb_people__; people_number++){
+        bestscore = __INFINITY__-1;
         getline(cin, line);
 
         int __size_name = line.size();
@@ -62,7 +64,8 @@ int main (void) {
 
         // printf("---\ninput: [%s]\ncomparaison: [%s]\n---\n", nickname, scorename);
 
-        int res = SolveScoreboard(nickname, scorename, __size_name, 0, 1, __NO_DIRECTION__) - 1;
+        int res = SolveScoreboard(nickname, scorename, __size_name, 0, 0, 0) - 1;
+        // if(res < 0) { res = 0; }
 
         // res = res - 1;
         // if(res%2 == 0) { res = res - 1;}
@@ -98,57 +101,51 @@ int NbMovesToSolvePosition(char requested_char, char current_char) {
 }
 
 
-
-int SolveScoreboard(char * user_name, char * score_name, int size, int current_position, int nb_moves, int direction) {       
+int SolveScoreboard(char * user_name, char * score_name, int size, int current_position, int nb_moves, int current_score) {       
     if(current_position > size || current_position < 0) { return __INFINITY__; }
-    if(strcmp(user_name, score_name) == 0) {
-        // printf("Find similar word depth %d\n", nb_moves);
-        // printf("---\ninput: [%s]\ncomparaison: [%s]\n---\n", user_name, score_name);
+
+    if(nb_moves > size) {
         score_name[current_position] = 'A';
-        // if(nb_moves == 1) { return 2;}
-        // if(nb_moves == 0) { return 1;}
-        return nb_moves - 1;
+        return __INFINITY__;
+    }
+    
+    // We have reached the goal name
+    if(strcmp(user_name, score_name) == 0) {
+        // printf("--- Old bestcore: %d\n", bestscore);
+        bestscore = returnMinValue(bestscore, current_score);
+        if(nb_moves == 1) { return 2;}
+        if(nb_moves == 0) { return 1;}
+
+        // printf("--- New bestcore: %d\n", bestscore);
+        return bestscore;
     }
 
-    if(nb_moves > size * 2) {
+    // if(current_score  >= bestscore) {
+    //     score_name[current_position] = 'A';
+    //     return current_score;
+    // }
+
+    int nb_moves_required = NbMovesToSolvePosition(user_name[current_position], score_name[current_position]);
+    score_name[current_position] = user_name[current_position];
+    current_score = current_score + nb_moves_required + 1;
+
+    if(current_score  >= bestscore) {
         score_name[current_position] = 'A';
         return __INFINITY__;
     }
 
-    int nb_moves_required = NbMovesToSolvePosition(user_name[current_position], score_name[current_position]);
-    score_name[current_position] = user_name[current_position];
-    // int nb_moves_required = 0;
-    // if(user_name[current_position] != score_name[current_position]) {
-    //     nb_moves_required += NbMovesToSolvePosition(user_name[current_position], score_name[current_position]);
-    // }
-    
-    // printf("-- Current Position: %d\n", current_position);
-    // printf("----- %d moves required\n", nb_moves_required);
-    // printf("----- %d nb moves done \n", nb_moves);
+    int position_left =  NextPosition(current_position, size, __LEFT__); 
+    int position_right =  NextPosition(current_position, size, __RIGHT__); 
 
-    if(direction == __LEFT__) {
-        int position_left =  NextPosition(current_position, size, __LEFT__);
-        int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, __LEFT__);
+    // printf("Comparing at depth %d: %d + %d.\n", nb_moves + 1, current_score, nb_moves_required);
+    int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, current_score);
+    int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, current_score);
 
-        nb_moves_required += nb_move_left;
-    } else if (direction == __RIGHT__) {
-        int position_right =  NextPosition(current_position, size, __RIGHT__); 
-        int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, __RIGHT__);
+    int res = returnMinValue(nb_move_left, nb_move_right);
 
-        nb_moves_required += nb_move_right;
-    } else {
-
-        int position_left =  NextPosition(current_position, size, __LEFT__); 
-        int position_right =  NextPosition(current_position, size, __RIGHT__); 
-
-        int nb_move_left  = SolveScoreboard(user_name, score_name, size, position_left, nb_moves+1, __LEFT__);
-        int nb_move_right = SolveScoreboard(user_name, score_name, size, position_right, nb_moves+1, __RIGHT__);
-
-        nb_moves_required += returnMinValue(nb_move_left, nb_move_right);
-    }
     score_name[current_position] = 'A';
 
-    return nb_moves_required;
+    return res;
 }
 
 

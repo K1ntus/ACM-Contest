@@ -9,7 +9,7 @@ using namespace std;
 #define LAND '#'
 #define SEA '.'
 #define __NB_FRONTIER__ 6
-#define MAX_HEIGHT 50   //[1;50] inclusif
+#define MAX_HEIGHT 100   //[1;50] inclusif
 
 // Une position entière dans la grille.
 typedef struct {
@@ -235,8 +235,8 @@ int main (void) {
 
             
         printf("%d\n", sum);
-        PrintGrid(*G);
-        printf("\n\n----------------------------\n\n");
+        // PrintGrid(*G);
+        // printf("\n\n----------------------------\n\n");
         if(cin.bad() || cin.eof()) {
                 break;
         } else {
