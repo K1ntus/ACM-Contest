@@ -26,12 +26,18 @@ int main (void) {
         
         int nb_people;
         myString >> nb_people;
-        if(nb_people == 2) {printf("0\n"); }
-        else { printf("%d\n", 1); }
-        // if(nb_people % 2 == 0) {
-        //     printf("%d\n", nb_people);
-        // } else {
-        //     printf("")
+        // if(nb_people == 2) printf("2\n");
+        // else if (nb_people == 1) printf("1\n");
+        // else printf("%d\n", nb_people - 2);
+        int res = 0;
+        if(nb_people == 1) {
+            res = 0;
+        } else {
+            res = nb_people - 2;
+        }
+        
+        printf("%d\n", res);
+
         // }
         // printf("%d\n", nb_people / 2);
         // if(nb_people % 2 == 0){
