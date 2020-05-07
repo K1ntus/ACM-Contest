@@ -35,16 +35,21 @@ int isFull(struct Stack* stack);
 struct Stack* createStack(unsigned capacity);
 
 double RoundValue(double input) {
-    double res;
+    // int tmp = ceilf(input * __OFFSET__);
+    // double res = tmp / __OFFSET__;
+
+
     int tmp = ceil(input * __OFFSET__);
     if( tmp < 0 && tmp > input * __OFFSET__) {
         tmp = tmp - 1;
     }
-    res = tmp / __OFFSET__;
 
-    // if(res > input) {   //If more than 4 decimals
-    //     return ceil(res);
-    // }
+    double res = tmp / __OFFSET__;
+    
+
+    if(res > input) {   //If more than 4 decimals
+        return ceil(res);
+    }
 
 
 
