@@ -9,6 +9,7 @@ OBJPARS		= $(FILESPARS:parser/src/%.c=build/%.o)
 OBJSRC		= $(FILESSRC:src/%.c=build/%.o)
 OBJ 		= $(OBJPARS) $(OBJSRC) 
 
+
 TIMEOUT_CMD = timeout 5s
 OUTPUT_FILE  = output.log
 CONCAT_LOG  = >> $(OUTPUT_FILE)
@@ -76,6 +77,8 @@ ass01_D: Problems/Assignments/A01-D.c
 462_problem: Problems/462-euler.c
 		$(CC) $(CFLAGS) $< -o $@
 621_problem: Problems/621-rebuilding.c
+		$(CC) $(CFLAGS) $< -o $@
+693_problem: Problems/693-nuts.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
@@ -175,9 +178,9 @@ run_problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 248 - Intersection *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./248_problem < Input/248-intersection.test $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 570 - Highscore *' $(CONCAT_LOG)
-	@$(TIMEOUT_CMD) ./570_problem < Input/570-highscore.test $(CONCAT_LOG)
+	# @echo '' $(CONCAT_LOG)
+	# @echo '* Problem 570 - Highscore *' $(CONCAT_LOG)
+	# @$(TIMEOUT_CMD) ./570_problem < Input/570-highscore.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 621 - Rebuilding *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./621_problem < Input/621-rebuilding.test $(CONCAT_LOG)
@@ -202,6 +205,9 @@ run_problems_current:
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./222_problem < Input/222-calculation.test $(CONCAT_LOG)
+	@echo ''  $(CONCAT_LOG)
+	@echo '* Problem 693 - Nuts *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./693_problem < Input/693-nuts.test $(CONCAT_LOG)
 	@echo '* End Problem *'  $(CONCAT_LOG)
 
 
