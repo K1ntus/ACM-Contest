@@ -7,7 +7,6 @@ using namespace std;
 
 // I know that the norm required to create function using camel-case, really sorry I like it
 // Like that these days, and it is not really a "big" project ahah *-*
-
 int GetAvailableSpaceBox(int __nb_sections, int __section_capacity);
 int CreateNewBox(int __max_sections, int * nb_divisors_available);
 
@@ -22,6 +21,9 @@ int main (void) {
         getline(cin, line);
         stringstream myString(line);
 
+        if(line.size() < 4) {
+            continue;
+        }
 
         int max_nb_sections, nb_nuts, nb_divisors, section_capacity;
 
