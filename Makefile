@@ -20,30 +20,46 @@ CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 .PHONY: all
 all:assignment doing #completed doing 
 
-assignment: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
+assignment: assfinal_A assfinal_B assfinal_C assfinal_D assfinal_E assfinal_F 
+assignment_old: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
 completed: 683_problem 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 438_problem 449_problem 676_problem 688_problem run_completed_problems
 doing: 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 693_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
 
 
 
-ass02_A: Problems/Assignments/ass02_A.c
+assfinal_A: Problems/Assignments/final/problem_A.c
 		$(CC) $(CFLAGS) $< -o $@
-ass02_B: Problems/Assignments/ass02_B.c
+assfinal_B: Problems/Assignments/final/problem_B.c
 		$(CC) $(CFLAGS) $< -o $@
-ass02_C: Problems/Assignments/ass02_C.c
+assfinal_C: Problems/Assignments/final/problem_C.c
 		$(CC) $(CFLAGS) $< -o $@
-ass02_D: Problems/Assignments/ass02_D.c
+assfinal_D: Problems/Assignments/final/problem_D.c
 		$(CC) $(CFLAGS) $< -o $@
-ass02_E: Problems/Assignments/ass02_E.c
+assfinal_E: Problems/Assignments/final/problem_E.c
 		$(CC) $(CFLAGS) $< -o $@
-ass02_F: Problems/Assignments/ass02_F.c
+assfinal_F: Problems/Assignments/final/problem_F.c
 		$(CC) $(CFLAGS) $< -o $@
 
-ass01_bfs_problem: Problems/Assignments/A01-bfs-easy.c
+
+
+ass02_A: Problems/Assignments/old/ass02_A.c
 		$(CC) $(CFLAGS) $< -o $@
-ass01_F: Problems/Assignments/A01-F.c
+ass02_B: Problems/Assignments/old/ass02_B.c
 		$(CC) $(CFLAGS) $< -o $@
-ass01_D: Problems/Assignments/A01-D.c
+ass02_C: Problems/Assignments/old/ass02_C.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_D: Problems/Assignments/old/ass02_D.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_E: Problems/Assignments/old/ass02_E.c
+		$(CC) $(CFLAGS) $< -o $@
+ass02_F: Problems/Assignments/old/ass02_F.c
+		$(CC) $(CFLAGS) $< -o $@
+
+ass01_bfs_problem: Problems/Assignments/old/A01-bfs-easy.c
+		$(CC) $(CFLAGS) $< -o $@
+ass01_F: Problems/Assignments/old/A01-F.c
+		$(CC) $(CFLAGS) $< -o $@
+ass01_D: Problems/Assignments/old/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
@@ -241,22 +257,22 @@ run_assignment_problem:
 	@echo 'ASSIGNMENT PROBLEMS' $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem A *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_A < Input/ass02_A.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./assfinal_A < Input/assfinal_A.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem B *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_B < Input/ass02_B.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./assfinal_B < Input/assfinal_B.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem C *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_C < Input/ass02_C.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./assfinal_C < Input/assfinal_C.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem D *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_D < Input/ass02_D.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./assfinal_D < Input/assfinal_D.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem E *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_E < Input/ass02_E.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./assfinal_E < Input/assfinal_E.test $(CONCAT_LOG_ASS)
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem F *' $(CONCAT_LOG_ASS)
-	@$(TIMEOUT_CMD) ./ass02_F < Input/ass02_F.test $(CONCAT_LOG_ASS)
+	@$(TIMEOUT_CMD) ./assfinal_F < Input/assfinal_F.test $(CONCAT_LOG_ASS)
 
 problems_doing:
 	@echo ''

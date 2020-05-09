@@ -35,21 +35,21 @@ int isFull(struct Stack* stack);
 struct Stack* createStack(unsigned capacity);
 
 double RoundValue(double input) {
-    // int tmp = ceilf(input * __OFFSET__);
-    // double res = tmp / __OFFSET__;
-
-
-    int tmp = ceil(input * __OFFSET__);
-    if( tmp < 0 && tmp > input * __OFFSET__) {
-        tmp = tmp - 1;
-    }
-
+    int tmp = ceilf(input * __OFFSET__);
     double res = tmp / __OFFSET__;
+
+
+    // int tmp = ceil(input * __OFFSET__);
+    // if( tmp < 0 && tmp > input * __OFFSET__) {
+    //     tmp = tmp - 1;
+    // }
+
+    // double res = tmp / __OFFSET__;
     
 
-    if(res > input) {   //If more than 4 decimals
-        return ceil(res);
-    }
+    // if(res > input) {   //If more than 4 decimals
+    //     return ceil(res);
+    // }
 
 
 
@@ -88,6 +88,9 @@ int main(void) {
 
     while(!cin.eof()) {
         getline(cin, line);
+
+        if(line.size() < 1) { continue; }
+
         line.append(" 0");
         stringstream myString(line);
         
