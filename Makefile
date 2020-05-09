@@ -80,8 +80,6 @@ ass01_D: Problems/Assignments/old/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 78_problem: Problems/78-largest-subsequence.c
 		$(CC) $(CFLAGS) $< -o $@
-190_problem: Problems/190-equation.c
-		$(CC) $(CFLAGS) $< -o $@
 248_problem: Problems/248-intersection.c
 		$(CC) $(CFLAGS) $< -o $@
 222_problem: Problems/222-simple-calculation.c
@@ -103,6 +101,8 @@ ass01_D: Problems/Assignments/old/A01-D.c
 
 
 # DONE
+190_problem: Problems/Accepted/190-equation.c
+		$(CC) $(CFLAGS) $< -o $@
 194_problem: Problems/Accepted/194-eight-queens.c
 		$(CC) $(CFLAGS) $< -o $@
 381_problem: Problems/Accepted/381-hexadecimal.c

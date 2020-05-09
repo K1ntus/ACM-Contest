@@ -32,27 +32,13 @@ struct Stack* createStack(unsigned capacity);
 
 
 
+void updatePostfixEquation(char*eq, int * pos, char val);
+void readInput(char * array);
 
 bool isOperator(char c);
 bool isDigit(char c);
-char isAlpha(char c);
 int getPredecence(char c);
-
-
-// void printPostfixEquation(Stack* stack_postfix) {
-//     while(!isEmpty(stack_postfix)) {
-//         printf("Res: %c\n", pop(stack_postfix));
-//     }
-// }
-
-void printPostfixEquation(char* stack_postfix) {
-    // printf("-------- Result --------\n");
-    for(int i = 0; i <= __MAX_LINES__ + 4 && stack_postfix[i] != '\0'; ++i) {
-        printf("%c", stack_postfix[i]);
-    }
-    printf("\n");
-    // printf("------------\n");
-}
+void printPostfixEquation(char * stack_postfix);
 
 // https://www.includehelp.com/c/infix-to-postfix-conversion-using-stack-with-c-program.aspx
 int main (void){
@@ -64,8 +50,6 @@ int main (void){
 
     nbCasesString >> __nb_case__;
 
-    // printf("[INFO] %d Cases.\n", __nb_case__);
-
 
     getline(cin, line); //Removing empty line
     for(int case_id = 0; case_id < __nb_case__ && !cin.eof(); case_id++) {
@@ -73,32 +57,12 @@ int main (void){
         char postix_equation[__MAX_LINES__];
 
 
-
         Stack * stack = createStack(__MAX_LINES__ + 2);
-
-
-
-        // 
-        // printf("Init stack.\n");
         push(stack, '(');
-        // infix_equation[0] = current_char;
-        int char_id = 0;
-        for(; char_id < __MAX_LINES__; char_id++){
-            getline(cin, line);
-            if(line.size() == 0) { break; }
-            stringstream input_equation(line);
 
-            char current_char;
-            input_equation >> current_char;
-            // printf("-- Readed char: %c\n", current_char);
-            infix_equation[char_id] = current_char;
+        readInput(infix_equation);
 
-            if(cin.eof()) { char_id += 1; break; }
-        }
-        infix_equation[char_id] = ')';
-        infix_equation[char_id + 1] = '\0';
 
-        
 
         int infix_eq_position = 0;
         int postfix_eq_position = 0;
@@ -106,32 +70,24 @@ int main (void){
         while((current_char = infix_equation[infix_eq_position]) != '\0' && infix_eq_position < __MAX_LINES__) {
 
             if(isDigit(current_char)) {
-                postix_equation[postfix_eq_position] = current_char;
-                ++postfix_eq_position;
-                postix_equation[postfix_eq_position] = '\0';
+                updatePostfixEquation(postix_equation, &postfix_eq_position, current_char);
             } else if( current_char == '(') {
                 push(stack, current_char);
             } else if (isOperator(current_char)) {
                 char right_char = pop(stack);
 
                 while(isOperator(right_char) && getPredecence(right_char) >= getPredecence(current_char)) {
-                    
-                    
-                    postix_equation[postfix_eq_position] = right_char;
-                    ++postfix_eq_position;
-                    postix_equation[postfix_eq_position] = '\0';
+                    updatePostfixEquation(postix_equation, &postfix_eq_position, right_char);
                     right_char = pop(stack);
                 }
                 push(stack, right_char);
-
                 push(stack, current_char);
+                
             } else if (current_char == ')'){
                 char right_char = pop(stack);
 
                 while(right_char != '(') {
-                    postix_equation[postfix_eq_position] = right_char;
-                    ++postfix_eq_position;
-                    postix_equation[postfix_eq_position] = '\0';
+                    updatePostfixEquation(postix_equation, &postfix_eq_position, right_char);
                     right_char = pop(stack);
                 }
             } else {
@@ -143,9 +99,7 @@ int main (void){
         }
 
         printPostfixEquation(postix_equation);
-
-
-        if(!cin.eof()) {printf("\n"); }
+        if(!cin.eof()) {printf("\n"); } // Consecutive case
 
     }
 
@@ -154,6 +108,47 @@ int main (void){
     return 0;
 }
 
+
+void readInput(char * infix_equation){
+    string line;
+    int char_id = 0;
+    for(; char_id < __MAX_LINES__; char_id++){
+        getline(cin, line);
+        if(line.size() == 0) { break; }
+        stringstream input_equation(line);
+
+        char current_char;
+        input_equation >> current_char;
+        // printf("-- Readed char: %c\n", current_char);
+        infix_equation[char_id] = current_char;
+
+        if(cin.eof()) { char_id += 1; break; }
+    }
+    infix_equation[char_id] = ')';
+    infix_equation[char_id + 1] = '\0';
+}
+
+
+void updatePostfixEquation(char*eq, int * pos, char val) {
+    eq[*pos] = val;
+    ++(*pos);
+    eq[*pos] = '\0';
+}
+
+
+// void printPostfixEquation(Stack* stack_postfix) {
+//     while(!isEmpty(stack_postfix)) {
+//         printf("Res: %c\n", pop(stack_postfix));
+//     }
+// }
+
+void printPostfixEquation(char* stack_postfix) {
+    for(int i = 0; i <= __MAX_LINES__ + 4 && stack_postfix[i] != '\0'; ++i) {
+        printf("%c", stack_postfix[i]);
+    }
+
+    printf("\n");
+}
 
 
 int getPredecence(char c) {
@@ -164,25 +159,8 @@ int getPredecence(char c) {
     }
 
     return __PRECEDENCE_UNKN__;
-
-
-
 }
 
-
-char isAlpha(char c) {
-    char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                      "abcdefghijklmnopqrstuvwxyz";
-    char *letter = alphabet;
-
-    while(*letter != '\0' && *letter != c)
-        ++letter;
-
-    if (*letter)
-        return 1;
-
-    return 0;
-}
 
 bool isDigit(char c) {
     if (c >= '0' && c <= '9')
