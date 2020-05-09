@@ -341,5 +341,6 @@ clean:
 	rm -rf output
 	rm -f w1_*
 	rm -f *_problem
+	rm -f ass*_*
 	# rm -f output.log
 	rm -f output*.log

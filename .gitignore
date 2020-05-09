@@ -1,6 +1,7 @@
 #executables
-*_problem
-ass*0*_*
+./*_problem
+./ass*_*
+
 
 #logs
 *log*
