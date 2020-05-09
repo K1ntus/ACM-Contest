@@ -22,8 +22,8 @@ all:assignment doing #completed doing
 
 assignment: assfinal_A assfinal_B assfinal_C assfinal_D assfinal_E assfinal_F 
 assignment_old: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
-completed: 683_problem 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 438_problem 449_problem 676_problem 688_problem run_completed_problems
-doing: 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 693_problem 190_problem 248_problem 222_problem 78_problem run_problems_current 
+completed: 190_problem 683_problem 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 438_problem 449_problem 676_problem 688_problem run_completed_problems
+doing: 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 693_problem 248_problem 222_problem 78_problem run_problems_current 
 
 
 
@@ -136,6 +136,9 @@ run_completed_problems:
 	@echo '' > $(OUTPUT_FILE)
 	@echo 'ACCEPTED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 190 - Equation *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./190_problem < Input/190-equation.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 438 - Party *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./438_problem < Input/438-party.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -221,9 +224,6 @@ run_problems_current:
 	@echo '* Problem 689 - Trends *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./689_problem < Input/689-trends.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 190 - Equation *' $(CONCAT_LOG)
-	@$(TIMEOUT_CMD) ./190_problem < Input/190-equation.test $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
@@ -273,21 +273,6 @@ run_assignment_problem:
 	@echo '' $(CONCAT_LOG_ASS)
 	@echo '* Problem F *' $(CONCAT_LOG_ASS)
 	@$(TIMEOUT_CMD) ./assfinal_F < Input/assfinal_F.test $(CONCAT_LOG_ASS)
-
-problems_doing:
-	@echo ''
-	@echo '* Problem 194 - Eight Queens *'
-	@./194_problem
-	@echo ''
-	@echo '* Problem 190 - Equations *'
-	@./190_problem
-	@echo ''
-	@echo '* Problem 248 - Intersections *'
-	@./248_problem
-	@echo ''
-	@echo '* Problem 78 - Largest Subsequence *'
-	@./78_problem
-	@echo ''
 
 
 w1_problem1: Week1/countprime_3.c #$(OBJ) 
