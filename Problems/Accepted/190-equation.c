@@ -40,8 +40,7 @@ bool isDigit(char c);
 int getPredecence(char c);
 void printPostfixEquation(char * stack_postfix);
 
-// https://www.includehelp.com/c/infix-to-postfix-conversion-using-stack-with-c-program.aspx
-int main (void){
+int main (void) {
     int __nb_case__ = 0;
 
     string line;
@@ -53,11 +52,11 @@ int main (void){
 
     getline(cin, line); //Removing empty line
     for(int case_id = 0; case_id < __nb_case__ && !cin.eof(); case_id++) {
-        char infix_equation[__MAX_LINES__ + 4];
+        char infix_equation[__MAX_LINES__ + 2];
         char postix_equation[__MAX_LINES__];
 
 
-        Stack * stack = createStack(__MAX_LINES__ + 2);
+        Stack * stack = createStack(__MAX_LINES__);
         push(stack, '(');
 
         readInput(infix_equation);

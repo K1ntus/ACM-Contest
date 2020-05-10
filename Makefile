@@ -18,12 +18,12 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:assignment doing #completed doing 
+all:assignment doing completed # doing 
 
 assignment: assfinal_A assfinal_B assfinal_C assfinal_D assfinal_E assfinal_F 
 assignment_old: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem # w1_problem1 w1_problem2 sum_problem lpd_problem w1_runall #doc
-completed: 190_problem 683_problem 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 192_problem 194_problem 251_problem 318_problem 381_problem 438_problem 449_problem 676_problem 688_problem run_completed_problems
-doing: 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 693_problem 248_problem 222_problem 78_problem run_problems_current 
+completed: 78_problem 108_problem 110_problem 142_problem 165_problem 168_problem 185_problem 190_problem 192_problem 194_problem 251_problem 318_problem 381_problem 438_problem 449_problem 676_problem 683_problem 688_problem run_completed_problems
+doing: 653_problem 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 693_problem 248_problem 222_problem run_problems_current 
 
 
 
@@ -76,17 +76,11 @@ ass01_D: Problems/Assignments/old/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 689_problem: Problems/689-trends.c
 		$(CC) $(CFLAGS) $< -o $@
-438_problem: Problems/438-party.c
-		$(CC) $(CFLAGS) $< -o $@
-78_problem: Problems/78-largest-subsequence.c
-		$(CC) $(CFLAGS) $< -o $@
 248_problem: Problems/248-intersection.c
 		$(CC) $(CFLAGS) $< -o $@
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
 362_problem: Problems/362-winger-trials.c
-		$(CC) $(CFLAGS) $< -o $@
-449_problem: Problems/449-beach.c
 		$(CC) $(CFLAGS) $< -o $@
 693_problem: Problems/693-tower-of-hanoi.c
 		$(CC) $(CFLAGS) $< -o $@
@@ -94,13 +88,19 @@ ass01_D: Problems/Assignments/old/A01-D.c
 		$(CC) $(CFLAGS) $< -o $@
 621_problem: Problems/621-rebuilding.c
 		$(CC) $(CFLAGS) $< -o $@
-683_problem: Problems/683-nuts.c
+653_problem: Problems/653-table-cloth.c
 		$(CC) $(CFLAGS) $< -o $@
 
 
 
 
 # DONE
+438_problem: Problems/Accepted/438-party.c
+		$(CC) $(CFLAGS) $< -o $@
+449_problem: Problems/Accepted/449-beach.c
+		$(CC) $(CFLAGS) $< -o $@
+683_problem: Problems/Accepted/683-nuts.c
+		$(CC) $(CFLAGS) $< -o $@
 190_problem: Problems/Accepted/190-equation.c
 		$(CC) $(CFLAGS) $< -o $@
 194_problem: Problems/Accepted/194-eight-queens.c
@@ -128,6 +128,8 @@ ass01_D: Problems/Assignments/old/A01-D.c
 318_problem: Problems/Accepted/318-obstacle-course.c
 		$(CC) $(CFLAGS) $< -o $@
 165_problem: Problems/Accepted/165-frogger.c
+		$(CC) $(CFLAGS) $< -o $@
+78_problem: Problems/Accepted/78-largest-subsequence.c
 		$(CC) $(CFLAGS) $< -o $@
 
 ###################
@@ -163,6 +165,9 @@ run_completed_problems:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 676 - Capital *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./676_problem < Input/676-capital.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 110 - Longest Word *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./110_problem < Input/110-longest-word.test $(CONCAT_LOG)
@@ -200,6 +205,9 @@ run_problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 653 - Table Cloth *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./653_problem < Input/653-table-cloth.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 212 - Big Mod *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./212_problem < Input/212-bigmod.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
@@ -223,9 +231,6 @@ run_problems_current:
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 689 - Trends *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./689_problem < Input/689-trends.test $(CONCAT_LOG)
-	@echo '' $(CONCAT_LOG)
-	@echo '* Problem 78 - Largest Subsequence *' $(CONCAT_LOG)
-	@$(TIMEOUT_CMD) ./78_problem < Input/78-largest-subsequence.test $(CONCAT_LOG)
 	@echo ''  $(CONCAT_LOG)
 	@echo '* Problem 222 - Simple Calculation II *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./222_problem < Input/222-calculation.test $(CONCAT_LOG)
