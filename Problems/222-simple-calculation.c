@@ -35,7 +35,19 @@ int isFull(struct Stack* stack);
 struct Stack* createStack(unsigned capacity);
 
 double RoundValue(double input) {
-    int tmp = ceilf(input * __OFFSET__);
+    int tmp;
+
+    // Rounding if more than 4 decimals value
+    if(input >= 0){
+        tmp = ceil(input * __OFFSET__);
+    } else {
+        tmp = floor(input * __OFFSET__);
+    }
+
+    // if(tmp < (int) (input * __OFFSET__)) {
+    //     tmp -= 1;
+    // }
+    // if(tmp < 0) tmp += 1;
     double res = tmp / __OFFSET__;
 
 
@@ -128,6 +140,7 @@ int main(void) {
         printf("%0.4f\n",res);
     }
 
+    // printf("\n");
 }
 
 

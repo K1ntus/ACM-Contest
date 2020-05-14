@@ -8,16 +8,12 @@
 #include <string.h>
 #include <bits/stdc++.h> 
 using namespace std; 
-
-
+#define __GRAPH_SIZE__ 9
 #define __INFINITY__ INT_MAX
-#define __SRC_NAME__ "office\0"
-#define __DST_NAME__ "hall\0"
 
-
-#define __DIRECTED__
+// #define __DIRECTED__
 #define __ONLY_POSITIVE_WEIGHT__
-#define __MAX_NB_CHAR_PLACE__ 18
+
 
 
 
@@ -48,157 +44,53 @@ int * BellmanFord(struct Graph* graph, int src);
 
 void printGraph(struct Graph * graph);
 
+// Source: https://www.geeksforgeeks.org/dijkstras-algorithm-for-adjacency-list-representation-greedy-algo-8/
 
-struct place {
-    char* name;
-    int id;
-};
-
-
-int getPlaceId(char** array, int nb_place, char* place){
-    for(int i = 0; i < nb_place; i++) {
-        if(strcmp(array[i], place) == 0){
-            return i;
-        }
-    }
-    return -1;
-}
-
-void printPlaceArray(char** array, int size) {
-    printf("Place Array:\n");
-    for(int i = 0; i < size; i++) {
-        printf("\t[%d] %s\n", i, array[i]);
-    }
-}
-
-
-void eraseSubStr(std::string & mainStr, const std::string & toErase)
-{
-	// Search for the substring in string
-	size_t pos = mainStr.find(toErase);
- 
-	if (pos != std::string::npos)
-	{
-		// If found then erase it from string
-		// cout << "Erased: " << toErase << endl;
-		if(pos > 0) {
-			pos = pos - 1;
-		}
-		mainStr.erase(pos, toErase.length());
-	}
-}
-
-
-int getPosSubstringPresent(char** __array, int size, string * str, int * place_id_found) {
-    for(int i = 0; i < size; ++i) {
-        int res = str->find(__array[i]);   //Return first pos found
-		// printf("Searching for %s\n", __array[i]);
-		// cout << str << endl;
-        if(res >= 0) {
-			string tmp(__array[i]);
-			eraseSubStr(*str, tmp);
-			// printf("Found location at pos %d\n", i);
-            *place_id_found = i;
-            return res;
-        }
-    }
-
-    *place_id_found = 0;
-    return -1;
-}
 
 int main() { 
+    string input_reading;
+    getline(cin, input_reading);
+    stringstream ss(input_reading);
 
+    int __nb_employee;
+    int __nb_underling;
 
-    while(!cin.eof()) {
-        int __nb_places;
-        int __nb_path;
+    ss >> __nb_employee >> __nb_underling;
+    int * __nb_firing_cost = (int *) malloc(sizeof(int) * __nb_employee);
+	struct Graph* graph = createGraph(__nb_employee); 
 
-        string line;
-        getline(cin, line);
-        stringstream nbpl(line);
-        nbpl >> __nb_places;
+    for(int employee_id = 0; employee_id < __nb_employee; employee_id++) {
+        getline(cin, input_reading);
+        stringstream ss(input_reading);
 
-        struct Graph* graph = createGraph(__nb_places);
+        ss >> __nb_firing_cost[employee_id];
+    }
 
-        char ** place_list = (char**) malloc(sizeof(char*)*__nb_places);
-        
-        int src_id, dest_id;
-        for(int place_id = 0; place_id < __nb_places; place_id++) {
-            string line_place;
-            getline(cin, line_place);
+    for(int edge_id = 0; edge_id < __nb_underling; edge_id++) {
+        getline(cin, input_reading);
+        stringstream ss(input_reading);
 
-            place_list[place_id] = (char*) malloc(sizeof(char) * __MAX_NB_CHAR_PLACE__+1);
+        int src, dst;
+        ss >> src, dst;
+        src -=1;
+        dst -=1;
 
-            strcpy(place_list[place_id], line_place.c_str());
-			strcat(place_list[place_id], "\0");
-
-            if(strcmp(__SRC_NAME__, place_list[place_id]) == 0) {
-                src_id = place_id;
-            } else if(strcmp(__DST_NAME__, place_list[place_id]) == 0) {
-                dest_id = place_id;
-            }
-
-        }
-        printPlaceArray(place_list, __nb_places);
-
-
-
-
-        getline(cin, line);
-        stringstream nbpath(line);
-        nbpath >> __nb_path;
-
-        for(int path_id = 0; path_id < __nb_path; ++path_id) {
-            getline(cin, line);
-            string token;
-
-            int city_id, dst_id, src_id;
-            int pos_output = getPosSubstringPresent(place_list, __nb_places, &line, &city_id);
-			// printf("Readed location: %s at pos: %d\n", place_list[city_id], pos_output);
-			// line.erase(pos_output, strlen(place_list[city_id]));
-			if(pos_output == 0) {
-				src_id = city_id;
-			} else {
-				dst_id = city_id;
-			}
-
-			// cout << "current str:" << line << endl;
-
-            pos_output = getPosSubstringPresent(place_list, __nb_places, &line, &city_id);
-			// printf("Readed location: %s at pos: %d\n", place_list[city_id], pos_output);
-			// line.erase(pos_output, strlen(place_list[city_id]));
-			if(pos_output == 0) {
-				src_id = city_id;
-			} else {
-				dst_id = city_id;
-			}
-
-
-			// cout << "current str:" << line << endl;
-
-            line = line + " -1";
-			stringstream ss(line);
-
-			int cost_place_1, cost_place_2;
-			ss >> cost_place_1 >> cost_place_2;
-
-
-			addEdge(graph, src_id, dst_id, cost_place_1);
-			if(cost_place_2  != -1) {
-				addEdge(graph, dst_id, src_id, cost_place_2);
-			}
-
-        }
-
-		printGraph(graph);
-
-	ShortestPathFromSrcToAll(graph, src_id);
-	// ShortestPathFromSrcToAll(graph, dest_id, src_id);
-
+        addEdge(graph, src, dst, __nb_firing_cost[src] + __nb_firing_cost[dst]);
     }
 
 
+
+
+
+	// printGraph(graph);
+	// fprintf(stdout, "*********\n");
+	// removeEdge(graph, 6);
+	// removeEdge(graph, 3);
+
+
+	// dijkstra(graph, 0); 
+	// printGraph(graph);
+	ShortestPathFromSrcToAll(graph, 0);
 
 	return 0; 
 } 
@@ -510,8 +402,6 @@ void printArr(int dist[], int n) {
 // The main function that calulates distances of shortest paths from src to all 
 // vertices. It is a O(ELogV) function 
 int * Dijkstra(struct Graph* graph, int src) { 
-	// printf("hall -> ");
-	
 	int V = graph->V;// Get the number of vertices in graph 
 	int * dist = (int *) malloc(sizeof(int) * V);	 // dist values used to pick minimum weight edge in cut 
 
@@ -559,7 +449,6 @@ int * Dijkstra(struct Graph* graph, int src) {
 
 				// update distance value in min heap also 
 				decreaseKey(minHeap, v, dist[v]); 
-				// printf("%d ->", v);
 			} 
 			pCrawl = pCrawl->next; 
 		} 

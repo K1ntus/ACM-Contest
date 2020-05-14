@@ -101,39 +101,56 @@ run_assignment_problem:
 #########################
 #		CURRENTS		#
 #########################
-22_problem: Problems/22-prime.c
+9_problem: Problems/9-string.c
 		$(CC) $(CFLAGS) $< -o $@
-212_problem: Problems/212-bigmod.c
+22_problem: Problems/22-prime.c
 		$(CC) $(CFLAGS) $< -o $@
 207_problem: Problems/207-minimal-effort.c
 		$(CC) $(CFLAGS) $< -o $@
-570_problem: Problems/570-highscore.c
-		$(CC) $(CFLAGS) $< -o $@
-689_problem: Problems/689-trends.c
-		$(CC) $(CFLAGS) $< -o $@
-248_problem: Problems/248-intersection.c
+212_problem: Problems/212-bigmod.c
 		$(CC) $(CFLAGS) $< -o $@
 222_problem: Problems/222-simple-calculation.c
 		$(CC) $(CFLAGS) $< -o $@
+248_problem: Problems/248-intersection.c
+		$(CC) $(CFLAGS) $< -o $@
+314_problem: Problems/314-palindromes.c
+		$(CC) $(CFLAGS) $< -o $@
 362_problem: Problems/362-winger-trials.c
 		$(CC) $(CFLAGS) $< -o $@
-693_problem: Problems/693-tower-of-hanoi.c
+377_problem: Problems/377-firing.c
 		$(CC) $(CFLAGS) $< -o $@
 462_problem: Problems/462-euler.c
+		$(CC) $(CFLAGS) $< -o $@
+570_problem: Problems/570-highscore.c
 		$(CC) $(CFLAGS) $< -o $@
 621_problem: Problems/621-rebuilding.c
 		$(CC) $(CFLAGS) $< -o $@
 653_problem: Problems/653-table-cloth.c
 		$(CC) $(CFLAGS) $< -o $@
+689_problem: Problems/689-trends.c
+		$(CC) $(CFLAGS) $< -o $@
+693_problem: Problems/693-tower-of-hanoi.c
+		$(CC) $(CFLAGS) $< -o $@
 
 
 
 
-
-run_problems_current: 207_problem 653_problem 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 676_problem 362_problem 693_problem 248_problem 222_problem 
+run_problems_current: 377_problem 314_problem 9_problem 207_problem 653_problem 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 362_problem 693_problem 248_problem 222_problem 
 	@echo '' > $(OUTPUT_FILE)
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 377 - Firing *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./377_problem < Input/377-firing.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 314 - Palindromes *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./314_problem < Input/314-palindromes.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 676 - Capital City *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./676_problem < Input/676-capital.test $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 9 - String *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./9_problem < Input/9-string.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 207 - Minimal Effort *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./207_problem < Input/207-minimal-effort.test $(CONCAT_LOG)

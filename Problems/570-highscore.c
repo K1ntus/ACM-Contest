@@ -50,6 +50,8 @@ int SolveScoreboard(char * user_name, char * score_name, const int size, int nb_
 
 
 int bestscore = __INFINITY__-1;
+
+
 int main (void) {
     int __nb_people__; 
 
@@ -66,14 +68,10 @@ int main (void) {
         int __size_name = line.size();
         stringstream myString(line);
 
-        // printf("Username size: %d\n", __size_name);
-
         char * nickname = (char *) malloc(sizeof(char) * __size_name);
         myString >> nickname;
 
         char * scorename = InitScoreName(__size_name);
-
-        // printf("---\ninput: [%s]\ncomparaison: [%s]\n---\n", nickname, scorename);
 
         int res = SolveScoreboard(nickname, scorename, __size_name, 0, 0, 0, __NO_DIRECTION__, __NO_DIRECTION__) - 1;
         // if(res < 0) { res = 0; }
