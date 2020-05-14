@@ -13,6 +13,8 @@ class Edge
 {  
     public: 
     int src, dest, weight;  
+    bool built;
+    int cost_to_remove = 0;
 };  
   
 // a structure to represent a connected, undirected  
@@ -36,6 +38,17 @@ int KruskalMST(Graph* graph);
 
 #define __INFINITY__ INT_MAX
 
+
+int getIdFromSrcAndDst(Graph * graph, int lf_src, int lf_dst) {
+    for(int i = 0; i < graph->V; i++){
+        if(graph->edge[i].src == lf_src && graph->edge[i].dest == lf_dst) {
+            return i;
+        }
+    }
+
+
+    return -1;
+}
 // Driver code 
 int main()  
 {  
@@ -60,9 +73,12 @@ int main()
         Graph* graph = createGraph(V, V*V*V);  
     
         int __nb_edge = 0;
+        printf("[INFO] init preexisting graph.\n");
         for(int y = 0; y < V; y++) {
             getline(cin, line);
             stringstream myString(line);
+
+            cout << "[INFO] Readed: " << line << endl;
 
             for(int x = 0; x < V; x++) {
                 char current_state;
@@ -74,28 +90,33 @@ int main()
 
                 if (current_state == '1') {  //Road already built
                     // printf("-- Adding existing edge: %d->%d\n", y, x);
-                    graph->edge[__nb_edge].weight = 0;
+                    graph->edge[__nb_edge].built = true;
+                } else {
+                    graph->edge[__nb_edge].built = false;
                 }
                 __nb_edge += 1;
             }
         }
         // printf("Existing (and not) roads. Current nb edges: %d\n", __nb_edge);
 
-
+        printf("[INFO] init cost for creation.\n");
         for(int y = 0; y < V; y++) {
             getline(cin, line);
             stringstream myString(line);
+            cout << "[INFO] Readed: " << line << endl;
 
             for(int x = 0; x < V; x++) {
                 // if(x == y) { continue; }    // Same edge
                 int __cost_for_creation;
+                int id = getIdFromSrcAndDst(graph, y, x);
 
                 myString >> __cost_for_creation;
-                graph->edge[__nb_edge].src = y;
-                graph->edge[__nb_edge].dest = x;
-                graph->edge[__nb_edge].weight = __cost_for_creation;
+                if(graph->edge[id].built == true) {
+                    graph->edge[id].weight = 0;
+                } else {
+                    graph->edge[id].weight = __cost_for_creation;
+                }
 
-                __nb_edge += 1;
 
                 // printf("-- Possible road creation (%d,%d):%d\n",y,x,__cost_for_creation);
 
@@ -104,23 +125,24 @@ int main()
 
 
 
-
+        printf("[INFO] init cost for deletion.\n");
         for(int y = 0; y < V; y++) {
             getline(cin, line);
             stringstream myString(line);
+            cout << "[INFO] Readed: " << line << endl;
 
             for(int x = 0; x < V; x++) {
                 // if(x == y) { continue; }    // Same edge
                 int __cost_for_deletion;
 
+                int id = getIdFromSrcAndDst(graph, y, x);
                 myString >> __cost_for_deletion;
-                graph->edge[__nb_edge].src = y;
-                graph->edge[__nb_edge].dest = x;
-                graph->edge[__nb_edge].weight = __cost_for_deletion;
+
+                if(graph->edge[id].built == true) {
+                    graph->edge[id].cost_to_remove = __cost_for_deletion;
+                }
 
                 // printf("-- Possible road deletion (%d,%d):%d\n",y,x,__cost_for_deletion);
-
-                __nb_edge += 1;
 
             }
         } 
@@ -132,6 +154,8 @@ int main()
         getline(cin, line);
         stringstream myString(line);
         myString >> V;
+
+        free(graph);
 
     }
     return 0;  

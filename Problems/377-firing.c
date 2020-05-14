@@ -72,6 +72,8 @@ int main() {
 
         int src, dst;
         ss >> src, dst;
+
+		// Fixing offset
         src -=1;
         dst -=1;
 
