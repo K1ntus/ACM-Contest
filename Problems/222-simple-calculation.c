@@ -68,30 +68,6 @@ double RoundValue(double input) {
     return res;
 }
 
-//     double output = input;
-//     int tmp_buffer = 0;
-//     // printf("Input to round: %f\n", input);
-//     input = input * __OFFSET__;
-//     tmp_buffer = (int) floor(input);
-//     // printf("-- I1:%d\n-- I2:%f\n", tmp_buffer, input);
-//     // input = input - tmp_buffer;
-//     // printf("---- Ires:%f\n", input);
-
-//     if(input > 0.0 && input < 0.0001) {
-//         // tmp_buffer += 1;
-//     } else if (input < 0.0) {
-//         // tmp_buffer -= 1;
-//     } else {
-//         tmp_buffer = ceil(input);
-
-//     }
-//     // printf("-- tmp value:%f\n", tmp_buffer);
-//     output = (double) (tmp_buffer / __OFFSET__);
-//     // printf("Output rounded: %f\n", output);
-
-//     return output;
-// }
-
 
 int main(void) {
 
@@ -121,23 +97,25 @@ int main(void) {
             push(stack, tmp);
         } 
 
-        // while(myString >> tmp) {
-            // fprintf(stderr, "aa\n");
-            // push(stack, tmp);
-        // }
-
 
         double res = 0;
         while(!isEmpty(stack)) {
             double tmp = pop(stack);
-            // fprintf(stderr, "poped:%f\n", tmp);
             res += tmp;
         }
 
 
         // fprintf(stderr, "");
-        res = RoundValue(res);
-        printf("%0.4f\n",res);
+        // res = RoundValue(res);
+
+        // if(res * __OFFSET__ < 0) {
+        //     if(ceil(res * __OFFSET__) == 0) {
+        //         res = 0;
+        //     }
+        // }
+        cout.setf(ios::fixed,ios::floatfield);
+        cout.precision(5);
+        cout << std::fixed << showpoint << ( res <= -__PRECISION__ ? "-" :"") << abs(res) << endl;
     }
 
     // printf("\n");

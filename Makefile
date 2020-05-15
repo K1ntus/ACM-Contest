@@ -18,7 +18,7 @@ OUTPUT_FILE_ASS  = output_ass.log
 CONCAT_LOG_ASS  = >> $(OUTPUT_FILE_ASS)
 
 .PHONY: all
-all:assignment doing #completed # doing 
+all: doing #assignment #completed 
 
 assignment: assfinal_A assfinal_B assfinal_C assfinal_D assfinal_E assfinal_F run_assignment_problem
 assignment_old: ass02_A ass02_B ass02_C ass02_D ass02_E ass02_F ass01_F ass01_D ass01_bfs_problem run_assignment_problem
