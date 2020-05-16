@@ -15,6 +15,8 @@ using namespace std;
 
 void processCharacter(char * current_str, int size_current_str, char * dest_str, int size_dest_str, int __position);
 int getCharArraySize(char * array, int __max_size);
+int GetOperationToUse(char * current_str, int size_current_str, char * dest_str, int size_dest_str);
+
 
 int main (void) {
     char * left = (char *) malloc(sizeof(char) * __MAX_CHAR__);
@@ -35,6 +37,9 @@ int main (void) {
         int size_left = getCharArraySize(left, __MAX_CHAR__);
         int size_right = getCharArraySize(right, __MAX_CHAR__);
 
+
+        // int res = GetOperationToUse(left, size_left, right, size_right);
+
         processCharacter(left, size_left, right, size_right, 0);
         printf("%c\n", __Z_INSTRUCTION_ENDPRG__);
 
@@ -47,6 +52,18 @@ int main (void) {
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -67,6 +84,96 @@ void InsertCharacterAtPosition(int __position, char __char_to_insert, char* inpu
 void UpdateCharacterAtPosition(int __position, char __new_char, char * input);
 void PrintInstructionCode(int __instruction_type, char __charUpdated, int __position);
 
+int min(int x, int y, int z) {
+    return min(min(x,y),z);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// int GetOperationToUse(char * current_str, int size_current_str, char * dest_str, int size_dest_str) {
+//     if(size_current_str == 0) { 
+//         return size_dest_str;
+//     }
+    
+//     if(size_dest_str == 0) {
+//         return size_current_str;
+//     }
+    
+
+//     if(dest_str[size_current_str - 1] == current_str[size_dest_str - 1]) {
+//         return GetOperationToUse(current_str, size_current_str-1, dest_str, size_dest_str-1);
+//     }
+
+//     int res_insert = GetOperationToUse(current_str, size_current_str, dest_str, size_dest_str-1);
+//     int res_remove = GetOperationToUse(current_str, size_current_str-1, dest_str, size_dest_str);
+//     int res_update = GetOperationToUse(current_str, size_current_str-1, dest_str, size_dest_str-1);
+//     int min_value = (min(res_insert, res_remove), res_update);
+//     return 1 + min_value;
+
+//     // if(current_str[__position] == dest_str[__position]) {           // Same character, nothing to do
+//     //     return __NO_OPE__;
+//     // } else if(__position + 1 < size_current_str) {                  // Not the end of input str
+//     //     if(current_str[__position + 1] == dest_str[__position]){    // If next characteur from input is the character required
+//     //         return __DELETE__;                                      // Delete current pos
+//     //     } else {                                                    // Else change it
+//     //         return __CHANGE__;
+//     //     }
+//     // } else if (__position == size_dest_str) {                       // Last Position and not same char
+//     //     return __CHANGE__;                                          // Change it
+//     // } else {
+//     //     return __INSERT__;                                          // Insert the character
+//     // }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 
+ * 
+ *
+ * 
+ * BULLSHIT
+ * 
+ * 
+ */
 
 
 
@@ -77,6 +184,8 @@ void PrintInstructionCode(int __instruction_type, char __charUpdated, int __posi
 int GetOperationToUse(char * current_str, int size_current_str, char * dest_str, int size_dest_str, int __position) {
     if(current_str[__position] == dest_str[__position]) {           // Same character, nothing to do
         return __NO_OPE__;
+    } else if (current_str[size_current_str] == dest_str[size_current_str]) {
+        return __CHANGE__;
     } else if(__position + 1 < size_current_str) {                  // Not the end of input str
         if(current_str[__position + 1] == dest_str[__position]){    // If next characteur from input is the character required
             return __DELETE__;                                      // Delete current pos
@@ -96,7 +205,7 @@ void processCharacter(char * current_str, int size_current_str, char * dest_str,
     }
     
     int __operation_type = GetOperationToUse(current_str, size_current_str, dest_str, size_dest_str, __position);
-
+    // int __operation_type = __NO_OPE__;
     char instruction_char;
     switch (__operation_type)    {
     case __INSERT__:

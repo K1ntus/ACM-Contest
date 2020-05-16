@@ -104,6 +104,8 @@ int main(void) {
             res += tmp;
         }
 
+        fprintf(stdout, "%.4lf\n", res);
+
 
         // fprintf(stderr, "");
         // res = RoundValue(res);
@@ -113,9 +115,14 @@ int main(void) {
         //         res = 0;
         //     }
         // }
-        cout.setf(ios::fixed,ios::floatfield);
-        cout.precision(5);
-        cout << std::fixed << showpoint << ( res <= -__PRECISION__ ? "-" :"") << abs(res) << endl;
+        // if(res > 0)
+        // res = ceil(res * __OFFSET__) / __OFFSET__;
+
+
+        // fesetround(FE_UPWARD);
+        // cout.setf(ios::fixed,ios::floatfield);
+        // cout.precision(4);
+        // cout << std::fixed << showpoint << ( res <= -__PRECISION__ ? "-" :"") << abs(res) << endl;
     }
 
     // printf("\n");

@@ -119,6 +119,8 @@ run_assignment_problem:
 		$(CC) $(CFLAGS) $< -o $@
 377_problem: Problems/377-firing.c
 		$(CC) $(CFLAGS) $< -o $@
+382_problem: Problems/382-power.c
+		$(CC) $(CFLAGS) $< -o $@
 462_problem: Problems/462-euler.c
 		$(CC) $(CFLAGS) $< -o $@
 570_problem: Problems/570-highscore.c
@@ -135,10 +137,13 @@ run_assignment_problem:
 
 
 
-run_problems_current: 377_problem 314_problem 9_problem 207_problem 653_problem 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 362_problem 693_problem 248_problem 222_problem 
+run_problems_current: 382_problem 377_problem 314_problem 9_problem 207_problem 653_problem 212_problem 570_problem 621_problem 22_problem 462_problem 689_problem 381_problem 362_problem 693_problem 248_problem 222_problem 
 	@echo '' > $(OUTPUT_FILE)
 	@echo '' $(CONCAT_LOG)
 	@echo 'UNFINISHED PROBLEMS' $(CONCAT_LOG)
+	@echo '' $(CONCAT_LOG)
+	@echo '* Problem 382 - Power Transmission *' $(CONCAT_LOG)
+	@$(TIMEOUT_CMD) ./382_problem < Input/Homework/382-power.test $(CONCAT_LOG)
 	@echo '' $(CONCAT_LOG)
 	@echo '* Problem 377 - Firing *' $(CONCAT_LOG)
 	@$(TIMEOUT_CMD) ./377_problem < Input/Homework/377-firing.test $(CONCAT_LOG)
